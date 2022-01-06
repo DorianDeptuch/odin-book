@@ -3,16 +3,17 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
-const mongoDB = process.env.MONGO_URI;
+require("dotenv").config();
+const mongoDB = process.env.MONGODB_URI;
 
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
+const profileRouter = require("./routes/profile");
 
 const app = express();
-
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-let db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
+mongoose
+  .connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("mongodb connected"))
+  .catch((err) => console.log(err));
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -23,6 +24,6 @@ app.use(express.static(path.join(__dirname, "public")));
 // app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/profile", profileRouter);
 
 module.exports = app;
