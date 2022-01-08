@@ -4,7 +4,7 @@ import Footer from "./Footer";
 
 function Layout({ children }) {
   return (
-    <div>
+    <div style={{ backgroundColor: "#f1f2f6", height: "100vh" }}>
       <Navbar />
       {children}
       <Footer />
