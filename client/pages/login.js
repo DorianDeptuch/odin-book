@@ -1,10 +1,14 @@
 import React from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import Backdrop from "@mui/material/Backdrop";
+
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import SignupModal from "../components/SignupModal";
+import Modal from "@mui/material/Modal";
 
 const styles = {
   p: 2,
@@ -12,6 +16,10 @@ const styles = {
 };
 
 function login() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Container>
       <Stack direction="row">
@@ -36,12 +44,30 @@ function login() {
             <TextField label="Email" variant="outlined" />
             <TextField label="Password" variant="outlined" />
             <Button variant="contained">Log In</Button>
-            <Button sx={{ mb: 2 }} variant="contained" color="success">
+            <Button
+              sx={{ mb: 2 }}
+              onClick={handleOpen}
+              variant="contained"
+              color="success"
+            >
               Create an account
             </Button>
           </Stack>
         </Paper>
       </Stack>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <SignupModal />
+      </Modal>
     </Container>
   );
 }
