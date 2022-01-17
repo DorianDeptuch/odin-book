@@ -6,7 +6,7 @@ import Friend from "./Friend";
 
 function FriendsList() {
   return (
-    <Paper elevation={3} sx={{ p: 2 }}>
+    <Paper elevation={3} sx={{ p: 2, my: 2 }}>
       <Stack>
         <Typography variant="h6" component="h6">
           Friend's List

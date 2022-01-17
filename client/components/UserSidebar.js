@@ -4,12 +4,13 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
+import SettingsIcon from "@mui/icons-material/Settings";
+import GroupIcon from "@mui/icons-material/Group";
 
 const iconStyle = {
-  backgroundColor: "red",
-  borderRadius: "50%",
-  height: "50px",
-  width: "50px",
+  height: "30px",
+  width: "30px",
   mr: 1,
 };
 
@@ -18,19 +19,19 @@ function UserSidebar() {
     <Paper elevation={3} sx={{ m: 2, p: 2 }}>
       <Box>
         <Stack direction="row" sx={{ p: 1 }}>
-          <Box sx={iconStyle}></Box>
+          <Avatar sx={iconStyle}></Avatar>
           <Typography variant="h6" component="h6" sx={{ alignSelf: "center" }}>
             User Name
           </Typography>
         </Stack>
         <Stack direction="row" sx={{ p: 1 }}>
-          <Box sx={iconStyle}></Box>
+          <GroupIcon sx={iconStyle}></GroupIcon>
           <Typography variant="h6" component="h6" sx={{ alignSelf: "center" }}>
             Friends
           </Typography>
         </Stack>
         <Stack direction="row" sx={{ p: 1 }}>
-          <Box sx={iconStyle}></Box>
+          <SettingsIcon sx={iconStyle}></SettingsIcon>
           <Typography variant="h6" component="h6" sx={{ alignSelf: "center" }}>
             Settings
           </Typography>

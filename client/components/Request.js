@@ -3,21 +3,22 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-
+import Avatar from "@mui/material/Avatar";
+import { red } from "@mui/material/colors";
 function Request() {
   return (
     <Box sx={{ m: 1 }}>
       <Stack direction="row">
-        <Box
+        <Avatar
           sx={{
-            backgroundColor: "green",
-            borderRadius: "50%",
             height: "100px",
             width: "100px",
             alignSelf: "center",
             mr: 1,
           }}
-        ></Box>
+        >
+          JS
+        </Avatar>
         <Stack>
           <Typography variant="h6" component="h6">
             Jane Smith
@@ -25,7 +26,7 @@ function Request() {
           <Button color="primary" variant="contained">
             Confirm
           </Button>
-          <Button color="secondary" variant="contained">
+          <Button sx={{ bgcolor: red[900] }} variant="contained">
             Delete
           </Button>
         </Stack>

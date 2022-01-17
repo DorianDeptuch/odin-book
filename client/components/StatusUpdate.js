@@ -3,22 +3,21 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
 
 function StatusUpdate() {
   return (
     <Paper elevation={3} sx={{ p: 2 }}>
       <Stack>
         <Stack direction="row">
-          <Box
+          <Avatar
             sx={{
-              backgroundColor: "red",
               height: "50px",
               width: "50px",
               borderRadius: "50%",
               mr: 2,
             }}
-          ></Box>
+          ></Avatar>
           <TextField
             fullWidth
             id="statusUpdate"

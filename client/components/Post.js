@@ -12,21 +12,20 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import Comment from "./Comment";
 import LikeCounter from "./LikeCounter";
+import Avatar from "@mui/material/Avatar";
 
 function Post() {
   return (
     <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
       <Stack>
         <Stack direction="row">
-          <Box
+          <Avatar
             sx={{
-              backgroundColor: "green",
-              borderRadius: "50%",
               height: "35px",
               width: "35px",
               mr: 1,
             }}
-          ></Box>
+          ></Avatar>
           <Stack>
             <Typography variant="h6" component="h6">
               John Smith
