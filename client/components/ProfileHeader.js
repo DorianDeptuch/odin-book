@@ -97,10 +97,10 @@ function ProfileHeader() {
               <ProfilePosts />
             </TabPanel>
             <TabPanel value={value} index={1} sx={{ backgroundColor: bgc }}>
-              About go here
+              <ProfileAbout />
             </TabPanel>
             <TabPanel value={value} index={2} sx={{ backgroundColor: bgc }}>
-              Friends go here
+              <ProfileFriends />
             </TabPanel>
           </Box>
         </Stack>
