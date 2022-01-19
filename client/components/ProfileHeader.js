@@ -7,11 +7,14 @@ import Typography from "@mui/material/Typography";
 import ProfilePosts from "./ProfilePosts";
 import ProfileAbout from "./ProfileAbout";
 import ProfileFriends from "./ProfileFriends";
+import ProfilePhotos from "./ProfilePhotos";
 import { bgc } from "../config/config";
 // this below is for the tab component
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import Button from "@mui/material/Button";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -80,6 +83,13 @@ function ProfileHeader() {
                 <Avatar>O</Avatar>
               </Stack>
             </Stack>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ m: 5, height: 50, alignSelf: "center" }}
+            >
+              <PersonAddIcon sx={{ mr: 1 }} /> Add Friend
+            </Button>
           </Stack>
           <Box sx={{ width: "100%" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -91,6 +101,7 @@ function ProfileHeader() {
                 <Tab label="Posts" {...a11yProps(0)} />
                 <Tab label="About" {...a11yProps(1)} />
                 <Tab label="Friends" {...a11yProps(2)} />
+                <Tab label="Photos" {...a11yProps(3)} />
               </Tabs>
             </Box>
             <TabPanel value={value} index={0} sx={{ backgroundColor: bgc }}>
@@ -101,6 +112,9 @@ function ProfileHeader() {
             </TabPanel>
             <TabPanel value={value} index={2} sx={{ backgroundColor: bgc }}>
               <ProfileFriends />
+            </TabPanel>
+            <TabPanel value={value} index={3} sx={{ backgroundColor: bgc }}>
+              <ProfilePhotos />
             </TabPanel>
           </Box>
         </Stack>

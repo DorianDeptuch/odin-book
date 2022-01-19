@@ -8,7 +8,7 @@ import { bgc } from "../config/config";
 
 function ProfileAbout() {
   return (
-    <Box sx={{ backgroundColor: bgc }}>
+    <Box sx={{ backgroundColor: bgc, mx: -3 }}>
       <Stack direction="row">
         <Paper sx={{ width: "40%", p: 2, mr: 2 }}>
           <Typography variant="h6" component="h6">
