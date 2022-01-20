@@ -12,6 +12,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Link from "next/link";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import FriendRequestPopover from "./FriendRequestPopover";
+import NotificationPopover from "./NotificationPopover";
 
 const styles = {
   mx: 2,
@@ -27,6 +29,26 @@ export default function Navbar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const [anchorElRequest, setAnchorElRequest] = React.useState(null);
+  const [anchorElNotification, setAnchorElNotification] = React.useState(null);
+  const openRequest = Boolean(anchorElRequest);
+  const openNotification = Boolean(anchorElNotification);
+  const handleClickRequest = (event) => {
+    setAnchorElRequest(event.currentTarget);
+  };
+  const handleClickNotification = (event) => {
+    setAnchorElNotification(event.currentTarget);
+  };
+  const handleCloseRequest = () => {
+    setAnchorElRequest(null);
+  };
+  const handleCloseNotification = () => {
+    setAnchorElNotification(null);
+  };
+
+  const idRequest = openRequest ? "simple-popover" : undefined;
+  const idNotification = openNotification ? "simple-popover" : undefined;
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -44,13 +66,31 @@ export default function Navbar() {
             </Link>
             <Box>
               <Tooltip title="Friend Requests">
-                <Badge sx={styles} color="error" badgeContent={5}>
-                  <PersonAddIcon />
+                <Badge sx={styles} color="error" badgeContent={3}>
+                  <PersonAddIcon
+                    aria-describedby={idRequest}
+                    onClick={handleClickRequest}
+                  />
+                  <FriendRequestPopover
+                    idRequest={idRequest}
+                    openRequest={openRequest}
+                    anchorElRequest={anchorElRequest}
+                    handleCloseRequest={handleCloseRequest}
+                  />
                 </Badge>
               </Tooltip>
               <Tooltip title="Notifications">
-                <Badge sx={styles} color="error" badgeContent={3}>
-                  <NotificationsNoneIcon />
+                <Badge sx={styles} color="error" badgeContent={4}>
+                  <NotificationsNoneIcon
+                    aria-describedby={idNotification}
+                    onClick={handleClickNotification}
+                  />
+                  <NotificationPopover
+                    idNotification={idNotification}
+                    openNotification={openNotification}
+                    anchorElNotification={anchorElNotification}
+                    handleCloseNotification={handleCloseNotification}
+                  />
                 </Badge>
               </Tooltip>
               <AccountCircleIcon

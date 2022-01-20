@@ -13,6 +13,7 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import Comment from "./Comment";
 import LikeCounter from "./LikeCounter";
 import Avatar from "@mui/material/Avatar";
+import TextField from "@mui/material/TextField";
 
 function Post() {
   return (
@@ -57,6 +58,20 @@ function Post() {
             <ChatBubbleOutlineIcon></ChatBubbleOutlineIcon> Comment
           </Button>
         </Stack>
+        <Box sx={{ my: 2 }}>
+          <Stack direction="row">
+            <Avatar sx={{ alignSelf: "center", mr: 2 }}></Avatar>
+            <form action="" method="POST" style={{ width: "100%" }}>
+              <TextField
+                fullWidth
+                id="new-comment"
+                labrl="Outlined"
+                variant="outlined"
+                defaultValue="Write a comment..."
+              />
+            </form>
+          </Stack>
+        </Box>
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}

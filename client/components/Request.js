@@ -1,5 +1,5 @@
 import React from "react";
-import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -7,7 +7,7 @@ import Avatar from "@mui/material/Avatar";
 import { red } from "@mui/material/colors";
 function Request() {
   return (
-    <Box sx={{ m: 1 }}>
+    <Paper sx={{ m: 2, p: 2 }} elevation={3}>
       <Stack direction="row">
         <Avatar
           sx={{
@@ -31,7 +31,7 @@ function Request() {
           </Button>
         </Stack>
       </Stack>
-    </Box>
+    </Paper>
   );
 }
 
