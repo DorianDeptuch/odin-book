@@ -29,79 +29,90 @@ export default function SignupModal({}) {
           It's quick and easy.
         </Typography>
       </Box>
-      <Box padding={2}>
-        <Grid container spacing={2}>
-          <Grid item sm={12} md={6}>
-            <TextField
-              fullWidth
-              id="firstName"
-              label="First Name"
-              variant="outlined"
-            />
+      <form action="" method="POST" noValidate>
+        <Box padding={2}>
+          <Grid container spacing={2}>
+            <Grid item sm={12} md={6}>
+              <TextField
+                fullWidth
+                id="firstName"
+                label="First Name"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item sm={12} md={6}>
+              <TextField
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item md={12}>
+              <TextField
+                fullWidth
+                id="email"
+                label="Email"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item md={12}>
+              <TextField
+                fullWidth
+                id="newPassword"
+                label="Password"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item md={12}>
+              <TextField
+                fullWidth
+                id="confirmPassword"
+                label="Confirm Password"
+                variant="outlined"
+              />
+            </Grid>
           </Grid>
-          <Grid item sm={12} md={6}>
-            <TextField
-              fullWidth
-              id="lastName"
-              label="Last Name"
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item md={12}>
-            <TextField fullWidth id="email" label="Email" variant="outlined" />
-          </Grid>
-          <Grid item md={12}>
-            <TextField
-              fullWidth
-              id="newPassword"
-              label="Password"
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item md={12}>
-            <TextField
-              fullWidth
-              id="confirmPassword"
-              label="Confirm Password"
-              variant="outlined"
-            />
-          </Grid>
-        </Grid>
-      </Box>
-      <Box padding={2}>
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Gender</FormLabel>
-          <RadioGroup
-            aria-label="gender"
-            defaultValue="female"
-            name="radio-buttons-group"
+        </Box>
+        <Box padding={2}>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Gender</FormLabel>
+            <RadioGroup
+              aria-label="gender"
+              defaultValue="female"
+              name="radio-buttons-group"
+            >
+              <Stack direction="row">
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="Female"
+                />
+                <FormControlLabel
+                  value="male"
+                  control={<Radio />}
+                  label="Male"
+                />
+                <FormControlLabel
+                  value="other"
+                  control={<Radio />}
+                  label="Other"
+                />
+              </Stack>
+            </RadioGroup>
+          </FormControl>
+        </Box>
+        <Box padding={2} sx={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            variant="contained"
+            paddingX={3}
+            color="success"
+            sx={{ width: "40%" }}
           >
-            <Stack direction="row">
-              <FormControlLabel
-                value="female"
-                control={<Radio />}
-                label="Female"
-              />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
-              <FormControlLabel
-                value="other"
-                control={<Radio />}
-                label="Other"
-              />
-            </Stack>
-          </RadioGroup>
-        </FormControl>
-      </Box>
-      <Box padding={2} sx={{ display: "flex", justifyContent: "center" }}>
-        <Button
-          variant="contained"
-          paddingX={3}
-          color="success"
-          sx={{ width: "40%" }}
-        >
-          Sign Up
-        </Button>
-      </Box>
+            Sign Up
+          </Button>
+        </Box>
+      </form>
     </Paper>
   );
 }

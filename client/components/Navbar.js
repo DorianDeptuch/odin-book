@@ -3,16 +3,83 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import Badge from "@mui/material/Badge";
+import Tooltip from "@mui/material/Tooltip";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Link from "next/link";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
-export default function ButtonAppBar() {
+const styles = {
+  mx: 2,
+  cursor: "pointer",
+};
+
+export default function Navbar() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            OdinBook
-          </Typography>
+          <Stack direction="row" sx={{ width: "100%" }}>
+            <Link href="/">
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ ...styles, flexGrow: 1, alignSelf: "center" }}
+              >
+                OdinBook
+              </Typography>
+            </Link>
+            <Box>
+              <Tooltip title="Friend Requests">
+                <Badge sx={styles} color="error" badgeContent={5}>
+                  <PersonAddIcon />
+                </Badge>
+              </Tooltip>
+              <Tooltip title="Notifications">
+                <Badge sx={styles} color="error" badgeContent={3}>
+                  <NotificationsNoneIcon />
+                </Badge>
+              </Tooltip>
+              <AccountCircleIcon
+                sx={{ ...styles, height: 40, width: 40 }}
+                id="basic-button"
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
+              />
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <Link href="/profile/1">
+                  <MenuItem onClick={handleClose}>Your Profile</MenuItem>
+                </Link>
+                <Link href="/settings">
+                  <MenuItem onClick={handleClose}>Settings</MenuItem>
+                </Link>
+                <MenuItem onClick={handleClose}>Logout</MenuItem>
+              </Menu>
+            </Box>
+          </Stack>
         </Toolbar>
       </AppBar>
     </Box>

@@ -64,9 +64,11 @@ function login() {
             <Typography>
               Log in to <span color="primary.main">OdinBook</span>
             </Typography>
-            <TextField label="Email" variant="outlined" />
-            <TextField label="Password" variant="outlined" />
-            <Button variant="contained">Log In</Button>
+            <form action="" method="POST" noValidate>
+              <TextField label="Email" variant="outlined" />
+              <TextField label="Password" variant="outlined" />
+              <Button variant="contained">Log In</Button>
+            </form>
             <Button
               sx={{ mb: 2 }}
               onClick={handleOpen}
