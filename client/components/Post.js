@@ -9,7 +9,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import SendIcon from "@mui/icons-material/Send";
 import Comment from "./Comment";
 import LikeCounter from "./LikeCounter";
 import Avatar from "@mui/material/Avatar";
@@ -49,26 +49,31 @@ function Post() {
           dignissimos praesentium. Optio, eveniet! Nam, rem ipsam ratione iusto
           placeat doloribus non distinctio quia.
         </Typography>
-        <LikeCounter />
-        <Stack direction="row" sx={{ justifyContent: "center" }}>
+        <Stack direction="row" sx={{ justifyContent: "start", mt: 2 }}>
+          <LikeCounter style={{ alignSelf: "center" }} />
           <Button variant="contained" sx={{ mx: 1 }}>
             <ThumbUpOffAltIcon></ThumbUpOffAltIcon> Like
-          </Button>
-          <Button variant="contained" sx={{ mx: 1 }}>
-            <ChatBubbleOutlineIcon></ChatBubbleOutlineIcon> Comment
           </Button>
         </Stack>
         <Box sx={{ my: 2 }}>
           <Stack direction="row">
             <Avatar sx={{ alignSelf: "center", mr: 2 }}></Avatar>
             <form action="" method="POST" style={{ width: "100%" }}>
-              <TextField
-                fullWidth
-                id="new-comment"
-                labrl="Outlined"
-                variant="outlined"
-                defaultValue="Write a comment..."
-              />
+              <Stack direction="row">
+                <TextField
+                  fullWidth
+                  id="new-comment"
+                  labrl="Outlined"
+                  variant="outlined"
+                  placeholder="Write a comment..."
+                />
+                <Button
+                  variant="contained"
+                  sx={{ mx: 1, height: "100%", alignSelf: "center" }}
+                >
+                  <SendIcon></SendIcon>
+                </Button>
+              </Stack>
             </form>
           </Stack>
         </Box>

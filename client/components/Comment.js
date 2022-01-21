@@ -5,6 +5,11 @@ import Typography from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 
+const styles = {
+  m: 0,
+  p: 1,
+};
+
 function Comment() {
   return (
     <Paper sx={{ m: 1 }} elevation={3}>
@@ -18,10 +23,17 @@ function Comment() {
           }}
         ></Avatar>
         <Stack sx={{ mb: 2 }}>
-          <Typography variant="h6" component="h6">
-            John Smith
+          <Stack direction="row">
+            <Typography variant="h4" component="h4" sx={styles}>
+              <strong>John Smith</strong>
+            </Typography>
+            <Typography variant="caption" component="p" sx={styles}>
+              (3h ago)
+            </Typography>
+          </Stack>
+          <Typography variant="body1" component="p" sx={styles}>
+            Hey cool post dude!!
           </Typography>
-          <Typography>Hey cool post dude!!</Typography>
         </Stack>
       </Stack>
     </Paper>

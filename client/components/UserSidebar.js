@@ -34,20 +34,6 @@ function UserSidebar() {
             </Stack>
           </a>
         </Link>
-        <Link href="">
-          <a>
-            <Stack direction="row" sx={{ p: 1 }}>
-              <GroupIcon sx={iconStyle}></GroupIcon>
-              <Typography
-                variant="h6"
-                component="h6"
-                sx={{ alignSelf: "center" }}
-              >
-                Friends
-              </Typography>
-            </Stack>
-          </a>
-        </Link>
         <Link href="/settings">
           <a>
             <Stack direction="row" sx={{ p: 1 }}>

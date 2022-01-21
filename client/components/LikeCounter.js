@@ -5,7 +5,9 @@ import Typography from "@mui/material/Typography";
 function LikeCounter() {
   return (
     <Box>
-      <Typography>2 likes</Typography>
+      <Typography variant="subtitle1" component="p">
+        <strong>2 likes</strong>
+      </Typography>
     </Box>
   );
 }
