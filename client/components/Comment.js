@@ -4,6 +4,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
+import { avatar_MD } from "../config/config";
 
 const styles = {
   m: 0,
@@ -16,8 +17,8 @@ function Comment() {
       <Stack direction="row">
         <Avatar
           sx={{
-            height: "35px",
-            width: "35px",
+            height: avatar_MD,
+            width: avatar_MD,
             mx: 2,
             alignSelf: "center",
           }}

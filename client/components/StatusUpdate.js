@@ -9,6 +9,7 @@ import SendIcon from "@mui/icons-material/Send";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import Input from "@mui/material/Input";
 import CloseIcon from "@mui/icons-material/Close";
+import { avatar_MD } from "../config/config";
 
 function StatusUpdate() {
   const [showChooseFile, setShowChooseFile] = useState(false);
@@ -19,8 +20,8 @@ function StatusUpdate() {
         <Stack direction="row">
           <Avatar
             sx={{
-              height: "50px",
-              width: "50px",
+              height: avatar_MD,
+              width: avatar_MD,
               borderRadius: "50%",
               mr: 2,
             }}

@@ -9,12 +9,18 @@ import ProfileAbout from "./ProfileAbout";
 import ProfileFriends from "./ProfileFriends";
 import ProfilePhotos from "./ProfilePhotos";
 import { bgc } from "../config/config";
+import { avatar_SM, avatar_XL } from "../config/config";
 // this below is for the tab component
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Button from "@mui/material/Button";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+
+const styles = {
+  width: avatar_SM,
+  height: avatar_SM,
+};
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -63,7 +69,9 @@ function ProfileHeader() {
       <Paper>
         <Stack>
           <Stack direction="row">
-            <Avatar sx={{ height: 150, width: 150, m: 2 }}>JS</Avatar>
+            <Avatar sx={{ height: avatar_XL, width: avatar_XL, m: 2 }}>
+              JS
+            </Avatar>
             <Stack sx={{ alignSelf: "center" }}>
               <Typography
                 variant="h4"
@@ -76,11 +84,11 @@ function ProfileHeader() {
                 323 Friends
               </Typography>
               <Stack direction="row">
-                <Avatar>H</Avatar>
-                <Avatar>E</Avatar>
-                <Avatar>L</Avatar>
-                <Avatar>L</Avatar>
-                <Avatar>O</Avatar>
+                <Avatar sx={styles}>H</Avatar>
+                <Avatar sx={styles}>E</Avatar>
+                <Avatar sx={styles}>L</Avatar>
+                <Avatar sx={styles}>L</Avatar>
+                <Avatar sx={styles}>O</Avatar>
               </Stack>
             </Stack>
             <Button

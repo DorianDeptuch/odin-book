@@ -5,14 +5,16 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import { red } from "@mui/material/colors";
+import { avatar_LG } from "../config/config";
+
 function Request() {
   return (
     <Paper sx={{ m: 2, p: 2 }} elevation={3}>
       <Stack direction="row">
         <Avatar
           sx={{
-            height: "100px",
-            width: "100px",
+            height: avatar_LG,
+            width: avatar_LG,
             alignSelf: "center",
             mr: 1,
           }}

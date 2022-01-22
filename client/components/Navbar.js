@@ -14,6 +14,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import FriendRequestPopover from "./FriendRequestPopover";
 import NotificationPopover from "./NotificationPopover";
+import { avatar_SM } from "../config/config";
 
 const styles = {
   mx: 2,
@@ -94,7 +95,7 @@ export default function Navbar() {
                 </Badge>
               </Tooltip>
               <AccountCircleIcon
-                sx={{ ...styles, height: 40, width: 40 }}
+                sx={{ ...styles, height: avatar_SM, width: avatar_SM }}
                 id="basic-button"
                 aria-controls={open ? "basic-menu" : undefined}
                 aria-haspopup="true"

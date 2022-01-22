@@ -14,16 +14,17 @@ import Comment from "./Comment";
 import LikeCounter from "./LikeCounter";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
+import { avatar_MD } from "../config/config";
 
 function Post() {
   return (
     <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
       <Stack>
-        <Stack direction="row">
+        <Stack direction="row" sx={{ mb: 2 }}>
           <Avatar
             sx={{
-              height: "35px",
-              width: "35px",
+              height: avatar_MD,
+              width: avatar_MD,
               mr: 1,
             }}
           ></Avatar>
@@ -57,7 +58,14 @@ function Post() {
         </Stack>
         <Box sx={{ my: 2 }}>
           <Stack direction="row">
-            <Avatar sx={{ alignSelf: "center", mr: 2 }}></Avatar>
+            <Avatar
+              sx={{
+                alignSelf: "center",
+                mr: 2,
+                height: avatar_MD,
+                width: avatar_MD,
+              }}
+            ></Avatar>
             <form action="" method="POST" style={{ width: "100%" }}>
               <Stack direction="row">
                 <TextField
@@ -68,6 +76,7 @@ function Post() {
                   placeholder="Write a comment..."
                 />
                 <Button
+                  type="submit"
                   variant="contained"
                   sx={{ mx: 1, height: "100%", alignSelf: "center" }}
                 >
