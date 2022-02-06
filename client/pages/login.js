@@ -65,9 +65,15 @@ function login() {
               Log in to <span color="primary.main">OdinBook</span>
             </Typography>
             <form action="" method="POST" noValidate>
-              <TextField label="Email" variant="outlined" />
-              <TextField label="Password" variant="outlined" />
-              <Button variant="contained">Log In</Button>
+              <Stack spacing={2}>
+                <TextField label="Email" name="email" variant="outlined" />
+                <TextField
+                  label="Password"
+                  name="password"
+                  variant="outlined"
+                />
+                <Button variant="contained">Log In</Button>
+              </Stack>
             </form>
             <Button
               sx={{ mb: 2 }}

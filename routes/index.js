@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const indexController = require("../controllers/indexController");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -11,7 +12,9 @@ router.get("/login", (req, res, next) => {
 });
 
 router.post("/login", (req, res, next) => {
-  res.json({ msg: "This is the login page POST" });
+  // res.json({ msg: "This is the login page POST" });
+  indexController.login_post;
+  next();
 });
 
 router.get("/signup", (req, res, next) => {

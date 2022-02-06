@@ -35,6 +35,7 @@ export default function SignupModal({}) {
             <Grid item sm={12} md={6}>
               <TextField
                 fullWidth
+                name="firstName"
                 id="firstName"
                 label="First Name"
                 variant="outlined"
@@ -43,6 +44,7 @@ export default function SignupModal({}) {
             <Grid item sm={12} md={6}>
               <TextField
                 fullWidth
+                name="lastName"
                 id="lastName"
                 label="Last Name"
                 variant="outlined"
@@ -51,7 +53,8 @@ export default function SignupModal({}) {
             <Grid item md={12}>
               <TextField
                 fullWidth
-                id="email"
+                name="newEmail"
+                id="newEmail"
                 label="Email"
                 variant="outlined"
               />
@@ -59,6 +62,7 @@ export default function SignupModal({}) {
             <Grid item md={12}>
               <TextField
                 fullWidth
+                name="newPassword"
                 id="newPassword"
                 label="Password"
                 variant="outlined"
@@ -67,6 +71,7 @@ export default function SignupModal({}) {
             <Grid item md={12}>
               <TextField
                 fullWidth
+                name="confirmPassword"
                 id="confirmPassword"
                 label="Confirm Password"
                 variant="outlined"

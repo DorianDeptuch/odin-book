@@ -11,7 +11,16 @@ const styles = {
 
 function Footer() {
   return (
-    <Box sx={{ bgcolor: grey[300], p: 2, mt: 5 }}>
+    <Box
+      sx={{
+        bgcolor: grey[300],
+        p: 2,
+        mt: 5,
+        position: "absolute",
+        bottom: 0,
+        width: "100%",
+      }}
+    >
       <Stack direction="row">
         <Typography variant="body1" component="p" sx={styles}>
           Made by <strong>Dorian Deptuch</strong>

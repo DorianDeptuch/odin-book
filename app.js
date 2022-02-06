@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 require("dotenv").config();
-const sessionStore = require("cookie-session");
+const session = require("cookie-session");
 const passport = require("passport");
 const mongoDB = process.env.MONGODB_URI;
 
@@ -28,9 +28,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
-    store: sessionStore,
+    // store: sessionStore,
     cookie: {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 14, //expires in 14 days
