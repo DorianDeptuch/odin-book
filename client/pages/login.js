@@ -27,6 +27,7 @@ const centerAlign = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  my: 6,
 };
 
 const modalStyle = {
@@ -72,7 +73,9 @@ function login() {
                   name="password"
                   variant="outlined"
                 />
-                <Button variant="contained">Log In</Button>
+                <Button type="submit" variant="contained">
+                  Log In
+                </Button>
               </Stack>
             </form>
             <Button

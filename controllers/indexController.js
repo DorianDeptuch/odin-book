@@ -38,7 +38,7 @@ exports.login_post = [
     .escape(),
 
   (req, res, next) => {
-    const {
+    let {
       email,
       password,
       newEmail,
@@ -56,14 +56,56 @@ exports.login_post = [
       lastName = null;
       newPassword = null;
       confirmPassword = null;
-      res.send("login form");
-      console.log(newEmail, firstName, lastName, newPassword, confirmPassword);
+
+      if (!email || !password) {
+        errors.push({ msg: "Please fill in all fields" });
+      }
+
+      if (!validationErrors.isEmpty()) {
+        errors.push({ msg: "Validation failed" });
+      }
+
+      passport.authenticate("local", {
+        successRedirect: "/",
+        failureRedirect: "/login",
+        failureFlash: true,
+        errors,
+      })(req, res, next);
     } else {
       email = null;
       password = null;
-      res.send("signup form");
 
-      console.log(email, password);
+      if (
+        !newEmail ||
+        !newPassword ||
+        !confirmPassword ||
+        !firstName ||
+        !lastName
+      ) {
+        errors.push({ msg: "Please fill in all fields" });
+      }
+
+      if (newPassword !== confirmPassword) {
+        errors.push({ msg: "Passwords do not match" });
+      }
+
+      if (newEmail.length < 6) {
+        errors.push({ msg: "Email must contain at least 6 characters" });
+      }
+
+      if (newPassword.length < 6) {
+        errors.push({ msg: "Password must contain at least 6 characters" });
+      }
+
+      if (!validationErrors.isEmpty()) {
+        errors.push({ msg: "Validation failed " });
+      }
+
+      if (errors.length > 0) {
+        res.json({ errors, newEmail, firstName, lastName });
+      } else {
+        // Make database call to check if email already exists
+      }
     }
   },
 ];

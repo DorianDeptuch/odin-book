@@ -11,11 +11,13 @@ router.get("/login", (req, res, next) => {
   res.json({ msg: "This is the login page GET" });
 });
 
-router.post("/login", (req, res, next) => {
-  // res.json({ msg: "This is the login page POST" });
-  indexController.login_post;
-  next();
-});
+router.post("/login", indexController.login_post);
+
+// (req, res, next) => {
+//   // res.json({ msg: "This is the login page POST" });
+
+//   next();
+// });
 
 router.get("/signup", (req, res, next) => {
   res.json({ msg: "This is the signup page GET" });
