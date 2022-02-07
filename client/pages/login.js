@@ -65,7 +65,7 @@ function login() {
             <Typography>
               Log in to <span color="primary.main">OdinBook</span>
             </Typography>
-            <form action="" method="POST" noValidate>
+            <form action="/loginForm" method="POST" noValidate>
               <Stack spacing={2}>
                 <TextField label="Email" name="email" variant="outlined" />
                 <TextField

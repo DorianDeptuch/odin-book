@@ -1,6 +1,7 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const passport = require("passport");
+const User = require("../models/user");
 const { body, validationResult } = require("express-validator");
 
 exports.index_get = (req, res, next) => {};
@@ -16,11 +17,36 @@ exports.login_post = [
     .isLength({ min: 6 })
     .escape(),
 
+  (req, res, next) => {
+    let { email, password } = req.body;
+    let errors = [];
+    let validationErrors = validationResult(req);
+
+    if (!email || !password) {
+      errors.push({ msg: "Please fill in all fields" });
+    }
+
+    if (!validationErrors.isEmpty()) {
+      errors.push({ msg: "Validation failed" });
+    }
+
+    console.log("you're doing great!");
+
+    passport.authenticate("local", {
+      successRedirect: "/",
+      failureRedirect: "/login",
+      // failureFlash: true,
+      errors,
+    })(req, res, next);
+  },
+];
+
+exports.signup_post = [
   body("newEmail", "Please enter an email")
     .trim()
     .isLength({ min: 6 })
     .escape(),
-  body("firsName", "Please enter your first name")
+  body("firstName", "Please enter your first name")
     .trim()
     .isLength({ min: 6 })
     .escape(),
@@ -38,74 +64,75 @@ exports.login_post = [
     .escape(),
 
   (req, res, next) => {
-    let {
-      email,
-      password,
-      newEmail,
-      firstName,
-      lastName,
-      newPassword,
-      confirmPassword,
-    } = req.body;
+    let { newEmail, firstName, lastName, newPassword, confirmPassword } =
+      req.body;
     let errors = [];
     let validationErrors = validationResult(req);
 
-    if (email || password) {
-      newEmail = null;
-      firstName = null;
-      lastName = null;
-      newPassword = null;
-      confirmPassword = null;
+    if (
+      !newEmail ||
+      !newPassword ||
+      !confirmPassword ||
+      !firstName ||
+      !lastName
+    ) {
+      errors.push({ msg: "Please fill in all fields" });
+    }
 
-      if (!email || !password) {
-        errors.push({ msg: "Please fill in all fields" });
-      }
+    if (newPassword !== confirmPassword) {
+      errors.push({ msg: "Passwords do not match" });
+    }
 
-      if (!validationErrors.isEmpty()) {
-        errors.push({ msg: "Validation failed" });
-      }
+    if (newEmail.length < 6) {
+      errors.push({ msg: "Email must contain at least 6 characters" });
+    }
 
-      passport.authenticate("local", {
-        successRedirect: "/",
-        failureRedirect: "/login",
-        failureFlash: true,
-        errors,
-      })(req, res, next);
+    if (newPassword.length < 6) {
+      errors.push({ msg: "Password must contain at least 6 characters" });
+    }
+
+    if (!validationErrors.isEmpty()) {
+      errors.push({ msg: "Validation failed " });
+    }
+
+    if (errors.length > 0) {
+      res.json({ errors, newEmail, firstName, lastName });
     } else {
-      email = null;
-      password = null;
+      User.findOne({ email: newEmail }).then((user) => {
+        if (user) {
+          errors.push({ msg: "That Email has already been registered" });
+          res.json({
+            errors,
+            newEmail,
+            newPassword,
+          });
+        } else {
+          const newUser = new User({
+            email: newEmail,
+            password: newPassword,
+            firstName,
+            lastName,
+          });
 
-      if (
-        !newEmail ||
-        !newPassword ||
-        !confirmPassword ||
-        !firstName ||
-        !lastName
-      ) {
-        errors.push({ msg: "Please fill in all fields" });
-      }
-
-      if (newPassword !== confirmPassword) {
-        errors.push({ msg: "Passwords do not match" });
-      }
-
-      if (newEmail.length < 6) {
-        errors.push({ msg: "Email must contain at least 6 characters" });
-      }
-
-      if (newPassword.length < 6) {
-        errors.push({ msg: "Password must contain at least 6 characters" });
-      }
-
-      if (!validationErrors.isEmpty()) {
-        errors.push({ msg: "Validation failed " });
-      }
-
-      if (errors.length > 0) {
-        res.json({ errors, newEmail, firstName, lastName });
-      } else {
-        // Make database call to check if email already exists
-      }
+          bcrypt.genSalt(10, (err, salt) =>
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
+              if (err) throw err;
+              newUser.password = hash;
+              newUser
+                .save()
+                .then((user) => {
+                  // install connect-flash to use
+                  // req.flash(
+                  //   "success_msg",
+                  //   "You are now Registered and can Log In"
+                  // );
+                  res.redirect("/login");
+                })
+                .catch((err) => console.log(err));
+            })
+          );
+        }
+      });
     }
   },
 ];

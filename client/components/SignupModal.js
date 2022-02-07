@@ -29,7 +29,7 @@ export default function SignupModal({}) {
           It's quick and easy.
         </Typography>
       </Box>
-      <form action="" method="POST" noValidate>
+      <form action="/signupForm" method="POST" noValidate>
         <Box padding={2}>
           <Grid container spacing={2}>
             <Grid item sm={12} md={6}>
