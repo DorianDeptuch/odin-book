@@ -3,27 +3,27 @@ var router = express.Router();
 const indexController = require("../controllers/indexController");
 
 /* GET home page. */
-router.get("/", function (req, res, next) {
-  // res.render("index", { title: "Express" });
-  res.send("this is the index page");
-});
+router.get("/", indexController.index_get);
+
+// function (req, res, next) {
+//   // res.render("index", { title: "Express" });
+//   res.send("this is the index page");
+// });
 
 router.get("/login", (req, res, next) => {
   res.json({ msg: "This is the login page GET" });
-});
-
-router.get("/youdidit", (req, res, next) => {
-  res.send("You did it!");
 });
 
 // router.post("/login", indexController.login_post);
 router.post("/loginForm", indexController.login_post);
 router.post("/signupForm", indexController.signup_post);
 
-// (req, res, next) => {
-//   // res.json({ msg: "This is the login page POST" });
+// router.get("/youdidit", (req, res, next) => {
+//   res.send("You did it!");
+// });
 
-//   next();
+// router.get("/somethingsnotright", (req, res, next) => {
+//   res.send("Something's not right!");
 // });
 
 router.get("/signup", (req, res, next) => {

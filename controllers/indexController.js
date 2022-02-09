@@ -4,7 +4,14 @@ const passport = require("passport");
 const User = require("../models/user");
 const { body, validationResult } = require("express-validator");
 
-exports.index_get = (req, res, next) => {};
+exports.index_get = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.send("You are authenticated, welcome to the homepage");
+  } else {
+    //    /login-failure
+    res.redirect("/login");
+  }
+};
 
 exports.index_post = (req, res, next) => {};
 
@@ -29,8 +36,6 @@ exports.login_post = [
     if (!validationErrors.isEmpty()) {
       errors.push({ msg: "Validation failed" });
     }
-
-    console.log("you're doing great!");
 
     passport.authenticate("local", {
       successRedirect: "/",

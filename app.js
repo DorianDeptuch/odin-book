@@ -21,7 +21,6 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 // app.use(express.static(path.join(__dirname, 'client')));
 // app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -38,11 +37,15 @@ app.use(
   })
 );
 
+require("./config/passport")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
-require("./config/passport")(passport);
 
 app.use("/", indexRouter);
 app.use("/profile", profileRouter);
+
+// moved the static folder from below cookie parser so passports
+// successRedirect would link to the correct index page, not index.html
+app.use(express.static(path.join(__dirname, "public")));
 
 module.exports = app;
