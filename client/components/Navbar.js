@@ -117,7 +117,9 @@ export default function Navbar() {
                 <Link href="/settings">
                   <MenuItem onClick={handleClose}>Settings</MenuItem>
                 </Link>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <Link href="/logout">
+                  <MenuItem onClick={handleClose}>Logout</MenuItem>
+                </Link>
               </Menu>
             </Box>
           </Stack>

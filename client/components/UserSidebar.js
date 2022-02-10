@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import SettingsIcon from "@mui/icons-material/Settings";
 import GroupIcon from "@mui/icons-material/Group";
+import SearchIcon from "@mui/icons-material/Search";
 import Link from "next/link";
 
 const iconStyle = {
@@ -44,6 +45,20 @@ function UserSidebar() {
                 sx={{ alignSelf: "center" }}
               >
                 Settings
+              </Typography>
+            </Stack>
+          </a>
+        </Link>
+        <Link href="/search">
+          <a>
+            <Stack direction="row" sx={{ p: 1 }}>
+              <SearchIcon sx={iconStyle}></SearchIcon>
+              <Typography
+                variant="h6"
+                component="h6"
+                sx={{ alignSelf: "center" }}
+              >
+                Search Users
               </Typography>
             </Stack>
           </a>

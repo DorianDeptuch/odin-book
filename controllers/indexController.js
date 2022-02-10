@@ -16,6 +16,10 @@ exports.index_get = (req, res, next) => {
 exports.index_post = (req, res, next) => {};
 
 exports.login_get = (req, res, next) => {};
+exports.logout_get = (req, res, next) => {
+  // req.logout();
+  res.redirect("/login");
+};
 
 exports.login_post = [
   body("email", "Please enter an email").trim().isLength({ min: 6 }).escape(),
@@ -157,4 +161,4 @@ exports.search_get = (req, res, next) => {
   //as the client types letters, the list will update
 };
 
-exports.search_get = (req, res, next) => {};
+exports.search_post = (req, res, next) => {};

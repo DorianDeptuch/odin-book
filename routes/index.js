@@ -8,6 +8,8 @@ router.get("/login", (req, res, next) => {
   res.json({ msg: "This is the login page GET" });
 });
 
+router.get("/logout", indexController.logout_get);
+
 router.post("/loginForm", indexController.login_post);
 
 router.post("/signupForm", indexController.signup_post);
