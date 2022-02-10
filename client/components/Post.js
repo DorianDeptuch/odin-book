@@ -66,12 +66,16 @@ function Post() {
                 width: avatar_MD,
               }}
             ></Avatar>
-            <form action="" method="POST" style={{ width: "100%" }}>
+            <form
+              action="/postCommentForm"
+              method="POST"
+              style={{ width: "100%" }}
+            >
               <Stack direction="row">
                 <TextField
                   fullWidth
                   id="new-comment"
-                  labrl="Outlined"
+                  name="postCommentForm"
                   variant="outlined"
                   placeholder="Write a comment..."
                 />

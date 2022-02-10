@@ -142,10 +142,19 @@ exports.signup_post = [
   },
 ];
 
-exports.settings_get = (req, res, next) => {};
+exports.statusUpdate_post = (req, res, next) => {};
+
+exports.postComment_post = (req, res, next) => {};
+
+exports.settings_get = (req, res, next) => {
+  res.send("Coming soon");
+};
 
 exports.settings_post = (req, res, next) => {};
 
-exports.search_get = (req, res, next) => {};
+exports.search_get = (req, res, next) => {
+  //display all users in a list
+  //as the client types letters, the list will update
+};
 
 exports.search_get = (req, res, next) => {};

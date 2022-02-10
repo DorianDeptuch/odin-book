@@ -26,12 +26,18 @@ function StatusUpdate() {
               mr: 2,
             }}
           ></Avatar>
-          <form action="" method="POST" noValidate style={{ width: "100%" }}>
+          <form
+            action="/statusUpdateForm"
+            method="POST"
+            noValidate
+            style={{ width: "100%" }}
+          >
             <Stack direction="row">
               <TextField
                 fullWidth
                 id="statusUpdate"
                 variant="outlined"
+                name="statusUpdateForm"
                 placeholder="What's on your mind, <USER>?"
               ></TextField>
               <Button
