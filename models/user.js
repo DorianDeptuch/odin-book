@@ -6,7 +6,7 @@ let UserSchema = new Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  sex: { type: String, enum: ["Male", "Female"] },
+  sex: { type: String, enum: ["Male", "Female", "Other"] },
   age: { type: Number },
   hometown: { type: String },
   currentTown: { type: String },
@@ -23,4 +23,9 @@ let UserSchema = new Schema({
 UserSchema.virtual("url").get(function () {
   return "/profile/" + this._id;
 });
+
+UserSchema.virtual("fullName").get(function () {
+  return this.firstName + " " + this.lastName;
+});
+
 module.exports = mongoose.model("User", UserSchema);
