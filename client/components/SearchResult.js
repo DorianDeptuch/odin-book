@@ -14,10 +14,10 @@ function SearchResult({ name }) {
           sx={{
             height: avatar_MD,
             width: avatar_MD,
-            mr: 1,
+            mr: 2,
           }}
         ></Avatar>
-        <Typography variant="h6" component="h6">
+        <Typography variant="h6" component="h6" sx={{ alignSelf: "center" }}>
           {name}
         </Typography>
       </Stack>

@@ -7,14 +7,30 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
 function Search() {
-  const [users, setUsers] = useState({});
+  const [users, setUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterCount, setFilterCount] = useState(0);
+
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
-      });
+      })
+      .catch((err) => console.log(err));
   }, []);
+
+  useEffect(() => {
+    setFilterCount(
+      users.filter((val) => {
+        if (searchTerm == "") {
+          return val;
+        } else if (val.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+          return val;
+        }
+      }).length
+    );
+  }, [searchTerm]);
 
   return (
     <Box sx={{ m: 2, p: 2 }}>
@@ -25,17 +41,33 @@ function Search() {
           </Typography>
           <Box sx={{ m: 2, p: 2 }}>
             <TextField
+              onChange={(e) => setSearchTerm(e.target.value)}
               type="search"
               fullWidth
               placeholder="Search All Users"
             ></TextField>
           </Box>
           <Box sx={{ m: 2 }}>
-            <SearchResult />
-            <SearchResult />
-            <SearchResult />
-            <SearchResult />
-            <SearchResult />
+            {filterCount > 0 ? (
+              users &&
+              users
+                .filter((val) => {
+                  if (searchTerm == "") {
+                    return val;
+                  } else if (
+                    val.name.toLowerCase().includes(searchTerm.toLowerCase())
+                  ) {
+                    return val;
+                  }
+                })
+                .map((item) => (
+                  <SearchResult key={item.name} name={item.name} />
+                ))
+            ) : (
+              <Typography variant="h6" component="h6" align="center">
+                No users with the name of '{searchTerm}' found
+              </Typography>
+            )}
           </Box>
         </Paper>
       </Stack>
