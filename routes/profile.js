@@ -3,8 +3,8 @@ var router = express.Router();
 const profileController = require("../controllers/profileController");
 
 /* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.json({ msg: "this is a profile" });
+router.get("/:id", function (req, res, next) {
+  res.json({ msg: `this is profile id: ${req.params.id}` });
 });
 
 router.post("/statusUpdateForm", profileController.statusUpdate_post);

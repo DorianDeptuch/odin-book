@@ -159,6 +159,9 @@ exports.settings_post = (req, res, next) => {};
 exports.search_get = (req, res, next) => {
   //display all users in a list
   //as the client types letters, the list will update
+  User.find({}, { firstName: 1, lastName: 1 }).then((results) =>
+    res.json({ results })
+  );
 };
 
 exports.search_post = (req, res, next) => {};
