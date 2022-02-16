@@ -233,10 +233,17 @@ exports.postComment_post = [
 ];
 
 exports.settings_get = (req, res, next) => {
-  res.send("Coming soon");
+  // res.send("Coming soon");
+  User.find().then((results) => res.json({ results }));
 };
 
-exports.settings_post = (req, res, next) => {};
+exports.settingsProfilePicForm_put = (req, res, next) => {};
+
+exports.changePasswordForm_put = (req, res, next) => {};
+
+exports.deleteAccountForm_delete = (req, res, next) => {};
+
+// exports.settings_post = (req, res, next) => {};
 
 exports.search_get = (req, res, next) => {
   User.find({}, { firstName: 1, lastName: 1 }).then((results) =>
@@ -244,4 +251,4 @@ exports.search_get = (req, res, next) => {
   );
 };
 
-exports.search_post = (req, res, next) => {};
+// exports.search_post = (req, res, next) => {};
