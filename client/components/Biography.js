@@ -1,35 +1,85 @@
 import React from "react";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
+import ProfileIntro from "./ProfileIntro";
+import ProfileBio from "./ProfileBio";
+import ProfileInfo from "./ProfileInfo";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
-function Biography() {
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
   return (
-    <Paper elevation={3} sx={{ p: 2 }}>
-      <Stack>
-        <Typography variant="h6" component="h6">
-          Intro
-        </Typography>
-        <Typography variant="body1" component="p">
-          Works at <strong>Google</strong>
-        </Typography>
-        <Typography variant="body1" component="p">
-          Studied at <strong>CSUSM</strong>
-        </Typography>
-        <Typography variant="body1" component="p">
-          Lives in <strong>San Diego, CA</strong>
-        </Typography>
-        <Typography variant="body1" component="p">
-          From <strong>San Diego, CA</strong>
-        </Typography>
-        <Typography variant="body1" component="p">
-          <strong>In a relationship</strong>
-        </Typography>
-        <Button variant="contained" sx={{ my: 1 }}>
-          Edit Bio
-        </Button>
-      </Stack>
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`about-tabpanel-${index}`}
+      aria-labelledby={`about-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `about-tab-${index}`,
+    "aria-controls": `about-tabpanel-${index}`,
+  };
+}
+
+function Biography() {
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Paper elevation={3}>
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="Intro" {...a11yProps(0)} />
+            <Tab label="Bio" {...a11yProps(1)} />
+            <Tab label="Info" {...a11yProps(2)} />
+          </Tabs>
+        </Box>
+        <Stack>
+          <Button variant="contained" sx={{ mt: 2, alignSelf: "center" }}>
+            Edit Details
+          </Button>
+        </Stack>
+        <TabPanel value={value} index={0} className="test">
+          <ProfileIntro />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <ProfileBio />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <ProfileInfo />
+        </TabPanel>
+      </Box>
     </Paper>
   );
 }

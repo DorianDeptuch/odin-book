@@ -18,3 +18,9 @@ a {
 .css-19kzrtu {
   background-color: #f1f2f6;
 }
+
+#about-tabpanel-0 > .css-19kzrtu,
+#about-tabpanel-1 > .css-19kzrtu,
+#about-tabpanel-2 > .css-19kzrtu {
+  background-color: white;
+}

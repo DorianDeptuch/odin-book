@@ -243,6 +243,8 @@ exports.changePasswordForm_put = (req, res, next) => {};
 
 exports.deleteAccountForm_delete = (req, res, next) => {};
 
+exports.profileDetailsForm_put = (req, res, next) => {};
+
 // exports.settings_post = (req, res, next) => {};
 
 exports.search_get = (req, res, next) => {

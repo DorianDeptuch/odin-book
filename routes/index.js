@@ -27,6 +27,8 @@ router.put("/changePasswordForm", indexController.changePasswordForm_put);
 
 router.delete("/deleteAccountForm", indexController.deleteAccountForm_delete);
 
+router.put("/profileDetailsForm", indexController.profileDetailsForm_put);
+
 // router.get("/settings", indexController.settings_get);
 // router.post("/settings", indexController.settings_post);
 

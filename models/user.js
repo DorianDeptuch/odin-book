@@ -13,7 +13,7 @@ let UserSchema = new Schema({
   bio: { type: String },
   maritalStatus: { type: String },
   school: { type: String },
-  hobbies: [{ type: String }],
+  hobbies: { type: String },
   posts: [{ type: String }],
   photos: [{ type: String }],
   friendRequests: [{ type: String }],
