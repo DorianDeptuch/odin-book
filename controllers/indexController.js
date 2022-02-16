@@ -2,6 +2,8 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const User = require("../models/user");
+const Post = require("../models/post");
+const Comment = require("../models/comment");
 const { body, validationResult } = require("express-validator");
 
 exports.index_get = (req, res, next) => {
@@ -15,7 +17,9 @@ exports.index_get = (req, res, next) => {
 
 exports.index_post = (req, res, next) => {};
 
-exports.login_get = (req, res, next) => {};
+exports.login_get = (req, res, next) => {
+  res.send("Welcome to login");
+};
 exports.logout_get = (req, res, next) => {
   // req.logout();
   res.redirect("/login");
@@ -146,9 +150,87 @@ exports.signup_post = [
   },
 ];
 
-exports.statusUpdate_post = (req, res, next) => {};
+exports.statusUpdate_post = [
+  body("content", "There is no content to submit")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
 
-exports.postComment_post = (req, res, next) => {};
+  (req, res, next) => {
+    // if (req.isAuthenticated()) {
+    let { content, author } = req.body;
+    let errors = [];
+    let validationErrors = validationResult(req);
+
+    if (!content) {
+      errors.push({ msg: "Please enter a message to submit" });
+    }
+
+    if (errors.length > 0) {
+      res.json({ errors });
+    } else {
+      const newPost = new Post({
+        content: content,
+        author: author,
+      });
+      newPost
+        .save()
+        // .then((user) => res.redirect("/"));
+        .then((post) => {
+          Post.find().exec(function (err, list_posts) {
+            if (err) {
+              return next(err);
+            }
+            res.json({
+              // user: req.user,
+              error: err,
+              post_list: list_posts,
+            });
+          });
+        })
+        .catch((err) => console.log(err));
+    }
+    // } else {
+    //   //    /login-failure
+    //   res.redirect("/login");
+    // }
+  },
+];
+
+exports.postComment_post = [
+  body("content", "There is no content to submit")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+
+  (req, res, next) => {
+    // if (req.isAuthenticated()) {
+    let { content, author } = req.body;
+    let errors = [];
+    let validationErrors = validationResult(req);
+
+    if (!content) {
+      errors.push({ msg: "Please enter a comment to submit" });
+    }
+
+    if (errors.length > 0) {
+      res.json({ errors });
+    } else {
+      const newComment = new Comment({
+        content: content,
+        author: author,
+      });
+      newComment
+        .save()
+        //not sure if needed or if it needs to be like postComment
+        .then((user) => res.redirect("/"));
+    }
+    // } else {
+    //   //    /login-failure
+    //   res.redirect("/login");
+    // }
+  },
+];
 
 exports.settings_get = (req, res, next) => {
   res.send("Coming soon");
@@ -157,8 +239,6 @@ exports.settings_get = (req, res, next) => {
 exports.settings_post = (req, res, next) => {};
 
 exports.search_get = (req, res, next) => {
-  //display all users in a list
-  //as the client types letters, the list will update
   User.find({}, { firstName: 1, lastName: 1 }).then((results) =>
     res.json({ results })
   );

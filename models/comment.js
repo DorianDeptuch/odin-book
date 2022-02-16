@@ -5,11 +5,12 @@ const { format } = require("date-fns");
 let CommentSchema = new Schema({
   content: { type: String, required: true },
   likes: { type: Number },
-  author: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  author: { type: String, required: true },
+  // author: { type: Schema.Types.ObjectId, ref: "User", required: true },
   date: { type: Date, default: Date.now },
 });
 
-PostSchema.virtual("dateFormatted").get(function () {
+CommentSchema.virtual("dateFormatted").get(function () {
   // return this.date;
   return format(this.date, "PPpp");
 });
