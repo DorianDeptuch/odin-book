@@ -11,6 +11,7 @@ let UserSchema = new Schema({
   hometown: { type: String },
   currentTown: { type: String },
   bio: { type: String },
+  employment: { type: String },
   maritalStatus: { type: String },
   school: { type: String },
   hobbies: { type: String },

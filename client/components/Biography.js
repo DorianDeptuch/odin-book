@@ -10,6 +10,8 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import ProfileDetailsForm from "./ProfileDetailsForm";
+import Modal from "@mui/material/Modal";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -46,7 +48,10 @@ function a11yProps(index) {
 
 function Biography() {
   const [value, setValue] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
 
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -66,9 +71,21 @@ function Biography() {
           </Tabs>
         </Box>
         <Stack>
-          <Button variant="contained" sx={{ mt: 2, alignSelf: "center" }}>
+          <Button
+            onClick={handleOpen}
+            variant="contained"
+            sx={{ mt: 2, alignSelf: "center" }}
+          >
             Edit Details
           </Button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <ProfileDetailsForm handleClose={handleClose} />
+          </Modal>
         </Stack>
         <TabPanel value={value} index={0} className="test">
           <ProfileIntro />

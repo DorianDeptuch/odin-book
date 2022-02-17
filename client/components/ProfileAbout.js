@@ -8,9 +8,14 @@ import ProfileBio from "./ProfileBio";
 import ProfileInfo from "./ProfileInfo";
 import ProfileIntro from "./ProfileIntro";
 import ProfileDetailsForm from "./ProfileDetailsForm";
+import Modal from "@mui/material/Modal";
 import { bgc } from "../config/config";
 
 function ProfileAbout() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Box sx={{ backgroundColor: bgc, mx: -3 }}>
       <Stack direction="row">
@@ -31,14 +36,21 @@ function ProfileAbout() {
               <Typography variant="h6" component="h6">
                 Edit Your Profile Info
               </Typography>
-              <Button variant="contained" sx={{ my: 1 }}>
+              <Button onClick={handleOpen} variant="contained" sx={{ my: 1 }}>
                 Edit Details
               </Button>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <ProfileDetailsForm handleClose={handleClose} />
+              </Modal>
             </Stack>
           </Box>
         </Paper>
       </Stack>
-      <ProfileDetailsForm />
     </Box>
   );
 }
