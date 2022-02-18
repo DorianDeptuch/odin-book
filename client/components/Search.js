@@ -16,6 +16,7 @@ function Search() {
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
+        setFilterCount(1);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -65,7 +66,7 @@ function Search() {
                 ))
             ) : (
               <Typography variant="h6" component="h6" align="center">
-                No users with the name of '{searchTerm}' found
+                No users with the name of "{searchTerm}" found
               </Typography>
             )}
           </Box>
