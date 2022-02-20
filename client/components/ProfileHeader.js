@@ -20,6 +20,12 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 const styles = {
   width: avatar_SM,
   height: avatar_SM,
+  border: "solid 2px #fff",
+  transition: "transform 150ms",
+
+  "&:hover ~ &": {
+    transform: "translateX(15px)",
+  },
 };
 
 function TabPanel(props) {
@@ -83,13 +89,18 @@ function ProfileHeader() {
               <Typography variant="h6" component="h6">
                 323 Friends
               </Typography>
-              <Stack direction="row">
+              {/* <Stack direction="row"> */}
+
+              <Box
+                sx={{ display: "grid", gridTemplateColumns: "repeat(5, 20px)" }}
+              >
                 <Avatar sx={styles}>H</Avatar>
                 <Avatar sx={styles}>E</Avatar>
                 <Avatar sx={styles}>L</Avatar>
                 <Avatar sx={styles}>L</Avatar>
                 <Avatar sx={styles}>O</Avatar>
-              </Stack>
+              </Box>
+              {/* </Stack> */}
             </Stack>
             <Button
               variant="contained"
