@@ -19,15 +19,22 @@ router.post("/statusUpdateForm", indexController.statusUpdate_post);
 router.post("/postCommentForm", indexController.postComment_post);
 
 router.put(
+  // "/settings/settingsProfilePicForm",
   "/settingsProfilePicForm",
   indexController.settingsProfilePicForm_put
 );
 
-router.put("/changePasswordForm", indexController.changePasswordForm_put);
+router.put(
+  // "/settings/changePasswordForm",
+  "/changePasswordForm",
+  indexController.changePasswordForm_put
+);
 
-router.delete("/deleteAccountForm", indexController.deleteAccountForm_delete);
-
-router.put("/profileDetailsForm", indexController.profileDetailsForm_put);
+router.delete(
+  // "/settings/deleteAccountForm",
+  "/deleteAccountForm",
+  indexController.deleteAccountForm_delete
+);
 
 // router.get("/settings", indexController.settings_get);
 // router.post("/settings", indexController.settings_post);
