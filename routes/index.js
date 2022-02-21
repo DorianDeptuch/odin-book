@@ -22,31 +22,24 @@ router.get("/settings/:id", indexController.settings_get);
 
 router.post(
   "/settings/:id/settingsProfilePicForm",
-  // "/settingsProfilePicForm",
   indexController.settingsProfilePicForm_put
 );
 
 router.post(
   "/settings/:id/changePasswordForm",
-  // "/changePasswordForm",
   indexController.changePasswordForm_put
 );
 
 router.post(
   "/settings/:id/deleteAccountForm",
-  // "/deleteAccountForm",
   indexController.deleteAccountForm_delete
 );
 
-// router.post("/settings", indexController.settings_post);
-
 router.get("/search", indexController.search_get);
 
-// router.post("/search", indexController.search_post);
-
-router.get("/youdidit", (req, res, next) => {
-  res.send("You did it!");
-});
+// router.get("/youdidit", (req, res, next) => {
+//   res.send("You did it!");
+// });
 
 // router.get("/somethingsnotright", (req, res, next) => {
 //   res.send("Something's not right!");

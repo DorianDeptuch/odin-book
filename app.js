@@ -10,6 +10,7 @@ const mongoDB = process.env.MONGODB_URI;
 
 const indexRouter = require("./routes/index");
 const profileRouter = require("./routes/profile");
+const settingsRouter = require("./routes/settings");
 
 const app = express();
 mongoose
@@ -43,6 +44,7 @@ app.use(passport.session());
 
 app.use("/", indexRouter);
 app.use("/profile", profileRouter);
+app.use("/settings", settingsRouter);
 
 // moved the static folder from below cookie parser so passports
 // successRedirect would link to the correct index page, not index.html
