@@ -104,7 +104,7 @@ function login() {
       >
         <Fade in={open}>
           <Box sx={modalStyle}>
-            <SignupModal />
+            <SignupModal handleClose={handleClose} />
           </Box>
         </Fade>
       </Modal>

@@ -8,14 +8,30 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Radio from "@mui/material/Radio";
+import Input from "@mui/material/Input";
+import InputLabel from "@mui/material/InputLabel";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import CloseTwoToneIcon from "@mui/icons-material/CloseTwoTone";
 
-export default function SignupModal({}) {
+export default function SignupModal({ handleClose }) {
   return (
-    <Paper elevation={5}>
+    <Paper
+      elevation={5}
+      sx={{
+        overflowY: "scroll",
+        maxHeight: "96vh",
+        position: "relative",
+      }}
+    >
+      <Button
+        onClick={handleClose}
+        sx={{ position: "absolute", top: 0, right: 0, p: 2 }}
+      >
+        <CloseTwoToneIcon />
+      </Button>
       <Box sx={{ borderBottom: "1px solid gray" }} padding={2}>
         <Typography
           id="transition-modal-title"
@@ -37,7 +53,7 @@ export default function SignupModal({}) {
                 fullWidth
                 name="firstName"
                 id="firstName"
-                label="First Name"
+                label="First Name*"
                 variant="outlined"
               />
             </Grid>
@@ -46,16 +62,27 @@ export default function SignupModal({}) {
                 fullWidth
                 name="lastName"
                 id="lastName"
-                label="Last Name"
+                label="Last Name*"
                 variant="outlined"
               />
             </Grid>
-            <Grid item md={12}>
+            <Grid item md={12} md={6}>
               <TextField
                 fullWidth
                 name="newEmail"
                 id="newEmail"
-                label="Email"
+                label="Email*"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item md={12} md={6}>
+              <InputLabel>Date of Birth</InputLabel>
+              <Input
+                fullWidth
+                type="date"
+                name="dateOfBirth"
+                id="dateOfBirth"
+                label="Date of Birth"
                 variant="outlined"
               />
             </Grid>
@@ -65,7 +92,7 @@ export default function SignupModal({}) {
                 name="newPassword"
                 type="password"
                 id="newPassword"
-                label="Password"
+                label="Password*"
                 variant="outlined"
               />
             </Grid>
@@ -75,7 +102,7 @@ export default function SignupModal({}) {
                 name="confirmPassword"
                 type="password"
                 id="confirmPassword"
-                label="Confirm Password"
+                label="Confirm Password*"
                 variant="outlined"
               />
             </Grid>
@@ -83,25 +110,21 @@ export default function SignupModal({}) {
         </Box>
         <Box padding={2}>
           <FormControl component="fieldset">
-            <FormLabel component="legend">Gender</FormLabel>
-            <RadioGroup
-              aria-label="gender"
-              defaultValue="female"
-              name="radio-buttons-group"
-            >
+            <FormLabel component="legend">Sex</FormLabel>
+            <RadioGroup aria-label="sex" defaultValue="" name="sex">
               <Stack direction="row">
                 <FormControlLabel
-                  value="female"
+                  value="Female"
                   control={<Radio />}
                   label="Female"
                 />
                 <FormControlLabel
-                  value="male"
+                  value="Male"
                   control={<Radio />}
                   label="Male"
                 />
                 <FormControlLabel
-                  value="other"
+                  value="Other"
                   control={<Radio />}
                   label="Other"
                 />

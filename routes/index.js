@@ -18,23 +18,6 @@ router.post("/statusUpdateForm", indexController.statusUpdate_post);
 
 router.post("/postCommentForm", indexController.postComment_post);
 
-router.get("/settings/:id", indexController.settings_get);
-
-router.post(
-  "/settings/:id/settingsProfilePicForm",
-  indexController.settingsProfilePicForm_put
-);
-
-router.post(
-  "/settings/:id/changePasswordForm",
-  indexController.changePasswordForm_put
-);
-
-router.post(
-  "/settings/:id/deleteAccountForm",
-  indexController.deleteAccountForm_delete
-);
-
 router.get("/search", indexController.search_get);
 
 // router.get("/youdidit", (req, res, next) => {

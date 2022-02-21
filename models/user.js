@@ -7,6 +7,7 @@ let UserSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   sex: { type: String, enum: ["Male", "Female", "Other"] },
+  dateOfBirth: { type: Date },
   age: { type: Number },
   hometown: { type: String },
   currentTown: { type: String },
