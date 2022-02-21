@@ -56,16 +56,17 @@ exports.login_post = [
 
 exports.signup_post = [
   body("newEmail", "Please enter an email")
+    .isEmail()
     .trim()
     .isLength({ min: 6 })
     .escape(),
   body("firstName", "Please enter your first name")
     .trim()
-    .isLength({ min: 6 })
+    .isLength({ min: 1 })
     .escape(),
   body("lastName", "Please enter your last name")
     .trim()
-    .isLength({ min: 6 })
+    .isLength({ min: 1 })
     .escape(),
   body("newPassword", "Please enter a password")
     .trim()
@@ -237,13 +238,68 @@ exports.settings_get = (req, res, next) => {
   User.find().then((results) => res.json({ results }));
 };
 
-exports.settingsProfilePicForm_put = (req, res, next) => {};
+exports.settingsProfilePicForm_put = [
+  body("settingsProfilePicForm", "Please submit a valid URL")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  (req, res, next) => {
+    const { settingsProfilePicForm } = req.body;
+    let errors = [];
+    const validationErrors = validationResult(req);
+
+    if (!validationErrors.isEmpty()) {
+      errors.push({
+        msg: "There seems to be an error with one of the fields, please check again.",
+      });
+    } else {
+      let user = new User({
+        profilePicture: settingsProfilePicForm,
+        _id: req.params.id,
+      });
+      User.findByIdAndUpdate(req.params.id, user, {}, function (err, newuser) {
+        if (err) {
+          return next(err);
+        }
+        res.json({
+          user: req.user,
+          // success_msg: "You have updated your profile!",
+        });
+      });
+    }
+  },
+];
 
 exports.changePasswordForm_put = (req, res, next) => {};
 
-exports.deleteAccountForm_delete = (req, res, next) => {};
+exports.deleteAccountForm_delete = [
+  body("deleteAccountForm").trim().escape(),
 
-exports.profileDetailsForm_put = (req, res, next) => {};
+  (req, res, next) => {
+    const { deleteAccountForm } = req.body;
+    let errors = [];
+    const validationErrors = validationResult(req);
+
+    User.findById(req.params.id).then((user) => {
+      if (!validationErrors.isEmpty()) {
+        errors.push({
+          msg: "There seems to be an error with one of the fields, please check again.",
+        });
+      } else if (
+        deleteAccountForm.toLowerCase() === user.fullName.toLowerCase()
+      ) {
+        User.findByIdAndRemove(req.params.id, function deleteUser(err) {
+          if (err) {
+            return next(err);
+          }
+          res.redirect("/login");
+        });
+      } else {
+        res.send("Something went wrong");
+      }
+    });
+  },
+];
 
 // exports.settings_post = (req, res, next) => {};
 

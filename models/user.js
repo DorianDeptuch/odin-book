@@ -15,6 +15,7 @@ let UserSchema = new Schema({
   maritalStatus: { type: String },
   school: { type: String },
   hobbies: { type: String },
+  profilePicture: { type: String },
   posts: [{ type: String }],
   photos: [{ type: String }],
   friendRequests: [{ type: String }],
