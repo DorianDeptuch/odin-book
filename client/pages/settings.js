@@ -99,6 +99,7 @@ function settings() {
                   <TextField
                     sx={{ mt: 1, mb: 2 }}
                     name="changePasswordForm_Old"
+                    type="password"
                     variant="outlined"
                     placeholder="Enter your Current Password"
                   />
@@ -108,6 +109,7 @@ function settings() {
                   <TextField
                     sx={{ mt: 1, mb: 2 }}
                     name="changePasswordForm_New"
+                    type="password"
                     variant="outlined"
                     placeholder="Enter a New Password"
                   />

@@ -63,6 +63,7 @@ export default function SignupModal({}) {
               <TextField
                 fullWidth
                 name="newPassword"
+                type="password"
                 id="newPassword"
                 label="Password"
                 variant="outlined"
@@ -72,6 +73,7 @@ export default function SignupModal({}) {
               <TextField
                 fullWidth
                 name="confirmPassword"
+                type="password"
                 id="confirmPassword"
                 label="Confirm Password"
                 variant="outlined"

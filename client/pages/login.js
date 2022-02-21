@@ -71,6 +71,7 @@ function login() {
                 <TextField
                   label="Password"
                   name="password"
+                  type="password"
                   variant="outlined"
                 />
                 <Button type="submit" variant="contained">
