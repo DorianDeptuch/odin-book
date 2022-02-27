@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { avatar_MD } from "../config/config";
 
-function SearchResult({ name }) {
+function SearchResult({ firstName, lastName }) {
   return (
     <Paper sx={{ m: 2, p: 2 }} elevation={3}>
       <Stack direction="row">
@@ -18,7 +18,7 @@ function SearchResult({ name }) {
           }}
         ></Avatar>
         <Typography variant="h6" component="h6" sx={{ alignSelf: "center" }}>
-          {name}
+          {firstName} {lastName}
         </Typography>
       </Stack>
     </Paper>

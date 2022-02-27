@@ -6,19 +6,21 @@ import SearchResult from "./SearchResult";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
-function Search() {
+function Search({ data }) {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCount, setFilterCount] = useState(0);
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data);
-        setFilterCount(1);
-      })
-      .catch((err) => console.log(err));
+    // fetch("https://jsonplaceholder.typicode.com/users")
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    console.log(data.results);
+    setUsers(data.results);
+    setFilterCount(10);
+
+    // })
+    // .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
@@ -26,7 +28,10 @@ function Search() {
       users.filter((val) => {
         if (searchTerm == "") {
           return val;
-        } else if (val.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+        } else if (
+          val.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          val.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+        ) {
           return val;
         }
       }).length
@@ -56,13 +61,22 @@ function Search() {
                   if (searchTerm == "") {
                     return val;
                   } else if (
-                    val.name.toLowerCase().includes(searchTerm.toLowerCase())
+                    val.firstName
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase()) ||
+                    val.lastName
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase())
                   ) {
                     return val;
                   }
                 })
                 .map((item) => (
-                  <SearchResult key={item.name} name={item.name} />
+                  <SearchResult
+                    key={item._id}
+                    firstName={item.firstName}
+                    lastName={item.lastName}
+                  />
                 ))
             ) : (
               <Typography variant="h6" component="h6" align="center">
