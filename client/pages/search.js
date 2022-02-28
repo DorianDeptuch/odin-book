@@ -1,6 +1,7 @@
 import React from "react";
 import Search from "../components/Search";
 import Container from "@mui/material/Container";
+import { server } from "../../config/config";
 
 function search({ data }) {
   return (
@@ -13,9 +14,8 @@ function search({ data }) {
 export default search;
 
 export async function getServerSideProps(context) {
-  const res = await fetch("http://localhost:3001/search");
+  const res = await fetch(`${server}/search`);
   const data = await res.json();
-  console.log(data);
   return {
     props: { data: data },
   };
