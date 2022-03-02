@@ -21,7 +21,7 @@ exports.login_get = (req, res, next) => {
   res.send("Welcome to login");
 };
 exports.logout_get = (req, res, next) => {
-  // req.logout();
+  req.logout();
   res.redirect("/login");
 };
 
