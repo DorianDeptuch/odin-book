@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -21,7 +21,7 @@ const styles = {
   cursor: "pointer",
 };
 
-export default function Navbar() {
+export default function Navbar({ req }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -51,6 +51,9 @@ export default function Navbar() {
   const idRequest = openRequest ? "simple-popover" : undefined;
   const idNotification = openNotification ? "simple-popover" : undefined;
 
+  useEffect(() => {
+    console.log(req?.user);
+  }, []);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -66,34 +69,38 @@ export default function Navbar() {
               </Typography>
             </Link>
             <Box>
-              <Tooltip title="Friend Requests">
-                <Badge sx={styles} color="error" badgeContent={3}>
-                  <PersonAddIcon
-                    aria-describedby={idRequest}
-                    onClick={handleClickRequest}
-                  />
-                  <FriendRequestPopover
-                    idRequest={idRequest}
-                    openRequest={openRequest}
-                    anchorElRequest={anchorElRequest}
-                    handleCloseRequest={handleCloseRequest}
-                  />
-                </Badge>
-              </Tooltip>
-              <Tooltip title="Notifications">
-                <Badge sx={styles} color="error" badgeContent={4}>
-                  <NotificationsNoneIcon
-                    aria-describedby={idNotification}
-                    onClick={handleClickNotification}
-                  />
-                  <NotificationPopover
-                    idNotification={idNotification}
-                    openNotification={openNotification}
-                    anchorElNotification={anchorElNotification}
-                    handleCloseNotification={handleCloseNotification}
-                  />
-                </Badge>
-              </Tooltip>
+              {req?.user && (
+                <Tooltip title="Friend Requests">
+                  <Badge sx={styles} color="error" badgeContent={3}>
+                    <PersonAddIcon
+                      aria-describedby={idRequest}
+                      onClick={handleClickRequest}
+                    />
+                    <FriendRequestPopover
+                      idRequest={idRequest}
+                      openRequest={openRequest}
+                      anchorElRequest={anchorElRequest}
+                      handleCloseRequest={handleCloseRequest}
+                    />
+                  </Badge>
+                </Tooltip>
+              )}
+              {req?.user && (
+                <Tooltip title="Notifications">
+                  <Badge sx={styles} color="error" badgeContent={4}>
+                    <NotificationsNoneIcon
+                      aria-describedby={idNotification}
+                      onClick={handleClickNotification}
+                    />
+                    <NotificationPopover
+                      idNotification={idNotification}
+                      openNotification={openNotification}
+                      anchorElNotification={anchorElNotification}
+                      handleCloseNotification={handleCloseNotification}
+                    />
+                  </Badge>
+                </Tooltip>
+              )}
               <AccountCircleIcon
                 sx={{ ...styles, height: avatar_SM, width: avatar_SM }}
                 id="basic-button"
@@ -127,4 +134,11 @@ export default function Navbar() {
       </AppBar>
     </Box>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  return {
+    props: { req: req },
+  };
 }

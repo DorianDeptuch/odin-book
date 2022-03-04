@@ -1,4 +1,4 @@
-const LocalStrategy = require("passport-local");
+const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
@@ -25,7 +25,10 @@ module.exports = (passport) => {
               } else done(null, false, { message: "Password is incorrect" });
             });
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            console.log(err);
+            done(err);
+          });
       }
     )
   );
