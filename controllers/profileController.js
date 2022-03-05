@@ -10,10 +10,7 @@ exports.statusUpdate_post = (req, res, next) => {};
 exports.postComment_post = (req, res, next) => {};
 
 exports.profile_get = (req, res, next) => {
-  User.findById(req.params.id)
-    .populate("firstName")
-    .populate("lastName")
-    .populate("email");
+  User.findById(req.params.id).then((results) => res.json({ results }));
 };
 
 exports.profileDetailsForm_put = [

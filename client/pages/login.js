@@ -74,6 +74,8 @@ function login() {
       body: JSON.stringify(data),
     })
       .then((res) => {
+        console.log("<<<<<<RES>>>>>>>");
+        console.log(res);
         return res.json();
         // router.push("/");
       })

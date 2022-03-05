@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
@@ -39,11 +39,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -63,7 +59,10 @@ function a11yProps(index) {
 
 //end of tab component stuff
 
-function ProfileHeader() {
+function ProfileHeader({ data }) {
+  useEffect(() => {
+    console.log(data);
+  }, []);
   // this is for the tab component
   const [value, setValue] = React.useState(0);
   //Also for the tab component

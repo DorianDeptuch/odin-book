@@ -74,6 +74,7 @@ function Search({ data }) {
                 .map((item) => (
                   <SearchResult
                     key={item._id}
+                    id={item._id}
                     firstName={item.firstName}
                     lastName={item.lastName}
                   />
