@@ -5,9 +5,7 @@ const indexController = require("../controllers/indexController");
 const profileController = require("../controllers/profileController");
 
 /* GET users listing. */
-router.get("/:id", function (req, res, next) {
-  res.json({ msg: `this is profile id: ${req.params.id}` });
-});
+router.get("/:id", profileController.profile_get);
 
 router.post("/:id/statusUpdateForm", indexController.statusUpdate_post);
 
