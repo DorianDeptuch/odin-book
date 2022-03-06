@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
@@ -16,6 +16,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Button from "@mui/material/Button";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import { ProfileContext } from "../pages/profile/[id]";
 
 const styles = {
   width: avatar_SM,
@@ -59,10 +60,16 @@ function a11yProps(index) {
 
 //end of tab component stuff
 
-function ProfileHeader({ data }) {
+function ProfileHeader() {
+  const user = useContext(ProfileContext);
+  const [profile, setProfile] = useState({});
+
   useEffect(() => {
-    console.log(data);
+    console.log(user);
+    const { results } = user;
+    setProfile(results);
   }, []);
+
   // this is for the tab component
   const [value, setValue] = React.useState(0);
   //Also for the tab component
@@ -83,15 +90,17 @@ function ProfileHeader({ data }) {
                 component="h4"
                 sx={{ fontWeight: "bolder" }}
               >
-                John Smith
+                {profile.firstName} {profile.lastName}
               </Typography>
               <Typography variant="h6" component="h6">
                 323 Friends
               </Typography>
               {/* <Stack direction="row"> */}
-
               <Box
-                sx={{ display: "grid", gridTemplateColumns: "repeat(5, 20px)" }}
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(5, 20px)",
+                }}
               >
                 <Avatar sx={styles}>H</Avatar>
                 <Avatar sx={styles}>E</Avatar>
