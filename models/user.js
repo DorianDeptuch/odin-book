@@ -20,6 +20,7 @@ let UserSchema = new Schema({
   posts: [{ type: String }],
   photos: [{ type: String }],
   friendRequests: [{ type: String }],
+  friends: [{ type: String }],
   notifications: [{ type: String }],
 });
 

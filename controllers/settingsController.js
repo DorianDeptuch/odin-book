@@ -10,8 +10,8 @@ exports.settings_get = (req, res, next) => {
 exports.settingsProfilePicForm_put = [
   body("settingsProfilePicForm", "Please submit a valid URL")
     .trim()
-    .isLength({ min: 1 })
-    .escape(),
+    .isLength({ min: 1 }),
+  // .escape(),
   (req, res, next) => {
     const { settingsProfilePicForm } = req.body;
     let errors = [];

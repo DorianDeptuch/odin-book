@@ -81,7 +81,10 @@ function ProfileHeader() {
       <Paper>
         <Stack>
           <Stack direction="row">
-            <Avatar sx={{ height: avatar_XL, width: avatar_XL, m: 2 }}>
+            <Avatar
+              src={profile.profilePicture || ""}
+              sx={{ height: avatar_XL, width: avatar_XL, m: 2 }}
+            >
               JS
             </Avatar>
             <Stack sx={{ alignSelf: "center" }}>

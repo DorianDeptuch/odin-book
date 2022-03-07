@@ -51,7 +51,7 @@ exports.profileDetailsForm_put = [
         employment,
         school,
         hobbies,
-        dateOfBirth,
+        dateOfBirth: dateOfBirth.slice(0, 10),
         maritalStatus,
         sex,
         _id: req.params.id,
