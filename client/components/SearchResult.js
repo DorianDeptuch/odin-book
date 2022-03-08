@@ -13,12 +13,13 @@ const styles = {
   "&:hover": { backgroundColor: "#eee", cursor: "pointer" },
 };
 
-function SearchResult({ firstName, lastName, id }) {
+function SearchResult({ firstName, lastName, profilePicture, id }) {
   return (
     <Link href={`/profile/${id}`}>
       <Paper sx={styles} elevation={3}>
         <Stack direction="row">
           <Avatar
+            src={profilePicture || ""}
             sx={{
               height: avatar_MD,
               width: avatar_MD,

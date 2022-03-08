@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { ProfileContext } from "../pages/profile/[id]";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
@@ -16,7 +17,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Button from "@mui/material/Button";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { ProfileContext } from "../pages/profile/[id]";
+import TouchAppIcon from "@mui/icons-material/TouchApp";
 
 const styles = {
   width: avatar_SM,
@@ -96,6 +97,7 @@ function ProfileHeader() {
                 {profile.firstName} {profile.lastName}
               </Typography>
               <Typography variant="h6" component="h6">
+                {/* {profile?.friends.length} Friends */}
                 323 Friends
               </Typography>
               {/* <Stack direction="row"> */}
@@ -113,13 +115,22 @@ function ProfileHeader() {
               </Box>
               {/* </Stack> */}
             </Stack>
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{ m: 5, height: 50, alignSelf: "center" }}
-            >
-              <PersonAddIcon sx={{ mr: 1 }} /> Add Friend
-            </Button>
+            <Stack sx={{ my: 5, mx: 2 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ m: 1, height: 50, width: "100%", alignSelf: "center" }}
+              >
+                <PersonAddIcon sx={{ mr: 1 }} /> Add Friend
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ m: 1, height: 50, width: "100%", alignSelf: "center" }}
+              >
+                <TouchAppIcon sx={{ mr: 1 }} /> Poke
+              </Button>
+            </Stack>
           </Stack>
           <Box sx={{ width: "100%" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

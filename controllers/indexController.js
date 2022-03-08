@@ -249,7 +249,7 @@ exports.postComment_post = [
 ];
 
 exports.search_get = (req, res, next) => {
-  User.find({}, { firstName: 1, lastName: 1 }).then((results) =>
-    res.json({ results })
+  User.find({}, { firstName: 1, lastName: 1, profilePicture: 1 }).then(
+    (results) => res.json({ results })
   );
 };

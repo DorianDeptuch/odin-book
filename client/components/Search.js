@@ -10,6 +10,7 @@ function Search({ data }) {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCount, setFilterCount] = useState(0);
+  const [timer, setTimer] = useState(false);
 
   useEffect(() => {
     // fetch("https://jsonplaceholder.typicode.com/users")
@@ -17,11 +18,17 @@ function Search({ data }) {
     //   .then((data) => {
     console.log(data.results);
     setUsers(data.results);
-    setFilterCount(10);
+    setTimeout(() => {
+      setTimer(true);
+    }, 500);
 
     // })
     // .catch((err) => console.log(err));
   }, []);
+
+  useEffect(() => {
+    setFilterCount(1);
+  }, [timer]);
 
   useEffect(() => {
     setFilterCount(
@@ -75,6 +82,7 @@ function Search({ data }) {
                   <SearchResult
                     key={item._id}
                     id={item._id}
+                    profilePicture={item.profilePicture}
                     firstName={item.firstName}
                     lastName={item.lastName}
                   />

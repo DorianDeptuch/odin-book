@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ProfileContext } from "../pages/profile/[id]";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
@@ -15,6 +16,7 @@ import Modal from "@mui/material/Modal";
 import ProfilePhotosModal from "./ProfilePhotosModal";
 import Backdrop from "@mui/material/Backdrop";
 import Fade from "@mui/material/Fade";
+import Image from "next/image";
 
 const itemData = [
   {
@@ -101,7 +103,15 @@ const style = {
 };
 
 function ProfilePhotos() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const user = useContext(ProfileContext);
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    const { results } = user;
+    setProfile(results);
+  }, []);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -114,7 +124,9 @@ function ProfilePhotos() {
           </Typography>
           <ImageList sx={{ width: "100%" }} cols={3}>
             <ImageListItem key="Subheader" cols={3}>
-              <ListSubheader component="div">~USERS~ Photos</ListSubheader>
+              <ListSubheader component="div">
+                {profile.firstName}'s Photos
+              </ListSubheader>
             </ImageListItem>
             {itemData.map((item) => (
               <ImageListItem onClick={handleOpen} key={item.img}>

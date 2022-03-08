@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ProfileContext } from "../pages/profile/[id]";
+import { IndexContext } from "../pages/index";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
@@ -12,13 +14,24 @@ import CloseIcon from "@mui/icons-material/Close";
 import { avatar_MD } from "../config/config";
 
 function StatusUpdate() {
+  const user = useContext(ProfileContext);
+  const index = useContext(IndexContext);
   const [showChooseFile, setShowChooseFile] = useState(false);
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    const { results } = user || index;
+    setProfile(results);
+  }, []);
+
   const handleChooseFile = () => setShowChooseFile(!showChooseFile);
+
   return (
     <Paper elevation={3} sx={{ p: 2 }}>
       <Stack>
         <Stack direction="row">
           <Avatar
+            src={profile?.profilePicture || ""}
             sx={{
               height: avatar_MD,
               width: avatar_MD,
@@ -38,7 +51,7 @@ function StatusUpdate() {
                 id="statusUpdate"
                 variant="outlined"
                 name="statusUpdateForm"
-                placeholder="What's on your mind, <USER>?"
+                placeholder="What's on your mind?"
               ></TextField>
               <Button
                 type="submit"
