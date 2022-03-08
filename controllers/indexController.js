@@ -9,6 +9,7 @@ const { body, validationResult } = require("express-validator");
 exports.index_get = (req, res, next) => {
   console.log("<<<<<<<<<INDEX_GET>>>>>>>>>>");
   console.log("req.user: " + req.user);
+  console.log("res.locals.currentUser: " + res.locals.currentUser);
   if (req.isAuthenticated()) {
     console.log("authenticated: " + req.isAuthenticated());
     res.send("You are authenticated, welcome to the homepage");
@@ -23,6 +24,12 @@ exports.index_get = (req, res, next) => {
 exports.index_post = (req, res, next) => {};
 
 exports.login_get = (req, res, next) => {
+  //if (req.isAuthenticated()) {
+  //user is already logged in
+  // res.redirect("/")
+  // } else {
+  //continue
+  // }
   res.send("Welcome to login");
 };
 exports.logout_get = (req, res, next) => {

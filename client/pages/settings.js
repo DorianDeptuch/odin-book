@@ -24,6 +24,8 @@ function settings() {
     setExpanded(isExpanded ? panel : false);
   };
 
+  const handleSubmit = () => {};
+
   return (
     <Container>
       <Paper elevation={3} sx={{ m: 2, p: 2 }}>
@@ -48,12 +50,17 @@ function settings() {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <form action="/settingsProfilePicForm" method="PUT">
+              <form
+                action="/settingsProfilePicForm"
+                method="POST"
+                onSubmit={handleSubmit}
+              >
                 <Stack>
                   <TextField
+                    label="Profile Picture"
                     variant="outlined"
                     name="settingsProfilePicForm"
-                    placeholder="Profile Picture URL"
+                    placeholder="Enter your Profile Picture URL here"
                   />
                   <Stack direction="row">
                     {showChooseFile && <Input type="file" />}
@@ -91,27 +98,33 @@ function settings() {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <form action="/changePasswordForm" method="POST">
+              <form
+                action="/changePasswordForm"
+                method="POST"
+                onSubmit={handleSubmit}
+              >
                 <Stack>
                   <Typography variant="body" component="p">
                     Current Password
                   </Typography>
                   <TextField
                     sx={{ mt: 1, mb: 2 }}
+                    label="Current Password"
                     name="changePasswordForm_Old"
                     type="password"
                     variant="outlined"
-                    placeholder="Enter your Current Password"
+                    placeholder="Enter your Current Password here"
                   />
                   <Typography variant="body" component="p">
                     New Password
                   </Typography>
                   <TextField
                     sx={{ mt: 1, mb: 2 }}
+                    label="New Password"
                     name="changePasswordForm_New"
                     type="password"
                     variant="outlined"
-                    placeholder="Enter a New Password"
+                    placeholder="Enter a New Password here"
                   />
                   <Button variant="contained">Submit</Button>
                 </Stack>
@@ -166,17 +179,22 @@ function settings() {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <form action="/deleteAccountForm" method="POST">
+              <form
+                action="/deleteAccountForm"
+                method="POST"
+                onSubmit={handleSubmit}
+              >
                 <Stack>
                   <Typography color="error" variant="body" component="p">
                     Enter your full name to Delete your Account
                   </Typography>
                   <TextField
                     name="deleteAccountForm"
+                    label="Your Full Name"
                     color="error"
                     sx={{ mt: 1, mb: 2 }}
                     variant="outlined"
-                    placeholder="Your full name here"
+                    placeholder="Enter your full name here to delete your account"
                   />
                   <Button variant="contained" color="error">
                     DELETE ACCOUNT PERMANENTLY
