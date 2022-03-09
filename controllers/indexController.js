@@ -7,14 +7,16 @@ const Comment = require("../models/comment");
 const { body, validationResult } = require("express-validator");
 
 exports.index_get = (req, res, next) => {
-  console.log("<<<<<<<<<INDEX_GET>>>>>>>>>>");
-  console.log("req.user: " + req.user);
-  console.log("res.locals.currentUser: " + res.locals.currentUser);
+  // console.log("<<<<<<<<<INDEX_GET>>>>>>>>>>");
+  // console.log("req.user: " + req.user);
   if (req.isAuthenticated()) {
-    console.log("authenticated: " + req.isAuthenticated());
-    res.send("You are authenticated, welcome to the homepage");
+    console.log("AUTHENTICATED:");
+    console.log(req.isAuthenticated());
+    // res.send("You are authenticated, welcome to the homepage");
+    res.json({ user: req.user });
   } else {
     //    /login-failure
+    console.log("AUTHENTICATED:");
     console.log(req.isAuthenticated());
 
     res.redirect("/login");

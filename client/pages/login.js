@@ -66,18 +66,18 @@ function login() {
 
   const submitForm = (data) => {
     console.log(data);
-    console.log("you're logged in!");
 
     fetch(`${server}/loginForm`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
+      credentials: "include",
     })
       .then((res) => {
-        console.log("<<<<<<RES>>>>>>>");
-        console.log(res);
-        return res.json();
-        // router.push("/");
+        // console.log("<<<<<<RES>>>>>>>");
+        // console.log(res);
+        // return res.json();
+        router.push("/");
       })
       .then((data) => console.log(data))
       .catch((err) => console.log(err));
