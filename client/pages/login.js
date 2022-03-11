@@ -75,6 +75,7 @@ function login() {
     })
       .then((res) => {
         // console.log("<<<<<<RES>>>>>>>");
+        console.log(res.data);
         // console.log(res);
         // return res.json();
         router.push("/");

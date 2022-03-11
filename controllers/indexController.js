@@ -7,8 +7,8 @@ const Comment = require("../models/comment");
 const { body, validationResult } = require("express-validator");
 
 exports.index_get = (req, res, next) => {
-  // console.log("<<<<<<<<<INDEX_GET>>>>>>>>>>");
-  // console.log("req.user: " + req.user);
+  console.log("<<<<<<<<<INDEX_GET>>>>>>>>>>");
+  console.log("req.user: " + req.user);
   if (req.isAuthenticated()) {
     console.log("AUTHENTICATED:");
     console.log(req.isAuthenticated());

@@ -3,13 +3,22 @@ var router = express.Router();
 // const profileController = require("../controllers/profileController");
 const indexController = require("../controllers/indexController");
 const profileController = require("../controllers/profileController");
+const { ensureAuthenticated } = require("../config/auth");
 
 /* GET users listing. */
-router.get("/:id", profileController.profile_get);
+router.get("/:id", ensureAuthenticated, profileController.profile_get);
 
-router.post("/:id/statusUpdateForm", indexController.statusUpdate_post);
+router.post(
+  "/:id/statusUpdateForm",
+  ensureAuthenticated,
+  indexController.statusUpdate_post
+);
 
-router.post("/:id/postCommentForm", indexController.postComment_post);
+router.post(
+  "/:id/postCommentForm",
+  ensureAuthenticated,
+  indexController.postComment_post
+);
 
 router.post(
   "/:id/profileDetailsForm",
