@@ -74,11 +74,12 @@ function login() {
       credentials: "include",
     })
       .then((res) => {
-        // console.log("<<<<<<RES>>>>>>>");
-        console.log(res.data);
-        // console.log(res);
-        // return res.json();
-        router.push("/");
+        if (res.ok) {
+          console.log(res);
+          router.push("/");
+        } else {
+          alert("bad credentials");
+        }
       })
       .then((data) => console.log(data))
       .catch((err) => console.log(err));

@@ -60,11 +60,27 @@ exports.login_post = [
       errors.push({ msg: "Validation failed" });
     }
 
-    passport.authenticate("local", {
-      successRedirect: "/",
-      failureRedirect: "/login",
-      // failureFlash: true,
-      errors,
+    // passport.authenticate("local", {
+    //   successRedirect: "/",
+    //   failureRedirect: "/login",
+    //   // failureFlash: true,
+    //   errors,
+    // })(req, res, next);
+    passport.authenticate("local", (err, user, info) => {
+      if (err) {
+        return next(err);
+      } //error exception
+
+      // user will be set to false, if not authenticated
+      if (!user) {
+        res.status(401).json(info); //info contains the error message
+      } else {
+        // if user authenticated maintain the session
+        req.logIn(user, function () {
+          // do whatever here on successful login
+          res.status(200).json({ user });
+        });
+      }
     })(req, res, next);
   },
 ];
