@@ -73,6 +73,9 @@ function login() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
       credentials: "include",
+      // headers: {
+      //   Origin: "http://localhost:3000",
+      // },
     })
       .then((res) => {
         if (res.ok) {
