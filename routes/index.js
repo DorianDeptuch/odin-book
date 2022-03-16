@@ -3,13 +3,21 @@ var router = express.Router();
 const indexController = require("../controllers/indexController");
 const { ensureAuthenticated } = require("../config/auth");
 
-router.get("/", ensureAuthenticated, indexController.index_get);
+router.get(
+  "/",
+  //  ensureAuthenticated,
+  indexController.index_get
+);
 
 router.get("/login", (req, res, next) => {
   res.json({ msg: "This is the login page GET" });
 });
 
-router.get("/logout", ensureAuthenticated, indexController.logout_get);
+router.get(
+  "/logout",
+  //  ensureAuthenticated,
+  indexController.logout_get
+);
 
 router.post("/loginForm", indexController.login_post);
 
@@ -17,7 +25,7 @@ router.post("/signupForm", indexController.signup_post);
 
 router.post(
   "/statusUpdateForm",
-  ensureAuthenticated,
+  // ensureAuthenticated,
   indexController.statusUpdate_post
 );
 

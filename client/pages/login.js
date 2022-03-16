@@ -15,6 +15,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SignupModal from "../components/SignupModal";
 import Modal from "@mui/material/Modal";
+import { toast } from "react-toastify";
 import Grid from "@mui/material/Grid";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -78,7 +79,15 @@ function login() {
           console.log(res);
           router.push("/");
         } else {
-          alert("bad credentials");
+          toast.error("Invalid Credentials.", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }
       })
       .then((data) => console.log(data))

@@ -80,6 +80,7 @@ exports.login_post = [
         // if user authenticated maintain the session
         req.logIn(user, function () {
           // do whatever here on successful login
+          console.log(req.user);
           res.status(200).json({ reqUser: req.user, user: user });
         });
       }

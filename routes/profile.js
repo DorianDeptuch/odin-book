@@ -6,22 +6,27 @@ const profileController = require("../controllers/profileController");
 const { ensureAuthenticated } = require("../config/auth");
 
 /* GET users listing. */
-router.get("/:id", ensureAuthenticated, profileController.profile_get);
+router.get(
+  "/:id",
+  // ensureAuthenticated,
+  profileController.profile_get
+);
 
 router.post(
   "/:id/statusUpdateForm",
-  ensureAuthenticated,
+  // ensureAuthenticated,
   indexController.statusUpdate_post
 );
 
 router.post(
   "/:id/postCommentForm",
-  ensureAuthenticated,
+  // ensureAuthenticated,
   indexController.postComment_post
 );
 
 router.post(
   "/:id/profileDetailsForm",
+  // ensureAuthenticated,
   profileController.profileDetailsForm_put
 );
 
