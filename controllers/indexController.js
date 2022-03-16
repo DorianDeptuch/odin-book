@@ -9,18 +9,20 @@ const { body, validationResult } = require("express-validator");
 exports.index_get = (req, res, next) => {
   console.log("<<<<<<<<<INDEX_GET>>>>>>>>>>");
   console.log("req.user: " + req.user);
-  if (req.isAuthenticated()) {
-    console.log("AUTHENTICATED:");
-    console.log(req.isAuthenticated());
-    // res.send("You are authenticated, welcome to the homepage");
-    res.json({ user: req.user });
-  } else {
-    //    /login-failure
-    console.log("AUTHENTICATED:");
-    console.log(req.isAuthenticated());
+  res.json({ user: req.user });
 
-    res.redirect("/login");
-  }
+  // if (req.isAuthenticated()) {
+  //   console.log("AUTHENTICATED:");
+  //   console.log(req.isAuthenticated());
+  //   // res.send("You are authenticated, welcome to the homepage");
+  //   res.json({ user: req.user });
+  // } else {
+  //   //    /login-failure
+  //   console.log("AUTHENTICATED:");
+  //   console.log(req.isAuthenticated());
+
+  //   res.redirect("/login");
+  // }
 };
 
 exports.index_post = (req, res, next) => {};
@@ -78,7 +80,7 @@ exports.login_post = [
         // if user authenticated maintain the session
         req.logIn(user, function () {
           // do whatever here on successful login
-          res.status(200).json({ user });
+          res.status(200).json({ reqUser: req.user, user: user });
         });
       }
     })(req, res, next);

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { IndexContext } from "../pages/index";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -18,6 +19,14 @@ const iconStyle = {
 };
 
 function UserSidebar() {
+  const user = useContext(IndexContext);
+  const [index, setIndex] = useState({});
+
+  useEffect(() => {
+    console.log(user);
+    const { results } = user;
+    setIndex(results);
+  }, []);
   return (
     <Paper elevation={3} sx={{ m: 2, p: 2 }}>
       <Box>
