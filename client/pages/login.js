@@ -53,9 +53,25 @@ const schema = Yup.object().shape({
 
 function login() {
   const [open, setOpen] = React.useState(false);
+  const [displaySignupSuccess, setDisplaySignupSuccess] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (displaySignupSuccess) {
+      toast.success("You have successfully signed up! Login to continue.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setDisplaySignupSuccess(false);
+    }
+  }, [open]);
 
   const {
     register,
@@ -172,7 +188,10 @@ function login() {
       >
         <Fade in={open}>
           <Box sx={modalStyle}>
-            <SignupModal handleClose={handleClose} />
+            <SignupModal
+              handleClose={handleClose}
+              setDisplaySignupSuccess={setDisplaySignupSuccess}
+            />
           </Box>
         </Fade>
       </Modal>

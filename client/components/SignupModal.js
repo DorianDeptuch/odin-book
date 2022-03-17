@@ -30,7 +30,7 @@ const schema = Yup.object().shape({
   confirmPassword: Yup.string().oneOf([Yup.ref("newPassword"), null]),
 });
 
-export default function SignupModal({ handleClose }) {
+export default function SignupModal({ handleClose, setDisplaySignupSuccess }) {
   const {
     register,
     handleSubmit,
@@ -48,6 +48,7 @@ export default function SignupModal({ handleClose }) {
       body: JSON.stringify(data),
     })
       .then((res) => {
+        setDisplaySignupSuccess(true);
         handleClose();
       })
       .catch((err) => console.log(err));

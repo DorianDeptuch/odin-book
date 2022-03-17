@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ProfileContext } from "../pages/profile/[id]";
 import { useRouter } from "next/router";
-import { server } from "../../config/config";
+import { server, client } from "../../config/config";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -14,6 +14,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Input from "@mui/material/Input";
 import CloseTwoToneIcon from "@mui/icons-material/CloseTwoTone";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -65,8 +66,16 @@ function ProfileDetailsForm({ handleClose }) {
     })
       .then((res) => {
         handleClose();
-        router.push(`${server}/profile/${profile._id}`);
-        // return res.json();
+        router.push(`${client}/profile/${profile._id}`);
+        toast.success("Profile details updated.", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       })
       .catch((err) => console.log(err));
   };
@@ -74,7 +83,7 @@ function ProfileDetailsForm({ handleClose }) {
   useEffect(() => {
     const { results } = user;
     const { dateOfBirth } = results;
-    setDOB(dateOfBirth.split("T")[0]);
+    setDOB(dateOfBirth?.split("T")[0]);
     setProfile(results);
     setTimeout(() => {
       setTimer(true);

@@ -10,8 +10,9 @@ module.exports = (passport) => {
         usernameField: "email",
       },
       (username, password, done) => {
-        User.findOne({ username: username })
+        User.findOne({ email: username })
           .then((user) => {
+            console.log(user);
             if (!user) {
               return done(null, false, {
                 message: "That User is not registered",
@@ -19,6 +20,8 @@ module.exports = (passport) => {
             }
             bcrypt.compare(password, user.password, (err, isMatch) => {
               if (err) throw err;
+              console.log("password: ", password);
+              console.log("user password: ", user.password);
 
               if (isMatch) {
                 return done(null, user);

@@ -9,9 +9,7 @@ router.get(
   indexController.index_get
 );
 
-router.get("/login", (req, res, next) => {
-  res.json({ msg: "This is the login page GET" });
-});
+router.get("/login", indexController.login_get);
 
 router.get(
   "/logout",

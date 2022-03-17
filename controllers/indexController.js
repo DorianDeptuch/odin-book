@@ -1,4 +1,5 @@
 const express = require("express");
+const app = express();
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const User = require("../models/user");
@@ -9,7 +10,8 @@ const { body, validationResult } = require("express-validator");
 exports.index_get = (req, res, next) => {
   console.log("<<<<<<<<<INDEX_GET>>>>>>>>>>");
   console.log("req.user: " + req.user);
-  res.json({ user: req.user });
+  console.log("req.session: " + JSON.stringify(req.session));
+  res.json({ user: app.locals.user });
 
   // if (req.isAuthenticated()) {
   //   console.log("AUTHENTICATED:");
@@ -38,7 +40,9 @@ exports.login_get = (req, res, next) => {
 };
 exports.logout_get = (req, res, next) => {
   req.logout();
-  res.redirect("/login");
+  app.locals.user = null;
+  // res.redirect("/login");
+  res.json({ msg: "Logging out..." });
 };
 
 exports.login_post = [
@@ -78,9 +82,10 @@ exports.login_post = [
         res.status(401).json(info); //info contains the error message
       } else {
         // if user authenticated maintain the session
-        req.logIn(user, function () {
+        req.login(user, function () {
           // do whatever here on successful login
           console.log(req.user);
+          app.locals.user = user;
           res.status(200).json({ reqUser: req.user, user: user });
         });
       }
