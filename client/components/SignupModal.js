@@ -30,7 +30,7 @@ const schema = Yup.object().shape({
   confirmPassword: Yup.string().oneOf([Yup.ref("newPassword"), null]),
 });
 
-export default function SignupModal({ handleClose, setDisplaySignupSuccess }) {
+export default function SignupModal({ handleClose }) {
   const {
     register,
     handleSubmit,
@@ -48,10 +48,29 @@ export default function SignupModal({ handleClose, setDisplaySignupSuccess }) {
       body: JSON.stringify(data),
     })
       .then((res) => {
-        setDisplaySignupSuccess(true);
         handleClose();
+        toast.success("You have successfully signed up! Login to continue.", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        toast.error(`${err.message}`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
   };
 
   return (
