@@ -1,10 +1,17 @@
+const express = require("express");
+const app = express();
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const { body, validationResult } = require("express-validator");
+const { user } = app.locals;
 
 exports.settings_get = (req, res, next) => {
   // res.send("Coming soon");
-  User.find().then((results) => res.json({ results }));
+  // console.log(app.locals.user);
+  console.log(req.app.locals);
+  // res.json({ user: req.app.locals });
+  res.json({ user: app.locals.user });
+  // User.findById(user.id).then((results) => res.json({ results }));
 };
 
 exports.settingsProfilePicForm_put = [

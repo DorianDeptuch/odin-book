@@ -13,17 +13,10 @@ function Search({ data }) {
   const [timer, setTimer] = useState(false);
 
   useEffect(() => {
-    // fetch("https://jsonplaceholder.typicode.com/users")
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    console.log(data.results);
     setUsers(data.results);
     setTimeout(() => {
       setTimer(true);
     }, 500);
-
-    // })
-    // .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {

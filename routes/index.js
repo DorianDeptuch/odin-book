@@ -29,11 +29,15 @@ router.post(
 
 router.post(
   "/postCommentForm",
-  ensureAuthenticated,
+  // ensureAuthenticated,
   indexController.postComment_post
 );
 
-router.get("/search", ensureAuthenticated, indexController.search_get);
+router.get(
+  "/search",
+  //  ensureAuthenticated,
+  indexController.search_get
+);
 
 // router.get("/youdidit", (req, res, next) => {
 //   res.send("You did it!");

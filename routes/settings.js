@@ -1,25 +1,26 @@
 var express = require("express");
 var router = express.Router();
 const settingsController = require("../controllers/settingsController");
+const indexController = require("../controllers/indexController");
 const { ensureAuthenticated } = require("../config/auth");
 
-router.get("/:id", settingsController.settings_get);
+router.get("/", indexController.settings_get);
 
 router.post(
-  "/:id/settingsProfilePicForm",
-  ensureAuthenticated,
+  "/settingsProfilePicForm",
+  // ensureAuthenticated,
   settingsController.settingsProfilePicForm_put
 );
 
 router.post(
-  "/:id/changePasswordForm",
-  ensureAuthenticated,
+  "/changePasswordForm",
+  // ensureAuthenticated,
   settingsController.changePasswordForm_put
 );
 
 router.post(
-  "/:id/deleteAccountForm",
-  ensureAuthenticated,
+  "/deleteAccountForm",
+  // ensureAuthenticated,
   settingsController.deleteAccountForm_delete
 );
 

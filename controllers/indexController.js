@@ -7,6 +7,15 @@ const Post = require("../models/post");
 const Comment = require("../models/comment");
 const { body, validationResult } = require("express-validator");
 
+exports.settings_get = (req, res, next) => {
+  // res.send("Coming soon");
+  console.log(app.locals.user);
+  // console.log(req.app.locals);
+  // res.json({ user: req.app.locals });
+  res.json({ user: app.locals.user });
+  // User.findById(user.id).then((results) => res.json({ results }));
+};
+
 exports.index_get = (req, res, next) => {
   console.log("<<<<<<<<<INDEX_GET>>>>>>>>>>");
   console.log("req.user: " + req.user);
@@ -84,8 +93,10 @@ exports.login_post = [
         // if user authenticated maintain the session
         req.login(user, function () {
           // do whatever here on successful login
-          console.log(req.user);
+          // console.log(req.user);
           app.locals.user = user;
+          // req.app.locals.user = user;
+          // console.log(app.locals.user);
           res.status(200).json({ reqUser: req.user, user: user });
         });
       }

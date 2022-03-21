@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { server, client } from "../../config/config";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
@@ -15,16 +16,63 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CloseIcon from "@mui/icons-material/Close";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 
-function settings() {
+function settings({ data }) {
   const [expanded, setExpanded] = useState(false);
   const [showChooseFile, setShowChooseFile] = useState(false);
+  const [profilePicture, setProfilePicture] = useState("");
 
   const handleChooseFile = () => setShowChooseFile(!showChooseFile);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const handleSubmit = () => {};
+  useEffect(() => {
+    console.log(data);
+    const { user } = data;
+    setProfilePicture(user?.profilePicture);
+  }, []);
+
+  const handleSubmit = (endpoint) => (e) => {
+    e.preventDefault();
+
+    const data = {
+      settingsProfilePicForm,
+      changePasswordForm_Old,
+      changePasswordForm_New,
+      deleteAccountForm,
+    };
+    console.log(data);
+
+    fetch(`${server}/settings/${endpoint}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        router.push(`${client}/settings/`);
+        toast.success("Settings updated.", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.err(`${err.message}`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
 
   return (
     <Container>
@@ -53,12 +101,13 @@ function settings() {
               <form
                 action="/settingsProfilePicForm"
                 method="POST"
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit("settingsProfilePicForm")}
               >
                 <Stack>
                   <TextField
                     label="Profile Picture"
                     variant="outlined"
+                    value={profilePicture}
                     name="settingsProfilePicForm"
                     placeholder="Enter your Profile Picture URL here"
                   />
@@ -101,7 +150,7 @@ function settings() {
               <form
                 action="/changePasswordForm"
                 method="POST"
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit("changePasswordForm")}
               >
                 <Stack>
                   <Typography variant="body" component="p">
@@ -131,7 +180,7 @@ function settings() {
               </form>
             </AccordionDetails>
           </Accordion>
-          <Accordion
+          {/* <Accordion
             expanded={expanded === "panel3"}
             onChange={handleChange("panel3")}
           >
@@ -161,7 +210,7 @@ function settings() {
                 </Stack>
               </Box>
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
           <Accordion
             expanded={expanded === "panel4"}
             onChange={handleChange("panel4")}
@@ -182,7 +231,7 @@ function settings() {
               <form
                 action="/deleteAccountForm"
                 method="POST"
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit("deleteAccountForm")}
               >
                 <Stack>
                   <Typography color="error" variant="body" component="p">
@@ -210,3 +259,11 @@ function settings() {
 }
 
 export default settings;
+
+export async function getServerSideProps(context) {
+  const res = await fetch(`${server}/settings`);
+  const data = await res.json();
+  return {
+    props: { data: data },
+  };
+}
