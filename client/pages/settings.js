@@ -15,11 +15,17 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CloseIcon from "@mui/icons-material/Close";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 function settings({ data }) {
   const [expanded, setExpanded] = useState(false);
   const [showChooseFile, setShowChooseFile] = useState(false);
   const [profilePicture, setProfilePicture] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [deleteAccount, setDeleteAccount] = useState("");
+  const router = useRouter();
 
   const handleChooseFile = () => setShowChooseFile(!showChooseFile);
   const handleChange = (panel) => (event, isExpanded) => {
@@ -36,14 +42,15 @@ function settings({ data }) {
     e.preventDefault();
 
     const data = {
-      settingsProfilePicForm,
-      changePasswordForm_Old,
-      changePasswordForm_New,
-      deleteAccountForm,
+      profilePicture,
+      changePasswordForm_Old: oldPassword,
+      changePasswordForm_New: newPassword,
+      deleteAccountForm: deleteAccount,
     };
     console.log(data);
 
     fetch(`${server}/settings/${endpoint}`, {
+      // fetch(`${server}/${endpoint}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -62,7 +69,50 @@ function settings({ data }) {
       })
       .catch((err) => {
         console.log(err);
-        toast.err(`${err.message}`, {
+        toast.error(`${err.message}`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
+
+  const handleProfileSubmit = (e) => {
+    // e.preventDefault();
+
+    const data = {
+      profilePicture,
+      // changePasswordForm_Old: oldPassword,
+      // changePasswordForm_New: newPassword,
+      // deleteAccountForm: deleteAccount,
+    };
+    console.log(data);
+
+    fetch(`${server}/settings/settingsProfilePicForm`, {
+      // fetch(`${server}/${endpoint}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        router.push(`${client}/settings/`);
+        toast.success("Settings updated.", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(`${err.message}`, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -101,15 +151,16 @@ function settings({ data }) {
               <form
                 action="/settingsProfilePicForm"
                 method="POST"
-                onSubmit={handleSubmit("settingsProfilePicForm")}
+                onSubmit={handleProfileSubmit}
               >
                 <Stack>
                   <TextField
                     label="Profile Picture"
                     variant="outlined"
                     value={profilePicture}
-                    name="settingsProfilePicForm"
+                    name="profilePicture"
                     placeholder="Enter your Profile Picture URL here"
+                    onChange={(e) => setProfilePicture(e.target.value)}
                   />
                   <Stack direction="row">
                     {showChooseFile && <Input type="file" />}
@@ -125,7 +176,9 @@ function settings({ data }) {
                       </Button>
                     )}
                   </Stack>
-                  <Button variant="contained">Submit</Button>
+                  <Button variant="contained" type="submit">
+                    Submit
+                  </Button>
                 </Stack>
               </form>
             </AccordionDetails>
@@ -163,6 +216,7 @@ function settings({ data }) {
                     type="password"
                     variant="outlined"
                     placeholder="Enter your Current Password here"
+                    onChange={(e) => setOldPassword(e.target.value)}
                   />
                   <Typography variant="body" component="p">
                     New Password
@@ -174,8 +228,11 @@ function settings({ data }) {
                     type="password"
                     variant="outlined"
                     placeholder="Enter a New Password here"
+                    onChange={(e) => setNewPassword(e.target.value)}
                   />
-                  <Button variant="contained">Submit</Button>
+                  <Button variant="contained" type="submit">
+                    Submit
+                  </Button>
                 </Stack>
               </form>
             </AccordionDetails>
@@ -244,8 +301,9 @@ function settings({ data }) {
                     sx={{ mt: 1, mb: 2 }}
                     variant="outlined"
                     placeholder="Enter your full name here to delete your account"
+                    onChange={(e) => setDeleteAccount(e.target.value)}
                   />
-                  <Button variant="contained" color="error">
+                  <Button variant="contained" color="error" type="submit">
                     DELETE ACCOUNT PERMANENTLY
                   </Button>
                 </Stack>

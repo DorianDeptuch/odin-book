@@ -9,8 +9,8 @@ exports.settings_get = (req, res, next) => {
   // res.send("Coming soon");
   // console.log(app.locals.user);
   console.log(req.app.locals);
-  // res.json({ user: req.app.locals });
-  res.json({ user: app.locals.user });
+  res.json({ user: req.app.locals });
+  // res.json({ user: app.locals.user });
   // User.findById(user.id).then((results) => res.json({ results }));
 };
 

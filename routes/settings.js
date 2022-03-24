@@ -9,19 +9,19 @@ router.get("/", indexController.settings_get);
 router.post(
   "/settingsProfilePicForm",
   // ensureAuthenticated,
-  settingsController.settingsProfilePicForm_put
+  indexController.settingsProfilePicForm_put
 );
 
 router.post(
   "/changePasswordForm",
   // ensureAuthenticated,
-  settingsController.changePasswordForm_put
+  indexController.changePasswordForm_put
 );
 
 router.post(
   "/deleteAccountForm",
   // ensureAuthenticated,
-  settingsController.deleteAccountForm_delete
+  indexController.deleteAccountForm_delete
 );
 
 module.exports = router;
