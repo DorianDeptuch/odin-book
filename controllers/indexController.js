@@ -7,6 +7,77 @@ const Post = require("../models/post");
 const Comment = require("../models/comment");
 const { body, validationResult } = require("express-validator");
 
+// ██████╗ ██████╗  ██████╗ ███████╗██╗██╗     ███████╗
+// ██╔══██╗██╔══██╗██╔═══██╗██╔════╝██║██║     ██╔════╝
+// ██████╔╝██████╔╝██║   ██║█████╗  ██║██║     █████╗
+// ██╔═══╝ ██╔══██╗██║   ██║██╔══╝  ██║██║     ██╔══╝
+// ██║     ██║  ██║╚██████╔╝██║     ██║███████╗███████╗
+// ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚══════╝
+
+exports.statusUpdate_post = (req, res, next) => {};
+
+exports.postComment_post = (req, res, next) => {};
+
+exports.profile_get = (req, res, next) => {
+  User.findById(req.params.id).then((results) => res.json({ results }));
+};
+
+exports.profileDetailsForm_put = [
+  body("hometown").trim().escape(),
+  body("currentTown").trim().escape(),
+  body("bio").trim().escape(),
+  body("employment").trim().escape(),
+  body("school").trim().escape(),
+  body("hobbies").trim().escape(),
+  body("dateOfBirth").trim().escape(),
+  body("maritalStatus").trim().escape(),
+  body("sex").trim().escape(),
+
+  (req, res, next) => {
+    const {
+      hometown,
+      currentTown,
+      bio,
+      employment,
+      school,
+      hobbies,
+      dateOfBirth,
+      maritalStatus,
+      sex,
+    } = req.body;
+    let errors = [];
+    const validationErrors = validationResult(req);
+
+    if (!validationErrors.isEmpty()) {
+      errors.push({
+        msg: "There seems to be an error with one of the fields, please check again.",
+      });
+    } else {
+      let user = new User({
+        hometown,
+        currentTown,
+        bio,
+        employment,
+        school,
+        hobbies,
+        dateOfBirth: dateOfBirth.slice(0, 10),
+        maritalStatus,
+        sex,
+        _id: req.params.id,
+      });
+      User.findByIdAndUpdate(req.params.id, user, {}, function (err, newuser) {
+        if (err) {
+          return next(err);
+        }
+        res.json({
+          user: req.user,
+          // success_msg: "You have updated your profile!",
+        });
+      });
+    }
+  },
+];
+
 // ███████╗███████╗████████╗████████╗██╗███╗   ██╗ ██████╗ ███████╗
 // ██╔════╝██╔════╝╚══██╔══╝╚══██╔══╝██║████╗  ██║██╔════╝ ██╔════╝
 // ███████╗█████╗     ██║      ██║   ██║██╔██╗ ██║██║  ███╗███████╗
@@ -95,7 +166,8 @@ exports.changePasswordForm_put = [
             changePasswordForm_Old,
             user.password,
             (err, isMatch) => {
-              if (err) throw err;
+              // if (err) throw err;
+              if (err) res.json({ err: err });
 
               if (isMatch) {
                 bcrypt.genSalt(10, (err, salt) =>

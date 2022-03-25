@@ -38,25 +38,19 @@ function settings({ data }) {
     setProfilePicture(user?.profilePicture);
   }, []);
 
-  const handleSubmit = (endpoint) => (e) => {
+  const handleProfileSubmit = (e) => {
     e.preventDefault();
 
     const data = {
       profilePicture,
-      changePasswordForm_Old: oldPassword,
-      changePasswordForm_New: newPassword,
-      deleteAccountForm: deleteAccount,
     };
-    console.log(data);
 
-    fetch(`${server}/settings/${endpoint}`, {
-      // fetch(`${server}/${endpoint}`, {
+    fetch(`${server}/settings/settingsProfilePicForm`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
       .then((res) => {
-        router.push(`${client}/settings/`);
         toast.success("Settings updated.", {
           position: "top-center",
           autoClose: 5000,
@@ -66,6 +60,7 @@ function settings({ data }) {
           draggable: true,
           progress: undefined,
         });
+        setProfilePicture("");
       })
       .catch((err) => {
         console.log(err);
@@ -78,28 +73,24 @@ function settings({ data }) {
           draggable: true,
           progress: undefined,
         });
+        setProfilePicture("");
       });
   };
 
-  const handleProfileSubmit = (e) => {
-    // e.preventDefault();
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
 
     const data = {
-      profilePicture,
-      // changePasswordForm_Old: oldPassword,
-      // changePasswordForm_New: newPassword,
-      // deleteAccountForm: deleteAccount,
+      changePasswordForm_Old: oldPassword,
+      changePasswordForm_New: newPassword,
     };
-    console.log(data);
 
-    fetch(`${server}/settings/settingsProfilePicForm`, {
-      // fetch(`${server}/${endpoint}`, {
+    fetch(`${server}/settings/changePasswordForm`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
       .then((res) => {
-        router.push(`${client}/settings/`);
         toast.success("Settings updated.", {
           position: "top-center",
           autoClose: 5000,
@@ -109,6 +100,8 @@ function settings({ data }) {
           draggable: true,
           progress: undefined,
         });
+        setOldPassword("");
+        setNewPassword("");
       })
       .catch((err) => {
         console.log(err);
@@ -121,6 +114,50 @@ function settings({ data }) {
           draggable: true,
           progress: undefined,
         });
+        setOldPassword("");
+        setNewPassword("");
+        setDeleteAccount("");
+      });
+  };
+
+  const handleDeleteSubmit = (e) => {
+    e.preventDefault();
+
+    const data = {
+      deleteAccountForm: deleteAccount,
+    };
+
+    fetch(`${server}/settings/deleteAccountForm`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        toast.success("Account successfully deleted", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setDeleteAccount("");
+        router.push("/login");
+        // setUser(null)
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(`${err.message}`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setDeleteAccount("");
       });
   };
 
@@ -203,7 +240,7 @@ function settings({ data }) {
               <form
                 action="/changePasswordForm"
                 method="POST"
-                onSubmit={handleSubmit("changePasswordForm")}
+                onSubmit={handlePasswordSubmit}
               >
                 <Stack>
                   <Typography variant="body" component="p">
@@ -288,7 +325,7 @@ function settings({ data }) {
               <form
                 action="/deleteAccountForm"
                 method="POST"
-                onSubmit={handleSubmit("deleteAccountForm")}
+                onSubmit={handleDeleteSubmit}
               >
                 <Stack>
                   <Typography color="error" variant="body" component="p">
