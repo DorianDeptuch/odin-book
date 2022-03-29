@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { ProfileContext } from "../pages/profile/[id]";
+import { UserContext } from "../pages/_app";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -10,46 +10,46 @@ const getAge = (birthDate) =>
   Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
 
 function ProfileInfo() {
-  const user = useContext(ProfileContext);
-  const [profile, setProfile] = useState({});
+  const { user } = useContext(UserContext);
+  // const [profile, setProfile] = useState({});
 
-  useEffect(() => {
-    const { results } = user;
-    setProfile(results);
-  }, []);
+  // useEffect(() => {
+  //   const { results } = user;
+  //   setProfile(results);
+  // }, []);
 
   return (
     <Stack>
       <Typography variant="h6" component="h6">
         Info
       </Typography>
-      {!profile.dateOfBirth && !profile.sex && !profile.hobbies ? (
+      {!user?.user?.dateOfBirth && !user?.user?.sex && !user?.user?.hobbies ? (
         <Typography variant="body1" component="p">
           There doesn't seem to be anything here
         </Typography>
       ) : (
         <Box>
-          {profile.dateOfBirth && (
+          {user?.user?.dateOfBirth && (
             <Typography variant="body1" component="p">
-              Age: <strong>{getAge(profile.dateOfBirth)}</strong>
+              Age: <strong>{getAge(user?.user?.dateOfBirth)}</strong>
             </Typography>
           )}
-          {profile.dateOfBirth && (
+          {user?.user?.dateOfBirth && (
             <Typography variant="body1" component="p">
               Date of Birth:{" "}
               <strong>
-                {format(new Date(profile.dateOfBirth), "MM/dd/yyyy")}
+                {format(new Date(user?.user?.dateOfBirth), "MM/dd/yyyy")}
               </strong>
             </Typography>
           )}
-          {profile.sex && (
+          {user?.user?.sex && (
             <Typography variant="body1" component="p">
-              Sex: <strong>{profile.sex}</strong>
+              Sex: <strong>{user?.user?.sex}</strong>
             </Typography>
           )}
-          {profile.hobbies && (
+          {user?.user?.hobbies && (
             <Typography variant="body1" component="p">
-              Hobbies include: <strong>{profile.hobbies}</strong>
+              Hobbies include: <strong>{user?.user?.hobbies}</strong>
             </Typography>
           )}
         </Box>

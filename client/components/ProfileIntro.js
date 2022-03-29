@@ -2,54 +2,54 @@ import React, { useContext, useState, useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { ProfileContext } from "../pages/profile/[id]";
+import { UserContext } from "../pages/_app";
 
 function ProfileIntro() {
-  const user = useContext(ProfileContext);
-  const [profile, setProfile] = useState({});
+  const { user } = useContext(UserContext);
+  // const [profile, setProfile] = useState({});
 
-  useEffect(() => {
-    const { results } = user;
-    setProfile(results);
-  }, []);
+  // useEffect(() => {
+  //   const { results } = user;
+  //   setProfile(results);
+  // }, []);
 
   return (
     <Stack>
       <Typography variant="h6" component="h6">
         Intro
       </Typography>
-      {!profile.school &&
-      !profile.currentTown &&
-      !profile.hometown &&
-      !profile.maritalStatus ? (
+      {!user?.user?.school &&
+      !user?.user?.currentTown &&
+      !user?.user?.hometown &&
+      !user?.user?.maritalStatus ? (
         <Typography variant="body1" component="p">
           There doesn't seem to be anything here
         </Typography>
       ) : (
         <Box>
-          {profile.employment && (
+          {user?.user?.employment && (
             <Typography variant="body1" component="p">
-              Works at <strong>{profile.employment}</strong>
+              Works at <strong>{user?.user?.employment}</strong>
             </Typography>
           )}
-          {profile.school && (
+          {user?.user?.school && (
             <Typography variant="body1" component="p">
-              Studied at <strong>{profile.school}</strong>
+              Studied at <strong>{user?.user?.school}</strong>
             </Typography>
           )}
-          {profile.currentTown && (
+          {user?.user?.currentTown && (
             <Typography variant="body1" component="p">
-              Lives in <strong>{profile.currentTown}</strong>
+              Lives in <strong>{user?.user?.currentTown}</strong>
             </Typography>
           )}
-          {profile.hometown && (
+          {user?.user?.hometown && (
             <Typography variant="body1" component="p">
-              From <strong>{profile.hometown}</strong>
+              From <strong>{user?.user?.hometown}</strong>
             </Typography>
           )}
-          {profile.maritalStatus && (
+          {user?.user?.maritalStatus && (
             <Typography variant="body1" component="p">
-              <strong>{profile.maritalStatus}</strong>
+              <strong>{user?.user?.maritalStatus}</strong>
             </Typography>
           )}
         </Box>

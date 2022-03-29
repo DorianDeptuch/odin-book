@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ProfileContext } from "../pages/profile/[id]";
+import { UserContext } from "../pages/_app";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
@@ -62,14 +63,14 @@ function a11yProps(index) {
 //end of tab component stuff
 
 function ProfileHeader() {
-  const user = useContext(ProfileContext);
-  const [profile, setProfile] = useState({});
+  const { user } = useContext(UserContext);
+  // const [profile, setProfile] = useState({});
 
-  useEffect(() => {
-    console.log(user);
-    const { results } = user;
-    setProfile(results);
-  }, []);
+  // useEffect(() => {
+  //   console.log(user);
+  //   const { results } = user;
+  //   setProfile(results);
+  // }, []);
 
   // this is for the tab component
   const [value, setValue] = React.useState(0);
@@ -83,7 +84,7 @@ function ProfileHeader() {
         <Stack>
           <Stack direction="row">
             <Avatar
-              src={profile.profilePicture || ""}
+              src={user?.user?.profilePicture || ""}
               sx={{ height: avatar_XL, width: avatar_XL, m: 2 }}
             >
               JS
@@ -94,10 +95,10 @@ function ProfileHeader() {
                 component="h4"
                 sx={{ fontWeight: "bolder" }}
               >
-                {profile.firstName} {profile.lastName}
+                {user?.user?.firstName} {user?.user?.lastName}
               </Typography>
               <Typography variant="h6" component="h6">
-                {/* {profile?.friends.length} Friends */}
+                {/* {user?.user?.friends.length} Friends */}
                 323 Friends
               </Typography>
               {/* <Stack direction="row"> */}

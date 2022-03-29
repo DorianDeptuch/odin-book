@@ -1,30 +1,30 @@
 import React, { useEffect, useState, useContext } from "react";
-import { ProfileContext } from "../pages/profile/[id]";
+import { UserContext } from "../pages/_app";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
 function ProfileBio() {
-  const user = useContext(ProfileContext);
-  const [profile, setProfile] = useState({});
+  const { user } = useContext(UserContext);
+  // const [profile, setProfile] = useState({});
 
-  useEffect(() => {
-    const { results } = user;
-    setProfile(results);
-  }, []);
+  // useEffect(() => {
+  //   const { results } = user;
+  //   setProfile(results);
+  // }, []);
 
   return (
     <Stack>
       <Typography variant="h6" component="h6">
         Bio
       </Typography>
-      {!profile.bio ? (
+      {!user?.user?.bio ? (
         <Typography variant="body1" component="p">
           There doesn't seem to be anything here
         </Typography>
       ) : (
         <Typography variant="body1" component="p">
-          {profile.bio}
+          {user?.user?.bio}
         </Typography>
       )}
     </Stack>
