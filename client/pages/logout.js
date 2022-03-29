@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
+import { UserContext } from "./_app";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -8,11 +9,13 @@ import { toast } from "react-toastify";
 
 function logout({ data }) {
   const router = useRouter();
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     setTimeout(() => {
       router.push("/login");
       displayLogoutSuccess();
+      setUser(null);
     }, 500);
   }, []);
 

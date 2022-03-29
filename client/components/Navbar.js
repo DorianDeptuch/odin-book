@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
+import { UserContext } from "../pages/_app";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
@@ -30,6 +32,7 @@ export default function Navbar({ req }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { user } = useContext(UserContext);
 
   const [anchorElRequest, setAnchorElRequest] = React.useState(null);
   const [anchorElNotification, setAnchorElNotification] = React.useState(null);
@@ -52,7 +55,7 @@ export default function Navbar({ req }) {
   const idNotification = openNotification ? "simple-popover" : undefined;
 
   useEffect(() => {
-    console.log(req?.user);
+    console.log(user);
   }, []);
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -68,8 +71,8 @@ export default function Navbar({ req }) {
                 OdinBook
               </Typography>
             </Link>
-            <Box>
-              {req?.user && (
+            <Stack direction="row">
+              {user && (
                 <Tooltip title="Friend Requests">
                   <Badge sx={styles} color="error" badgeContent={3}>
                     <PersonAddIcon
@@ -85,7 +88,7 @@ export default function Navbar({ req }) {
                   </Badge>
                 </Tooltip>
               )}
-              {req?.user && (
+              {user && (
                 <Tooltip title="Notifications">
                   <Badge sx={styles} color="error" badgeContent={4}>
                     <NotificationsNoneIcon
@@ -101,34 +104,50 @@ export default function Navbar({ req }) {
                   </Badge>
                 </Tooltip>
               )}
-              <AccountCircleIcon
-                sx={{ ...styles, height: avatar_SM, width: avatar_SM }}
-                id="basic-button"
-                aria-controls={open ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={handleClick}
-              />
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                  "aria-labelledby": "basic-button",
-                }}
-              >
-                <Link href="/profile/1">
-                  <MenuItem onClick={handleClose}>Your Profile</MenuItem>
-                </Link>
-                <Link href="/settings">
-                  <MenuItem onClick={handleClose}>Settings</MenuItem>
-                </Link>
-                <Link href="/logout">
-                  <MenuItem onClick={handleClose}>Logout</MenuItem>
-                </Link>
-              </Menu>
-            </Box>
+              {user && (
+                <Stack direction="row" sx={{ ...styles, width: avatar_SM }}>
+                  {user?.user?.profilePicture ? (
+                    <Avatar
+                      src={user.user.profilePicture}
+                      sx={{ height: avatar_SM, width: avatar_SM }}
+                      id="basic-button"
+                      aria-controls={open ? "basic-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={handleClick}
+                    ></Avatar>
+                  ) : (
+                    <AccountCircleIcon
+                      sx={{ ...styles, height: avatar_SM, width: avatar_SM }}
+                      id="basic-button"
+                      aria-controls={open ? "basic-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={handleClick}
+                    />
+                  )}
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                  >
+                    <Link href="/profile/1">
+                      <MenuItem onClick={handleClose}>Your Profile</MenuItem>
+                    </Link>
+                    <Link href="/settings">
+                      <MenuItem onClick={handleClose}>Settings</MenuItem>
+                    </Link>
+                    <Link href="/logout">
+                      <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    </Link>
+                  </Menu>
+                </Stack>
+              )}
+            </Stack>
           </Stack>
         </Toolbar>
       </AppBar>

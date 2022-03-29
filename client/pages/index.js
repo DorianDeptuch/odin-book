@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { server } from "../../config/config";
+import { UserContext } from "./_app";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -10,6 +11,13 @@ import FriendSidebar from "../components/FriendSidebar";
 export const IndexContext = React.createContext();
 
 export default function Home({ data }) {
+  const { user, setUser } = useContext(UserContext);
+  // const { user, setUser } = userData;
+  // const [user, setUser] = useState({});
+  // setUser(data.results);
+  setUser(data);
+  console.log("data ", data);
+
   return (
     <Container sx={{ mt: 2 }}>
       <IndexContext.Provider value={data}>

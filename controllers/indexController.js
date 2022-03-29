@@ -223,6 +223,7 @@ exports.deleteAccountForm_delete = [
             return next(err);
           }
           res.redirect("/login");
+          app.locals.user = null;
         });
       } else {
         res.send("Something went wrong");
