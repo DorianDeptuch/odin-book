@@ -12,29 +12,28 @@ export const IndexContext = React.createContext();
 
 export default function Home({ data }) {
   const { user, setUser } = useContext(UserContext);
-  // const { user, setUser } = userData;
-  // const [user, setUser] = useState({});
-  // setUser(data.results);
-  setUser(data);
-  console.log("data ", data);
+
+  useEffect(() => {
+    setUser(data);
+  }, []);
 
   return (
     <Container sx={{ mt: 2 }}>
-      <IndexContext.Provider value={data}>
-        <Box>
-          <Grid container>
-            <Grid item md={3}>
-              <UserSidebar />
-            </Grid>
-            <Grid item md={6}>
-              <Newsfeed />
-            </Grid>
-            <Grid item md={3}>
-              <FriendSidebar />
-            </Grid>
+      {/* <IndexContext.Provider value={data}> */}
+      <Box>
+        <Grid container>
+          <Grid item md={3}>
+            <UserSidebar />
           </Grid>
-        </Box>
-      </IndexContext.Provider>
+          <Grid item md={6}>
+            <Newsfeed />
+          </Grid>
+          <Grid item md={3}>
+            <FriendSidebar />
+          </Grid>
+        </Grid>
+      </Box>
+      {/* </IndexContext.Provider> */}
     </Container>
   );
 }

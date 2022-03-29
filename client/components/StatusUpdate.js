@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ProfileContext } from "../pages/profile/[id]";
-import { IndexContext } from "../pages/index";
+import { UserContext } from "../pages/_app";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
@@ -14,15 +13,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { avatar_MD } from "../config/config";
 
 function StatusUpdate() {
-  const user = useContext(ProfileContext);
-  const index = useContext(IndexContext);
+  const { user } = useContext(UserContext);
   const [showChooseFile, setShowChooseFile] = useState(false);
-  const [profile, setProfile] = useState({});
-
-  useEffect(() => {
-    const { results } = user || index;
-    setProfile(results);
-  }, []);
 
   const handleChooseFile = () => setShowChooseFile(!showChooseFile);
 
@@ -31,7 +23,7 @@ function StatusUpdate() {
       <Stack>
         <Stack direction="row">
           <Avatar
-            src={profile?.profilePicture || ""}
+            src={user?.user?.profilePicture || ""}
             sx={{
               height: avatar_MD,
               width: avatar_MD,

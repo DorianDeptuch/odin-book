@@ -135,7 +135,7 @@ export default function Navbar({ req }) {
                       "aria-labelledby": "basic-button",
                     }}
                   >
-                    <Link href="/profile/1">
+                    <Link href={`/profile/${user?.user?._id}`}>
                       <MenuItem onClick={handleClose}>Your Profile</MenuItem>
                     </Link>
                     <Link href="/settings">
