@@ -14,7 +14,7 @@ import Comment from "./Comment";
 import LikeCounter from "./LikeCounter";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
-import { avatar_MD } from "../config/config";
+import { avatar_MD, bgc } from "../config/config";
 
 function Post() {
   return (
@@ -90,7 +90,7 @@ function Post() {
             </form>
           </Stack>
         </Box>
-        <Accordion>
+        <Accordion sx={{ backgroundColor: bgc }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
