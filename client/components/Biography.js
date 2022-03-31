@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../pages/_app";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import ProfileIntro from "./ProfileIntro";
@@ -42,9 +43,11 @@ function a11yProps(index) {
   };
 }
 
-function Biography() {
+function Biography({ id }) {
   const [value, setValue] = React.useState(0);
   const [open, setOpen] = React.useState(false);
+  const {user} = useContext(UserContext);
+  const ownProfile = user?.user?._id === id ? true : false;
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -66,23 +69,25 @@ function Biography() {
             <Tab label="Info" {...a11yProps(2)} />
           </Tabs>
         </Box>
-        <Stack>
-          <Button
-            onClick={handleOpen}
-            variant="contained"
-            sx={{ mt: 2, alignSelf: "center" }}
-          >
-            Edit Details
-          </Button>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <ProfileDetailsForm handleClose={handleClose} />
-          </Modal>
-        </Stack>
+        {ownProfile && (
+          <Stack>
+            <Button
+              onClick={handleOpen}
+              variant="contained"
+              sx={{ mt: 2, alignSelf: "center" }}
+            >
+              Edit Details
+            </Button>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <ProfileDetailsForm handleClose={handleClose} />
+            </Modal>
+          </Stack>
+        )}
         <TabPanel value={value} index={0} className="test">
           <ProfileIntro />
         </TabPanel>

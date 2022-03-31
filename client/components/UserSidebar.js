@@ -36,7 +36,7 @@ function UserSidebar() {
                 component="h6"
                 sx={{ alignSelf: "center" }}
               >
-                User Name
+                {user?.user?.firstName} {user?.user?.lastName}
               </Typography>
             </Stack>
           </a>

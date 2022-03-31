@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ProfileContext } from "../pages/profile/[id]";
+// import { ProfileContext } from "../pages/profile/[id]";
+import { UserContext } from "../pages/_app";
 import { useRouter } from "next/router";
 import { server, client } from "../../config/config";
 import Paper from "@mui/material/Paper";
@@ -28,7 +29,8 @@ const style = {
 };
 
 function ProfileDetailsForm({ handleClose }) {
-  const user = useContext(ProfileContext);
+  // const user = useContext(ProfileContext);
+  const { user } = useContext(UserContext);
   const [profile, setProfile] = useState({});
   const [DOB, setDOB] = useState("");
   const [bio, setBio] = useState("");
@@ -59,14 +61,14 @@ function ProfileDetailsForm({ handleClose }) {
     };
     console.log(data);
 
-    fetch(`${server}/profile/${profile._id}/profileDetailsForm`, {
+    fetch(`${server}/profile/${user?.user?._id}/profileDetailsForm`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
       .then((res) => {
         handleClose();
-        router.push(`${client}/profile/${profile._id}`);
+        router.push(`${client}/profile/${user?.user?._id}`);
         toast.success("Profile details updated.", {
           position: "top-center",
           autoClose: 5000,
@@ -92,10 +94,10 @@ function ProfileDetailsForm({ handleClose }) {
   };
 
   useEffect(() => {
-    const { results } = user;
-    const { dateOfBirth } = results;
+    // const { results } = user;
+    const { dateOfBirth } = user?.user;
     setDOB(dateOfBirth?.split("T")[0]);
-    setProfile(results);
+    setProfile(user?.user);
     setTimeout(() => {
       setTimer(true);
     }, 500);

@@ -5,11 +5,11 @@ import { server } from "../../../config/config";
 
 export const ProfileContext = React.createContext();
 
-function profileDetail({ data }) {
+function profileDetail({ data, id }) {
   return (
     <Container sx={{ mt: 2 }}>
       <ProfileContext.Provider value={data}>
-        <ProfileHeader />
+        <ProfileHeader id={id} />
       </ProfileContext.Provider>
     </Container>
   );
@@ -23,6 +23,6 @@ export async function getServerSideProps(context) {
   const res = await fetch(`${server}/profile/${id}`);
   const data = await res.json();
   return {
-    props: { data: data },
+    props: { data: data, id: id },
   };
 }

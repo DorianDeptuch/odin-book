@@ -62,15 +62,17 @@ function a11yProps(index) {
 
 //end of tab component stuff
 
-function ProfileHeader() {
+function ProfileHeader({ id }) {
   const { user } = useContext(UserContext);
-  // const [profile, setProfile] = useState({});
+  const currentProfile = useContext(ProfileContext);
+  const ownProfile = user?.user?._id === id ? true : false;
+  const [profile, setProfile] = useState({});
 
-  // useEffect(() => {
-  //   console.log(user);
-  //   const { results } = user;
-  //   setProfile(results);
-  // }, []);
+  useEffect(() => {
+    console.log(currentProfile);
+    const { results } = currentProfile;
+    setProfile(results);
+  }, []);
 
   // this is for the tab component
   const [value, setValue] = React.useState(0);
@@ -84,7 +86,7 @@ function ProfileHeader() {
         <Stack>
           <Stack direction="row">
             <Avatar
-              src={user?.user?.profilePicture || ""}
+              src={profile.profilePicture || ""}
               sx={{ height: avatar_XL, width: avatar_XL, m: 2 }}
             >
               JS
@@ -95,7 +97,7 @@ function ProfileHeader() {
                 component="h4"
                 sx={{ fontWeight: "bolder" }}
               >
-                {user?.user?.firstName} {user?.user?.lastName}
+                {profile.firstName} {profile.lastName}
               </Typography>
               <Typography variant="h6" component="h6">
                 {/* {user?.user?.friends.length} Friends */}
@@ -116,22 +118,24 @@ function ProfileHeader() {
               </Box>
               {/* </Stack> */}
             </Stack>
-            <Stack sx={{ my: 5, mx: 2 }}>
-              <Button
-                variant="contained"
-                color="primary"
-                sx={{ m: 1, height: 50, width: "100%", alignSelf: "center" }}
-              >
-                <PersonAddIcon sx={{ mr: 1 }} /> Add Friend
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                sx={{ m: 1, height: 50, width: "100%", alignSelf: "center" }}
-              >
-                <TouchAppIcon sx={{ mr: 1 }} /> Poke
-              </Button>
-            </Stack>
+            {!ownProfile && (
+              <Stack sx={{ my: 5, mx: 2 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{ m: 1, height: 50, width: "100%", alignSelf: "center" }}
+                >
+                  <PersonAddIcon sx={{ mr: 1 }} /> Add Friend
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{ m: 1, height: 50, width: "100%", alignSelf: "center" }}
+                >
+                  <TouchAppIcon sx={{ mr: 1 }} /> Poke
+                </Button>
+              </Stack>
+            )}
           </Stack>
           <Box sx={{ width: "100%" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -147,10 +151,10 @@ function ProfileHeader() {
               </Tabs>
             </Box>
             <TabPanel value={value} index={0} sx={{ backgroundColor: bgc }}>
-              <ProfilePosts />
+              <ProfilePosts id={id} />
             </TabPanel>
             <TabPanel value={value} index={1} sx={{ backgroundColor: bgc }}>
-              <ProfileAbout />
+              <ProfileAbout id={id} />
             </TabPanel>
             <TabPanel value={value} index={2} sx={{ backgroundColor: bgc }}>
               <ProfileFriends />
