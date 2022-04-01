@@ -81,7 +81,7 @@ function ProfileDetailsForm({ handleClose }) {
       })
       .catch((err) => {
         console.log(err);
-        toast.err(`${err.message}`, {
+        toast.error(`${err.message}`, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,

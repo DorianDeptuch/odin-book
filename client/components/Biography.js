@@ -46,7 +46,7 @@ function a11yProps(index) {
 function Biography({ id }) {
   const [value, setValue] = React.useState(0);
   const [open, setOpen] = React.useState(false);
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const ownProfile = user?.user?._id === id ? true : false;
 
   const handleOpen = () => setOpen(true);

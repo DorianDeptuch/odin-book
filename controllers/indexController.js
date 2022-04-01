@@ -6,6 +6,8 @@ const User = require("../models/user");
 const Post = require("../models/post");
 const Comment = require("../models/comment");
 const { body, validationResult } = require("express-validator");
+const mongoose = require("mongoose");
+const toID = mongoose.Types.ObjectId;
 
 // ██████╗ ██████╗  ██████╗ ███████╗██╗██╗     ███████╗
 // ██╔══██╗██╔══██╗██╔═══██╗██╔════╝██║██║     ██╔════╝
@@ -445,7 +447,7 @@ exports.statusUpdate_post = [
     let { content, author } = req.body;
     let errors = [];
     let validationErrors = validationResult(req);
-
+    console.log("first step");
     if (!content) {
       errors.push({ msg: "Please enter a message to submit" });
     }
@@ -453,15 +455,34 @@ exports.statusUpdate_post = [
     if (errors.length > 0) {
       res.json({ errors });
     } else {
+      console.log("making a new post");
       const newPost = new Post({
         content: content,
-        author: author,
+        author: toID(author),
       });
       newPost
         .save()
         // .then((user) => res.redirect("/"));
-        .then((post) => {
+        .then(async (post) => {
+          // let user = new User({
+          //   posts: newPost,
+          //   _id: toID(author),
+          // });
+          let user = await User.findById(toID(author));
+          user.posts.push(newPost);
+          await user.save();
+          // User.findByIdAndUpdate(
+          //   toID(author),
+          //   { $push: { posts: { content: content, author: toID(author) } } },
+          //   { safe: true, upsert: true, new: true },
+          //   function (err, newUser) {
+          //     if (err) {
+          //       return next(err);
+          //     }
+          //   }
+          // );
           Post.find().exec(function (err, list_posts) {
+            //populate posts ??
             if (err) {
               return next(err);
             }
