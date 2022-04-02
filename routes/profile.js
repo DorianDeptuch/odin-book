@@ -9,7 +9,8 @@ const { ensureAuthenticated } = require("../config/auth");
 router.get(
   "/:id",
   // ensureAuthenticated,
-  profileController.profile_get
+  // profileController.profile_get
+  indexController.profile_get
 );
 
 router.post(

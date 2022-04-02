@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ProfileContext } from "../pages/profile/[id]";
 import { UserContext } from "../pages/_app";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -10,8 +11,18 @@ import Post from "./Post";
 import FriendsList from "./FriendsList";
 
 function ProfilePosts({ id }) {
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  const currentProfile = useContext(ProfileContext);
+  const [profilePosts, setProfilePosts] = useState([]);
   const ownProfile = user?.user?._id === id ? true : false;
+
+  useEffect(() => {
+    // console.log(currentProfile);
+    const { results } = currentProfile;
+    const { posts } = results;
+    setProfilePosts(posts);
+    console.log(posts);
+  }, []);
 
   return (
     <Box sx={{ mx: -3 }}>
@@ -27,9 +38,16 @@ function ProfilePosts({ id }) {
               Posts
             </Typography>
           </Paper>
-          <Post />
-          <Post />
-          <Post />
+          {profilePosts.map((item) => (
+            <Post
+              key={item._id}
+              content={item.content}
+              likes={item.likes}
+              comments={item.comments}
+              author={item.author}
+              date={item.date}
+            />
+          ))}
         </Stack>
       </Stack>
     </Box>

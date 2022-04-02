@@ -10,7 +10,6 @@ function Newsfeed() {
       <Post />
       <Post />
       <Post />
-      <Post />
     </Box>
   );
 }

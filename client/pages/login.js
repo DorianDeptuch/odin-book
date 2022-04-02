@@ -67,6 +67,10 @@ function login() {
   //   }
   // }, [open]);
 
+  useEffect(() => {
+    router.prefetch("/");
+  }, []);
+
   const {
     register,
     handleSubmit,

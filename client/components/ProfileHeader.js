@@ -67,11 +67,13 @@ function ProfileHeader({ id }) {
   const currentProfile = useContext(ProfileContext);
   const ownProfile = user?.user?._id === id ? true : false;
   const [profile, setProfile] = useState({});
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     console.log(currentProfile);
-    const { results } = currentProfile;
+    const { results, posts } = currentProfile;
     setProfile(results);
+    setPosts(posts);
   }, []);
 
   // this is for the tab component

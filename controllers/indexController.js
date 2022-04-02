@@ -21,7 +21,11 @@ exports.statusUpdate_post = (req, res, next) => {};
 exports.postComment_post = (req, res, next) => {};
 
 exports.profile_get = (req, res, next) => {
-  User.findById(req.params.id).then((results) => res.json({ results }));
+  User.findById(req.params.id)
+    .populate({ path: "posts", populate: { path: "author" } })
+    .then((results) => {
+      res.json({ results });
+    });
 };
 
 exports.profileDetailsForm_put = [
@@ -301,12 +305,6 @@ exports.login_post = [
       errors.push({ msg: "Validation failed" });
     }
 
-    // passport.authenticate("local", {
-    //   successRedirect: "/",
-    //   failureRedirect: "/login",
-    //   // failureFlash: true,
-    //   errors,
-    // })(req, res, next);
     passport.authenticate("local", (err, user, info) => {
       if (err) {
         return next(err);
@@ -319,10 +317,7 @@ exports.login_post = [
         // if user authenticated maintain the session
         req.login(user, function () {
           // do whatever here on successful login
-          // console.log(req.user);
           app.locals.user = user;
-          // req.app.locals.user = user;
-          // console.log(app.locals.user);
           res.status(200).json({ reqUser: req.user, user: user });
         });
       }
@@ -420,11 +415,6 @@ exports.signup_post = [
               newUser
                 .save()
                 .then((user) => {
-                  // install connect-flash to use
-                  // req.flash(
-                  //   "success_msg",
-                  //   "You are now Registered and can Log In"
-                  // );
                   res.redirect("/login");
                 })
                 .catch((err) => console.log(err));
@@ -443,7 +433,6 @@ exports.statusUpdate_post = [
     .escape(),
 
   (req, res, next) => {
-    // if (req.isAuthenticated()) {
     let { content, author } = req.body;
     let errors = [];
     let validationErrors = validationResult(req);
@@ -462,32 +451,17 @@ exports.statusUpdate_post = [
       });
       newPost
         .save()
-        // .then((user) => res.redirect("/"));
         .then(async (post) => {
-          // let user = new User({
-          //   posts: newPost,
-          //   _id: toID(author),
-          // });
           let user = await User.findById(toID(author));
           user.posts.push(newPost);
           await user.save();
-          // User.findByIdAndUpdate(
-          //   toID(author),
-          //   { $push: { posts: { content: content, author: toID(author) } } },
-          //   { safe: true, upsert: true, new: true },
-          //   function (err, newUser) {
-          //     if (err) {
-          //       return next(err);
-          //     }
-          //   }
-          // );
+
           Post.find().exec(function (err, list_posts) {
             //populate posts ??
             if (err) {
               return next(err);
             }
             res.json({
-              // user: req.user,
               error: err,
               post_list: list_posts,
             });
@@ -495,10 +469,6 @@ exports.statusUpdate_post = [
         })
         .catch((err) => console.log(err));
     }
-    // } else {
-    //   //    /login-failure
-    //   res.redirect("/login");
-    // }
   },
 ];
 
