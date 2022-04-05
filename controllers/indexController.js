@@ -436,7 +436,7 @@ exports.statusUpdate_post = [
     let { content, author } = req.body;
     let errors = [];
     let validationErrors = validationResult(req);
-    console.log("first step");
+
     if (!content) {
       errors.push({ msg: "Please enter a message to submit" });
     }
@@ -444,7 +444,6 @@ exports.statusUpdate_post = [
     if (errors.length > 0) {
       res.json({ errors });
     } else {
-      console.log("making a new post");
       const newPost = new Post({
         content: content,
         author: toID(author),
@@ -480,7 +479,7 @@ exports.postComment_post = [
 
   (req, res, next) => {
     // if (req.isAuthenticated()) {
-    let { content, author } = req.body;
+    let { content, author, post } = req.body;
     let errors = [];
     let validationErrors = validationResult(req);
 
@@ -493,17 +492,25 @@ exports.postComment_post = [
     } else {
       const newComment = new Comment({
         content: content,
-        author: author,
+        author: toID(author),
+        post: toID(post),
       });
       newComment
         .save()
-        //not sure if needed or if it needs to be like postComment
-        .then((user) => res.redirect("/"));
+        .then((comment) => {
+          Comment.find().exec(function (err, list_comments) {
+            //populate comments ??
+            if (err) {
+              return next(err);
+            }
+            res.json({
+              error: err,
+              comment_list: list_comments,
+            });
+          });
+        })
+        .catch((err) => console.log(err));
     }
-    // } else {
-    //   //    /login-failure
-    //   res.redirect("/login");
-    // }
   },
 ];
 

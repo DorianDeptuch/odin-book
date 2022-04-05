@@ -41,6 +41,7 @@ function ProfilePosts({ id }) {
           {profilePosts.map((item) => (
             <Post
               key={item._id}
+              postID={item._id}
               content={item.content}
               likes={item.likes}
               comments={item.comments}
