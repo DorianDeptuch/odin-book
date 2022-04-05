@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../pages/_app";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
@@ -23,7 +23,13 @@ import { useRouter } from "next/router";
 function Post({ postID, content, likes, comments, author, date }) {
   const { user } = useContext(UserContext);
   const [commentContent, setCommentContent] = useState("");
+  const [commentData, setCommentData] = useState([]);
   const router = useRouter();
+
+  useEffect(() => {
+    console.log(comments);
+    setCommentData(comments);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -145,10 +151,15 @@ function Post({ postID, content, likes, comments, author, date }) {
             <Typography>Comments</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Comment />
-            <Comment />
-            <Comment />
-            <Comment />
+            {commentData.map((item) => (
+              <Comment
+                key={item._id}
+                author={author}
+                content={content}
+                date={date}
+                likes={likes}
+              />
+            ))}
           </AccordionDetails>
         </Accordion>
       </Stack>

@@ -22,7 +22,18 @@ exports.postComment_post = (req, res, next) => {};
 
 exports.profile_get = (req, res, next) => {
   User.findById(req.params.id)
-    .populate({ path: "posts", populate: { path: "author" } })
+    .populate({
+      path: "posts",
+      model: Post,
+      populate: [
+        { path: "author", model: User },
+        {
+          path: "comments",
+          model: Comment,
+          populate: { path: "author", model: User },
+        },
+      ],
+    })
     .then((results) => {
       res.json({ results });
     });
@@ -497,7 +508,11 @@ exports.postComment_post = [
       });
       newComment
         .save()
-        .then((comment) => {
+        .then(async (comment) => {
+          let currentPost = await Post.findById(toID(post));
+          currentPost.comments.push(newComment);
+          await currentPost.save();
+
           Comment.find().exec(function (err, list_comments) {
             //populate comments ??
             if (err) {

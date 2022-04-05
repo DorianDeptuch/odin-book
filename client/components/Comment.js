@@ -11,7 +11,7 @@ const styles = {
   p: 1,
 };
 
-function Comment() {
+function Comment({ author, content, date, likes }) {
   return (
     <Paper sx={{ m: 1 }} elevation={3}>
       <Stack direction="row">
@@ -26,14 +26,16 @@ function Comment() {
         <Stack sx={{ mb: 2 }}>
           <Stack direction="row">
             <Typography variant="h4" component="h4" sx={styles}>
-              <strong>John Smith</strong>
+              <strong>
+                {author?.firstName} {author?.lastName}
+              </strong>
             </Typography>
             <Typography variant="caption" component="p" sx={styles}>
-              (3h ago)
+              ({date})
             </Typography>
           </Stack>
           <Typography variant="body1" component="p" sx={styles}>
-            Hey cool post dude!!
+            {content}
           </Typography>
         </Stack>
       </Stack>

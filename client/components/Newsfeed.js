@@ -7,9 +7,9 @@ function Newsfeed() {
   return (
     <Box sx={{ m: 2 }}>
       <StatusUpdate />
+      {/* <Post />
       <Post />
-      <Post />
-      <Post />
+      <Post /> */}
     </Box>
   );
 }
