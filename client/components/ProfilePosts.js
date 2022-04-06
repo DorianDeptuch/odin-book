@@ -15,13 +15,15 @@ function ProfilePosts({ id }) {
   const currentProfile = useContext(ProfileContext);
   const [profilePosts, setProfilePosts] = useState([]);
   const ownProfile = user?.user?._id === id ? true : false;
+  const [hasPosts, setHasPosts] = useState(false);
 
   useEffect(() => {
     // console.log(currentProfile);
     const { results } = currentProfile;
     const { posts } = results;
     setProfilePosts(posts);
-    console.log(posts);
+    // console.log(posts);
+    setHasPosts(results.posts.length ? true : false);
   }, []);
 
   return (
@@ -33,7 +35,7 @@ function ProfilePosts({ id }) {
         </Stack>
         <Stack sx={{ width: "60%", ml: 2 }}>
           {ownProfile && <StatusUpdate />}
-          <Paper elevation={3} sx={{ p: 2, my: 2 }}>
+          <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
             <Typography variant="h6" component="h6">
               Posts
             </Typography>
@@ -49,6 +51,16 @@ function ProfilePosts({ id }) {
               date={item.date}
             />
           ))}
+          {!hasPosts && (
+            <Typography
+              variant="h6"
+              component="h6"
+              textAlign="center"
+              sx={{ my: 2, color: "#999" }}
+            >
+              {currentProfile.results.firstName} hasn't made any posts yet.
+            </Typography>
+          )}
         </Stack>
       </Stack>
     </Box>

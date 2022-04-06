@@ -26,11 +26,14 @@ function Post({ postID, content, likes, comments, author, date }) {
   const { user } = useContext(UserContext);
   const [commentContent, setCommentContent] = useState("");
   const [commentData, setCommentData] = useState([]);
+  const [hasComments, setHasComments] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
-    console.log(comments);
+    // console.log(comments);
     setCommentData(comments);
+    setHasComments(comments.length ? true : false);
   }, []);
 
   const handleSubmit = (e) => {
@@ -103,13 +106,13 @@ function Post({ postID, content, likes, comments, author, date }) {
               component="p"
               title={format(new Date(date), "PPpp")}
             >
-              {formatDistance(subDays(new Date(date), 3), new Date(date), {
+              {formatDistance(new Date(date), new Date(), {
                 addSuffix: true,
               })}
             </Typography>
           </Stack>
         </Stack>
-        <Typography variant="body1" component="p">
+        <Typography variant="body1" component="p" sx={{ my: 2 }}>
           {content}
         </Typography>
         <Stack direction="row" sx={{ justifyContent: "start", mt: 2 }}>
@@ -162,7 +165,7 @@ function Post({ postID, content, likes, comments, author, date }) {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>Comments</Typography>
+            <Typography>Comments ({comments.length})</Typography>
           </AccordionSummary>
           <AccordionDetails>
             {commentData.map((item) => (
@@ -174,6 +177,16 @@ function Post({ postID, content, likes, comments, author, date }) {
                 likes={item.likes}
               />
             ))}
+            {!hasComments && (
+              <Typography
+                variant="h6"
+                component="h6"
+                textAlign="center"
+                sx={{ my: 2, color: "#999" }}
+              >
+                This post doesn't have any comments.
+              </Typography>
+            )}
           </AccordionDetails>
         </Accordion>
       </Stack>

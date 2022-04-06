@@ -47,7 +47,7 @@ function Comment({ author, content, date, likes }) {
               title={format(new Date(date), "PPpp")}
             >
               (
-              {formatDistance(subDays(new Date(date), 3), new Date(date), {
+              {formatDistance(new Date(date), new Date(), {
                 addSuffix: true,
               })}
               )
