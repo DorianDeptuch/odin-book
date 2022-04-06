@@ -5,6 +5,9 @@ import Typography from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 import { avatar_MD } from "../config/config";
+import { format, formatDistance, subDays } from "date-fns";
+import Link from "next/link";
+import { client, server } from "../../config/config";
 
 const styles = {
   m: 0,
@@ -15,23 +18,39 @@ function Comment({ author, content, date, likes }) {
   return (
     <Paper sx={{ m: 1 }} elevation={3}>
       <Stack direction="row">
-        <Avatar
-          sx={{
-            height: avatar_MD,
-            width: avatar_MD,
-            mx: 2,
-            alignSelf: "center",
-          }}
-        ></Avatar>
+        <Link href={`${client}/profile/${author._id}`}>
+          <Avatar
+            src={author?.profilePicture || ""}
+            sx={{
+              height: avatar_MD,
+              width: avatar_MD,
+              mx: 2,
+              alignSelf: "center",
+            }}
+          ></Avatar>
+        </Link>
         <Stack sx={{ mb: 2 }}>
           <Stack direction="row">
             <Typography variant="h4" component="h4" sx={styles}>
               <strong>
-                {author?.firstName} {author?.lastName}
+                <Link href={`${client}/profile/${author._id}`}>
+                  <a>
+                    {author?.firstName} {author?.lastName}
+                  </a>
+                </Link>
               </strong>
             </Typography>
-            <Typography variant="caption" component="p" sx={styles}>
-              ({date})
+            <Typography
+              variant="body2"
+              component="p"
+              sx={styles}
+              title={format(new Date(date), "PPpp")}
+            >
+              (
+              {formatDistance(subDays(new Date(date), 3), new Date(date), {
+                addSuffix: true,
+              })}
+              )
             </Typography>
           </Stack>
           <Typography variant="body1" component="p" sx={styles}>

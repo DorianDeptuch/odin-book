@@ -19,6 +19,8 @@ import { avatar_MD, bgc } from "../config/config";
 import { server, client } from "../../config/config";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { format, formatDistance, subDays } from "date-fns";
+import Link from "next/link";
 
 function Post({ postID, content, likes, comments, author, date }) {
   const { user } = useContext(UserContext);
@@ -78,20 +80,32 @@ function Post({ postID, content, likes, comments, author, date }) {
     <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
       <Stack>
         <Stack direction="row" sx={{ mb: 2 }}>
-          <Avatar
-            src={author?.profilePicture || ""}
-            sx={{
-              height: avatar_MD,
-              width: avatar_MD,
-              mr: 1,
-            }}
-          ></Avatar>
+          <Link href={`${client}/profile/${author._id}`}>
+            <Avatar
+              src={author?.profilePicture || ""}
+              sx={{
+                height: avatar_MD,
+                width: avatar_MD,
+                mr: 1,
+              }}
+            ></Avatar>
+          </Link>
           <Stack>
             <Typography variant="h6" component="h6">
-              {author?.firstName} {author?.lastName}
+              <Link href={`${client}/profile/${author._id}`}>
+                <a>
+                  {author?.firstName} {author?.lastName}
+                </a>
+              </Link>
             </Typography>
-            <Typography variant="body2" component="p">
-              {date}
+            <Typography
+              variant="body2"
+              component="p"
+              title={format(new Date(date), "PPpp")}
+            >
+              {formatDistance(subDays(new Date(date), 3), new Date(date), {
+                addSuffix: true,
+              })}
             </Typography>
           </Stack>
         </Stack>
@@ -154,10 +168,10 @@ function Post({ postID, content, likes, comments, author, date }) {
             {commentData.map((item) => (
               <Comment
                 key={item._id}
-                author={author}
-                content={content}
-                date={date}
-                likes={likes}
+                author={item.author}
+                content={item.content}
+                date={item.date}
+                likes={item.likes}
               />
             ))}
           </AccordionDetails>

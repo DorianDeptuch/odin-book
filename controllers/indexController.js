@@ -25,6 +25,7 @@ exports.profile_get = (req, res, next) => {
     .populate({
       path: "posts",
       model: Post,
+      options: { sort: { createdAt: -1 } },
       populate: [
         { path: "author", model: User },
         {
