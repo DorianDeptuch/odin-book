@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -57,6 +57,7 @@ function login() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const router = useRouter();
+  const loginRef = useRef(null);
 
   // useEffect(() => {
   //   if (displaySignupSuccess) {
@@ -68,6 +69,7 @@ function login() {
   // }, [open]);
 
   useEffect(() => {
+    loginRef.current.focus();
     router.prefetch("/");
   }, []);
 
@@ -145,6 +147,7 @@ function login() {
                   name="email"
                   variant="outlined"
                   {...register("email")}
+                  ref={loginRef}
                 />
                 <TextField
                   error={Boolean(errors.password)}
