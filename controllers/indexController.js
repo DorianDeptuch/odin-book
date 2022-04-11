@@ -5,6 +5,7 @@ const passport = require("passport");
 const User = require("../models/user");
 const Post = require("../models/post");
 const Comment = require("../models/comment");
+const Notification = require("../models/notification");
 const { body, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const toID = mongoose.Types.ObjectId;
@@ -95,6 +96,27 @@ exports.profileDetailsForm_put = [
     }
   },
 ];
+
+exports.poke_post = (req, res, next) => {
+  const { sender, content, recipient } = req.body;
+
+  User.findById(req.params.id).then((user) => {
+    const newNotification = new Notification({
+      sender: toID(sender),
+      recipient: toID(recipient),
+      content,
+    });
+    newNotification.save().then((notification) => {
+      user.notifications.push(notification);
+      user
+        .save()
+        .then((user) => {
+          res.json(user);
+        })
+        .catch((err) => console.log(err));
+    });
+  });
+};
 
 // ███████╗███████╗████████╗████████╗██╗███╗   ██╗ ██████╗ ███████╗
 // ██╔════╝██╔════╝╚══██╔══╝╚══██╔══╝██║████╗  ██║██╔════╝ ██╔════╝

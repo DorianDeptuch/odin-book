@@ -19,6 +19,9 @@ import Tab from "@mui/material/Tab";
 import Button from "@mui/material/Button";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
+import { server, client } from "../../config/config";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const styles = {
   width: avatar_SM,
@@ -67,12 +70,64 @@ function ProfileHeader({ id }) {
   const currentProfile = useContext(ProfileContext);
   const ownProfile = user?.user?._id === id ? true : false;
   const [profile, setProfile] = useState({});
+  const [disabledTrigger, setDisabledTrigger] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     // console.log(currentProfile);
     const { results } = currentProfile;
     setProfile(results);
   }, []);
+
+  const handleDisablePoke = () => {
+    setDisabledTrigger(true);
+    setTimeout(() => {
+      setDisabledTrigger(false);
+    }, 60000);
+  };
+
+  const handlePokeSubmit = (e) => {
+    e.preventDefault();
+
+    const data = {
+      sender: user?.user?._id,
+      recipient: profile?._id,
+      content: "poked you!",
+    };
+    // console.log(data);
+    handleDisablePoke();
+
+    fetch(`${server}/profile/${profile?._id}/poke`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        handleDisablePoke();
+        router.push(`${client}/profile/${profile?._id}`);
+        toast.info(`You poked ${profile?.firstName}`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(`${err.message}`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
 
   // this is for the tab component
   const [value, setValue] = React.useState(0);
@@ -127,13 +182,22 @@ function ProfileHeader({ id }) {
                 >
                   <PersonAddIcon sx={{ mr: 1 }} /> Add Friend
                 </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{ m: 1, height: 50, width: "100%", alignSelf: "center" }}
-                >
-                  <TouchAppIcon sx={{ mr: 1 }} /> Poke
-                </Button>
+                <form action="/poke" method="POST" onSubmit={handlePokeSubmit}>
+                  <Button
+                    disabled={disabledTrigger}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      m: 1,
+                      height: 50,
+                      width: "100%",
+                      alignSelf: "center",
+                    }}
+                  >
+                    <TouchAppIcon sx={{ mr: 1 }} /> Poke
+                  </Button>
+                </form>
               </Stack>
             )}
           </Stack>

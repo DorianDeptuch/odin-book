@@ -31,4 +31,10 @@ router.post(
   profileController.profileDetailsForm_put
 );
 
+router.post(
+  "/:id/poke",
+  // ensureAuthenticated,
+  indexController.poke_post
+);
+
 module.exports = router;

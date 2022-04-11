@@ -57,7 +57,6 @@ function login() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const router = useRouter();
-  const loginRef = useRef(null);
 
   // useEffect(() => {
   //   if (displaySignupSuccess) {
@@ -69,7 +68,6 @@ function login() {
   // }, [open]);
 
   useEffect(() => {
-    loginRef.current.focus();
     router.prefetch("/");
   }, []);
 
@@ -147,7 +145,6 @@ function login() {
                   name="email"
                   variant="outlined"
                   {...register("email")}
-                  ref={loginRef}
                 />
                 <TextField
                   error={Boolean(errors.password)}

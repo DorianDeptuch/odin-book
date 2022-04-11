@@ -33,11 +33,13 @@ export default function Navbar({ req }) {
     setAnchorEl(null);
   };
   const { user } = useContext(UserContext);
+  const notificationLength = user?.user?.notifications?.length;
 
   const [anchorElRequest, setAnchorElRequest] = React.useState(null);
   const [anchorElNotification, setAnchorElNotification] = React.useState(null);
   const openRequest = Boolean(anchorElRequest);
   const openNotification = Boolean(anchorElNotification);
+
   const handleClickRequest = (event) => {
     setAnchorElRequest(event.currentTarget);
   };
@@ -54,9 +56,10 @@ export default function Navbar({ req }) {
   const idRequest = openRequest ? "simple-popover" : undefined;
   const idNotification = openNotification ? "simple-popover" : undefined;
 
-  useEffect(() => {
-    console.log(user);
-  }, []);
+  // useEffect(() => {
+  //   console.log(user);
+  // }, []);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -90,7 +93,13 @@ export default function Navbar({ req }) {
               )}
               {user && (
                 <Tooltip title="Notifications">
-                  <Badge sx={styles} color="error" badgeContent={4}>
+                  <Badge
+                    sx={styles}
+                    color="error"
+                    badgeContent={
+                      notificationLength ? notificationLength : null
+                    }
+                  >
                     <NotificationsNoneIcon
                       aria-describedby={idNotification}
                       onClick={handleClickNotification}

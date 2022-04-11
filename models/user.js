@@ -22,7 +22,7 @@ let UserSchema = new Schema({
   photos: [{ type: String }],
   friendRequests: [{ type: String }],
   friends: [{ type: String }],
-  notifications: [{ type: String }],
+  notifications: [{ type: Schema.Types.ObjectId, ref: "Notification" }],
 });
 
 UserSchema.virtual("url").get(function () {
