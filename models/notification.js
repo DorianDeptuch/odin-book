@@ -8,6 +8,18 @@ let NotificationSchema = new Schema(
     sender: { type: Schema.Types.ObjectId, ref: "User", required: true },
     recipient: { type: Schema.Types.ObjectId, ref: "User", required: true },
     date: { type: Date, default: Date.now },
+    type: {
+      type: String,
+      enum: [
+        "Poke",
+        "Friend Request Accept",
+        "Liked Comment",
+        "Liked Post",
+        "Comment On Post",
+        "Friend Posted",
+        "Welcome Notification",
+      ],
+    },
   },
   {
     timestamps: true,

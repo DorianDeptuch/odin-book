@@ -105,6 +105,7 @@ exports.poke_post = (req, res, next) => {
       sender: toID(sender),
       recipient: toID(recipient),
       content,
+      type: "Poke",
     });
     newNotification.save().then((notification) => {
       user.notifications.push(notification);
@@ -280,10 +281,10 @@ exports.deleteAccountForm_delete = [
 // ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚═╝  ╚═╝
 
 exports.index_get = (req, res, next) => {
-  console.log("<<<<<<<<<INDEX_GET>>>>>>>>>>");
-  console.log("req.user: " + req.user);
-  console.log("req.session: " + JSON.stringify(req.session));
-  res.json({ user: app.locals.user });
+  // console.log("<<<<<<<<<INDEX_GET>>>>>>>>>>");
+  // console.log("req.user: " + req.user);
+  // console.log("req.session: " + JSON.stringify(req.session));
+  // res.json({ user: app.locals.user });
 
   // if (req.isAuthenticated()) {
   //   console.log("AUTHENTICATED:");
@@ -297,6 +298,33 @@ exports.index_get = (req, res, next) => {
 
   //   res.redirect("/login");
   // }
+
+  User.findById(app.locals.user.id)
+    // .populate({
+    //   path: "posts",
+    //   model: Post,
+    //   options: { sort: { createdAt: -1 } },
+    //   populate: [
+    //     { path: "author", model: User },
+    //     {
+    //       path: "comments",
+    //       model: Comment,
+    //       populate: { path: "author", model: User },
+    //     },
+    //   ],
+    // })
+    .populate({
+      path: "notifications",
+      model: Notification,
+      options: { sort: { createdAt: -1 } },
+      populate: [
+        { path: "sender", model: User },
+        { path: "recipient", model: User },
+      ],
+    })
+    .then((user) => {
+      res.json({ user });
+    });
 };
 
 exports.index_post = (req, res, next) => {};
