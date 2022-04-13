@@ -56,9 +56,6 @@ export default function Navbar({ req }) {
   };
 
   useEffect(() => {
-    console.log(user);
-    console.log("uunl ", user?.user?.notifications?.length);
-    console.log("nl", notificationLength);
     setNotificationLength(user?.user?.notifications?.length || null);
   }, [user]);
 

@@ -80,7 +80,7 @@ function Post({ postID, content, likes, comments, author, date }) {
   };
 
   return (
-    <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
+    <Paper elevation={3} sx={{ p: 2, mt: 2 }} id={postID}>
       <Stack>
         <Stack direction="row" sx={{ mb: 2 }}>
           <Link href={`${client}/profile/${author._id}`}>
