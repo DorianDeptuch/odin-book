@@ -39,6 +39,11 @@ router.get(
   indexController.search_get
 );
 
+router.post(
+  "/removeAllNotifications",
+  indexController.removeAllNotifications_delete
+);
+
 // router.get("/youdidit", (req, res, next) => {
 //   res.send("You did it!");
 // });

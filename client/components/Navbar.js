@@ -24,22 +24,24 @@ const styles = {
 };
 
 export default function Navbar({ req }) {
+  const { user } = useContext(UserContext);
+  const [notificationLength, setNotificationLength] = React.useState(null);
+  const [anchorElRequest, setAnchorElRequest] = React.useState(null);
+  const [anchorElNotification, setAnchorElNotification] = React.useState(null);
+  const openRequest = Boolean(anchorElRequest);
+  const openNotification = Boolean(anchorElNotification);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  const idRequest = openRequest ? "simple-popover" : undefined;
+  const idNotification = openNotification ? "simple-popover" : undefined;
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { user } = useContext(UserContext);
-  const notificationLength = user?.user?.notifications?.length;
-
-  const [anchorElRequest, setAnchorElRequest] = React.useState(null);
-  const [anchorElNotification, setAnchorElNotification] = React.useState(null);
-  const openRequest = Boolean(anchorElRequest);
-  const openNotification = Boolean(anchorElNotification);
-
   const handleClickRequest = (event) => {
     setAnchorElRequest(event.currentTarget);
   };
@@ -53,12 +55,12 @@ export default function Navbar({ req }) {
     setAnchorElNotification(null);
   };
 
-  const idRequest = openRequest ? "simple-popover" : undefined;
-  const idNotification = openNotification ? "simple-popover" : undefined;
-
-  // useEffect(() => {
-  //   console.log(user);
-  // }, []);
+  useEffect(() => {
+    console.log(user);
+    console.log("uunl ", user?.user?.notifications?.length);
+    console.log("nl", notificationLength);
+    setNotificationLength(user?.user?.notifications?.length || null);
+  }, [user]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -109,6 +111,8 @@ export default function Navbar({ req }) {
                       openNotification={openNotification}
                       anchorElNotification={anchorElNotification}
                       handleCloseNotification={handleCloseNotification}
+                      setAnchorElNotification={setAnchorElNotification}
+                      setNotificationLength={setNotificationLength}
                     />
                   </Badge>
                 </Tooltip>

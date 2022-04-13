@@ -585,3 +585,43 @@ exports.search_get = (req, res, next) => {
     (results) => res.json({ results })
   );
 };
+
+exports.removeAllNotifications_delete = (req, res, next) => {
+  User.findById(app.locals.user.id)
+    .then((user) => {
+      // user.updateOne({ notifications: {sender: app.locals.user.id} }, {
+      //   $pullAll: {
+      //       notifications: [{_id: app.locals.user.notifications._id}],
+      //   },
+      // });
+      user.notifications.forEach(async (item) => {
+        await user.notifications.pull({ _id: item._id });
+        await user.save();
+        // await Notification.findByIdAndDelete(item._id, function (err, docs) {
+        //   if (err) {
+        //     console.log(err);
+        //   } else {
+        //     console.log("Deleted : ", docs);
+        //   }
+        // });
+        //ParallelSaveError: Can't save() the same doc multiple times in parallel. (Mongoose)
+      });
+    })
+    // .then((user) => {
+    //   User.findById(app.locals.user.id).then((user) => {
+    //     user.notifications.forEach(async (item) => {
+    //       await Notification.findByIdAndDelete(item._id, function (err, docs) {
+    //         if (err) {
+    //           console.log(err);
+    //         } else {
+    //           console.log("Deleted : ", docs);
+    //         }
+    //       });
+    //     });
+    //   });
+    // })
+    //MongooseError: Query was already executed: Notification.findOneAndDelete({ _id: new ObjectId("6256508b3...
+    .then((user) => {
+      res.json({ user });
+    });
+};

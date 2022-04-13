@@ -81,9 +81,13 @@ function ProfileHeader({ id }) {
 
   const handleDisablePoke = () => {
     setDisabledTrigger(true);
-    setTimeout(() => {
+    let timer1 = setTimeout(() => {
       setDisabledTrigger(false);
     }, 60000);
+
+    return () => {
+      clearTimeout(timer1);
+    };
   };
 
   const handlePokeSubmit = (e) => {
