@@ -27,6 +27,7 @@ function Post({ postID, content, likes, comments, author, date }) {
   const [commentContent, setCommentContent] = useState("");
   const [commentData, setCommentData] = useState([]);
   const [hasComments, setHasComments] = useState(false);
+  const [hideCommentLength, setHideCommentLength] = useState(false);
 
   const router = useRouter();
 
@@ -54,7 +55,7 @@ function Post({ postID, content, likes, comments, author, date }) {
       .then((res) => {
         router.push(`${client}/`);
         // router.reload()
-        toast.success("Post successfully created.", {
+        toast.success("Comment successfully created.", {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -164,8 +165,12 @@ function Post({ postID, content, likes, comments, author, date }) {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
+            onClick={() => setHideCommentLength(!hideCommentLength)}
           >
-            <Typography>Comments ({comments.length})</Typography>
+            <Typography>Comments &nbsp;</Typography>
+            {!hideCommentLength && (
+              <Typography> ({comments.length})</Typography>
+            )}
           </AccordionSummary>
           <AccordionDetails>
             {commentData.map((item) => (

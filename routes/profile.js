@@ -34,7 +34,7 @@ router.post(
 router.post(
   "/:id/poke",
   // ensureAuthenticated,
-  indexController.poke_post
+  indexController.notification_poke_post
 );
 
 module.exports = router;

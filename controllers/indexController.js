@@ -97,7 +97,14 @@ exports.profileDetailsForm_put = [
   },
 ];
 
-exports.poke_post = (req, res, next) => {
+// ███╗   ██╗ ██████╗ ████████╗██╗███████╗██╗ ██████╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗███████╗
+// ████╗  ██║██╔═══██╗╚══██╔══╝██║██╔════╝██║██╔════╝██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝
+// ██╔██╗ ██║██║   ██║   ██║   ██║█████╗  ██║██║     ███████║   ██║   ██║██║   ██║██╔██╗ ██║███████╗
+// ██║╚██╗██║██║   ██║   ██║   ██║██╔══╝  ██║██║     ██╔══██║   ██║   ██║██║   ██║██║╚██╗██║╚════██║
+// ██║ ╚████║╚██████╔╝   ██║   ██║██║     ██║╚██████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║███████║
+// ╚═╝  ╚═══╝ ╚═════╝    ╚═╝   ╚═╝╚═╝     ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
+
+exports.notification_poke_post = (req, res, next) => {
   const { sender, content, recipient } = req.body;
 
   User.findById(req.params.id).then((user) => {
@@ -118,6 +125,8 @@ exports.poke_post = (req, res, next) => {
     });
   });
 };
+
+exports.notification_comment_on_post_post = (req, res, next) => {};
 
 // ███████╗███████╗████████╗████████╗██╗███╗   ██╗ ██████╗ ███████╗
 // ██╔════╝██╔════╝╚══██╔══╝╚══██╔══╝██║████╗  ██║██╔════╝ ██╔════╝
@@ -563,6 +572,26 @@ exports.postComment_post = [
           let currentPost = await Post.findById(toID(post));
           currentPost.comments.push(newComment);
           await currentPost.save();
+
+          if (app.locals.user.id !== newComment.author._id) {
+            User.findById(currentPost.author._id).then((user) => {
+              const newNotification = new Notification({
+                sender: toID(app.locals.user.id),
+                recipient: toID(currentPost.author._id),
+                content: currentPost._id,
+                type: "Comment On Post",
+              });
+              newNotification.save().then((notification) => {
+                user.notifications.push(notification);
+                user
+                  .save()
+                  .then((user) => {
+                    console.log(user);
+                  })
+                  .catch((err) => console.log(err));
+              });
+            });
+          }
 
           Comment.find().exec(function (err, list_comments) {
             //populate comments ??

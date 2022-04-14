@@ -24,9 +24,8 @@ function NotificationPopover({
   const router = useRouter();
 
   useEffect(() => {
+    console.log(user);
     setHasNotifications(notificationArray?.length ? true : false);
-    console.log(hasNotifications);
-    console.log(notificationArray);
   }, []);
 
   const handleRemoveAllNotifications = (e) => {

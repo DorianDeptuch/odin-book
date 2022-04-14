@@ -8,7 +8,7 @@ import { server, client } from "../../config/config";
 import { formatDistance } from "date-fns";
 
 const typographyStyles = {
-  alignSelf: "center",
+  alignSelf: "start",
   ml: 2,
 };
 
@@ -77,17 +77,26 @@ function Notification({ sender, recipient, date, content, type }) {
         </Paper>
       )}
       {type === "Comment On Post" && (
-        <Paper elevation={3} sx={{ m: 2, p: 2 }}>
-          <Stack direction="row">
-            <Avatar src={sender?.profilePicture || null}>JS</Avatar>
-            <Typography sx={typographyStyles}>
-              <strong>
-                {sender.firstName} {sender.lastName}
-              </strong>{" "}
-              Commented on your Post.
-            </Typography>
-          </Stack>
-        </Paper>
+        <Link href={`${client}/profile/${recipient._id}#${content}`}>
+          <Paper elevation={3} sx={{ m: 2, p: 2 }}>
+            <Stack direction="row">
+              <Avatar src={sender?.profilePicture || null}>JS</Avatar>
+              <Stack>
+                <Typography sx={typographyStyles}>
+                  <strong>
+                    {sender.firstName} {sender.lastName}
+                  </strong>{" "}
+                  commented on your Post.
+                </Typography>
+                <Typography variant="body2" component="p" sx={typographyStyles}>
+                  {formatDistance(new Date(date), new Date(), {
+                    addSuffix: true,
+                  })}
+                </Typography>
+              </Stack>
+            </Stack>
+          </Paper>
+        </Link>
       )}
       {type === "Friend Posted" && (
         <Paper elevation={3} sx={{ m: 2, p: 2 }}>
