@@ -65,7 +65,7 @@ function StatusUpdate() {
   };
 
   return (
-    <Paper elevation={3} sx={{ p: 2 }}>
+    <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
       <Stack>
         <Stack direction="row">
           <Avatar

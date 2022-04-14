@@ -5,8 +5,8 @@ const { format } = require("date-fns");
 let NotificationSchema = new Schema(
   {
     content: { type: String },
-    sender: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    recipient: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    sender: { type: Schema.Types.ObjectId, ref: "User" },
+    recipient: { type: Schema.Types.ObjectId, ref: "User" },
     date: { type: Date, default: Date.now },
     type: {
       type: String,
