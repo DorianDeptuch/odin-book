@@ -71,6 +71,7 @@ function NotificationPopover({
         vertical: "top",
         horizontal: "right",
       }}
+      // sx={{ maxWidth: ["100%", "80%", "60%", "60%", "60%"] }}
     >
       {notificationArray &&
         notificationArray.map((item) => (

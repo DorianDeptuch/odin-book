@@ -126,8 +126,6 @@ exports.notification_poke_post = (req, res, next) => {
   });
 };
 
-exports.notification_comment_on_post_post = (req, res, next) => {};
-
 // ███████╗███████╗████████╗████████╗██╗███╗   ██╗ ██████╗ ███████╗
 // ██╔════╝██╔════╝╚══██╔══╝╚══██╔══╝██║████╗  ██║██╔════╝ ██╔════╝
 // ███████╗█████╗     ██║      ██║   ██║██╔██╗ ██║██║  ███╗███████╗
@@ -470,6 +468,12 @@ exports.signup_post = [
             newPassword,
           });
         } else {
+          // const newNotification = new Notification({
+          //   type: "Welcome Notification",
+          //   recipient: app.locals.user
+          // });
+          // newNotification.save();
+
           const newUser = new User({
             email: newEmail.toLowerCase(),
             password: newPassword,
@@ -482,7 +486,15 @@ exports.signup_post = [
           bcrypt.genSalt(10, (err, salt) =>
             bcrypt.hash(newUser.password, salt, (err, hash) => {
               if (err) throw err;
+
+              const newNotification = new Notification({
+                type: "Welcome Notification",
+              });
+
+              newNotification.save();
+
               newUser.password = hash;
+              newUser.notifications.push(newNotification);
               newUser
                 .save()
                 .then((user) => {
