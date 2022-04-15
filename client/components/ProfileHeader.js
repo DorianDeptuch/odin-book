@@ -23,12 +23,14 @@ import { server, client } from "../../config/config";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { toastOptions } from "../config/config";
+import Link from "next/link";
 
 const styles = {
   width: avatar_SM,
   height: avatar_SM,
   border: "solid 2px #fff",
   transition: "transform 150ms",
+  cursor: "pointer",
 
   "&:hover ~ &": {
     transform: "translateX(15px)",
@@ -73,11 +75,16 @@ function ProfileHeader({ id }) {
   const [profile, setProfile] = useState({});
   const [disabledTrigger, setDisabledTrigger] = useState(false);
   const router = useRouter();
+  const [friendsList, setFriendsList] = useState([]);
+  const [friendsListLimit5, setFriendsListLimit5] = useState([]);
 
-  useEffect(() => {
+  useEffect(async () => {
     // console.log(currentProfile);
     const { results } = currentProfile;
     setProfile(results);
+    setFriendsList(results.friends);
+    setFriendsListLimit5(results.friends.slice(0, 5));
+    console.log(results.friends);
   }, []);
 
   const handleDisablePoke = () => {
@@ -159,9 +166,7 @@ function ProfileHeader({ id }) {
             <Avatar
               src={profile.profilePicture || ""}
               sx={{ height: avatar_XL, width: avatar_XL, m: 2 }}
-            >
-              JS
-            </Avatar>
+            ></Avatar>
             <Stack sx={{ alignSelf: "center" }}>
               <Typography
                 variant="h4"
@@ -171,23 +176,26 @@ function ProfileHeader({ id }) {
                 {profile.firstName} {profile.lastName}
               </Typography>
               <Typography variant="h6" component="h6">
-                {/* {user?.user?.friends.length} Friends */}
-                323 Friends
+                {profile?.friends?.length} Friends
               </Typography>
-              {/* <Stack direction="row"> */}
               <Box
                 sx={{
                   display: "grid",
                   gridTemplateColumns: "repeat(5, 20px)",
                 }}
               >
-                <Avatar sx={styles}>H</Avatar>
-                <Avatar sx={styles}>E</Avatar>
-                <Avatar sx={styles}>L</Avatar>
-                <Avatar sx={styles}>L</Avatar>
-                <Avatar sx={styles}>O</Avatar>
+                {friendsList &&
+                  friendsListLimit5.map((item) => (
+                    <Link href={`${client}/profile/${item._id}`}>
+                      <Avatar
+                        key={item._id}
+                        title={`${item.firstName} ${item.lastName}`}
+                        src={item.profilePicture}
+                        sx={styles}
+                      ></Avatar>
+                    </Link>
+                  ))}
               </Box>
-              {/* </Stack> */}
             </Stack>
             {!ownProfile && (
               <Stack sx={{ my: 5, mx: 2 }}>

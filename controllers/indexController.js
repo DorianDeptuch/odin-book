@@ -37,6 +37,17 @@ exports.profile_get = (req, res, next) => {
         },
       ],
     })
+    .populate({
+      path: "friends",
+      model: User,
+      options: { sort: { createdAt: -1 } },
+      // populate: [
+      //   { path: "firstName", model: User },
+      //   { path: "lastName", model: User },
+      //   { path: "profilePicture", model: User },
+      //   { path: "_id", model: User },
+      // ],
+    })
     .then((results) => {
       res.json({ results });
     });
@@ -159,6 +170,7 @@ exports.friendRequest_accept_post = (req, res, next) => {
 
         const newNotification = new Notification({
           recipient: toID(senderUser._id),
+          sender: toID(recipientUser._id),
           type: "Friend Request Accept",
         });
         await newNotification.save().then((notification) => {
@@ -401,6 +413,17 @@ exports.index_get = (req, res, next) => {
       populate: [
         { path: "sender", model: User },
         { path: "recipient", model: User },
+      ],
+    })
+    .populate({
+      path: "friends",
+      model: User,
+      options: { sort: { createdAt: -1 } },
+      populate: [
+        { path: "firstName", model: User },
+        { path: "lastName", model: User },
+        { path: "profilePicture", model: User },
+        { path: "_id", model: User },
       ],
     })
     .then((user) => {
