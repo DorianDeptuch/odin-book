@@ -6,6 +6,7 @@ const User = require("../models/user");
 const Post = require("../models/post");
 const Comment = require("../models/comment");
 const Notification = require("../models/notification");
+const FriendRequest = require("../models/friendRequest");
 const { body, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const toID = mongoose.Types.ObjectId;
@@ -123,6 +124,70 @@ exports.notification_poke_post = (req, res, next) => {
         })
         .catch((err) => console.log(err));
     });
+  });
+};
+
+exports.friendRequest_post = (req, res, next) => {
+  const { sender, recipient } = req.body;
+
+  User.findById(req.params.id).then((user) => {
+    const newFriendRequest = new FriendRequest({
+      sender: toID(sender),
+      recipient: toID(recipient),
+    });
+    newFriendRequest.save().then((friendRequest) => {
+      user.friendRequests.push(friendRequest);
+      user
+        .save()
+        .then((user) => {
+          res.json(user);
+        })
+        .catch((err) => console.log(err));
+    });
+  });
+};
+
+exports.friendRequest_accept_post = (req, res, next) => {
+  const { sender, recipient, friendRequestID } = req.body;
+
+  User.findById(recipient._id).then(async (recipientUser) => {
+    await recipientUser.friendRequests.pull({ _id: friendRequestID });
+    await recipientUser.friends.push({ _id: toID(sender._id) });
+    await recipientUser.save().then((user) => {
+      User.findById(sender._id).then(async (senderUser) => {
+        await senderUser.friends.push({ _id: toID(recipient._id) });
+
+        const newNotification = new Notification({
+          recipient: toID(senderUser._id),
+          type: "Friend Request Accept",
+        });
+        await newNotification.save().then((notification) => {
+          senderUser.notifications.push(notification);
+          senderUser
+            .save()
+            .then((user) => {
+              res.json(user);
+            })
+            .catch((err) => console.log(err));
+        });
+      });
+    });
+  });
+};
+
+exports.friendRequest_deny_post = (req, res, next) => {
+  const { sender, recipient, friendRequestID } = req.body;
+
+  User.findById(recipient._id).then((user) => {
+    user.friendRequests.pull({ _id: friendRequestID });
+    user
+      .save()
+      .then((user) => {
+        res.json({ user });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   });
 };
 
@@ -323,6 +388,15 @@ exports.index_get = (req, res, next) => {
     .populate({
       path: "notifications",
       model: Notification,
+      options: { sort: { createdAt: -1 } },
+      populate: [
+        { path: "sender", model: User },
+        { path: "recipient", model: User },
+      ],
+    })
+    .populate({
+      path: "friendRequests",
+      model: FriendRequest,
       options: { sort: { createdAt: -1 } },
       populate: [
         { path: "sender", model: User },

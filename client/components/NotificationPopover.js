@@ -37,7 +37,6 @@ function NotificationPopover({
     })
       .then((res) => {
         router.push(`${client}/`);
-        // handleCloseNotification();
         setHasNotifications(false);
         setNotificationArray(null);
         setNotificationLength(null);

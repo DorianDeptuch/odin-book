@@ -37,4 +37,20 @@ router.post(
   indexController.notification_poke_post
 );
 
+router.post(
+  "/:id/friendRequest",
+  // ensureAuthenticated,
+  indexController.friendRequest_post
+);
+router.post(
+  "/:id/friendRequestAccept",
+  // ensureAuthenticated,
+  indexController.friendRequest_accept_post
+);
+router.post(
+  "/:id/friendRequestDeny",
+  // ensureAuthenticated,
+  indexController.friendRequest_deny_post
+);
+
 module.exports = router;

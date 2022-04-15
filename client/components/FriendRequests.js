@@ -12,9 +12,9 @@ function FriendRequests() {
           Friend Requests
         </Typography>
         <Stack direction="row" sx={{ overflowX: "scroll", p: 2 }}>
+          {/* <Request />
           <Request />
-          <Request />
-          <Request />
+          <Request /> */}
         </Stack>
       </Stack>
     </Paper>

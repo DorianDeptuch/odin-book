@@ -26,6 +26,7 @@ const styles = {
 export default function Navbar({ req }) {
   const { user } = useContext(UserContext);
   const [notificationLength, setNotificationLength] = React.useState(null);
+  const [friendRequestLength, setFriendRequestLength] = React.useState(null);
   const [anchorElRequest, setAnchorElRequest] = React.useState(null);
   const [anchorElNotification, setAnchorElNotification] = React.useState(null);
   const openRequest = Boolean(anchorElRequest);
@@ -57,6 +58,7 @@ export default function Navbar({ req }) {
 
   useEffect(() => {
     setNotificationLength(user?.user?.notifications?.length || null);
+    setFriendRequestLength(user?.user?.friendRequests?.length || null);
   }, [user]);
 
   return (
@@ -76,7 +78,13 @@ export default function Navbar({ req }) {
             <Stack direction="row">
               {user && (
                 <Tooltip title="Friend Requests">
-                  <Badge sx={styles} color="error" badgeContent={3}>
+                  <Badge
+                    sx={styles}
+                    color="error"
+                    badgeContent={
+                      friendRequestLength ? friendRequestLength : null
+                    }
+                  >
                     <PersonAddIcon
                       aria-describedby={idRequest}
                       onClick={handleClickRequest}
@@ -86,6 +94,8 @@ export default function Navbar({ req }) {
                       openRequest={openRequest}
                       anchorElRequest={anchorElRequest}
                       handleCloseRequest={handleCloseRequest}
+                      setAnchorElRequest={setAnchorElRequest}
+                      setFriendRequestLength={setFriendRequestLength}
                     />
                   </Badge>
                 </Tooltip>

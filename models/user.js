@@ -20,13 +20,12 @@ let UserSchema = new Schema({
   // posts: [{ type: String }],
   posts: [{ type: Schema.Types.ObjectId, ref: "Post", required: true }],
   photos: [{ type: String }],
-  friendRequests: [{ type: String }],
-  friends: [{ type: String }],
+  friendRequests: [{ type: Schema.Types.ObjectId, ref: "FriendRequest" }],
+  friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
   notifications: [
     {
       type: Schema.Types.ObjectId,
       ref: "Notification",
-      default: { type: "Welcome Notification" },
     },
   ],
 });

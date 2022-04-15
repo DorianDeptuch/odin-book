@@ -133,6 +133,46 @@ function ProfileHeader({ id }) {
       });
   };
 
+  const handleFriendRequest = (e) => {
+    e.preventDefault();
+
+    const data = {
+      sender: user?.user?._id,
+      recipient: profile?._id,
+    };
+    // console.log(data);
+
+    fetch(`${server}/profile/${profile?._id}/friendRequest`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        router.push(`${client}/profile/${profile?._id}`);
+        toast.info(`Friend Request sent to ${profile?.firstName}`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(`${err.message}`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
+
   // this is for the tab component
   const [value, setValue] = React.useState(0);
   //Also for the tab component
@@ -179,13 +219,25 @@ function ProfileHeader({ id }) {
             </Stack>
             {!ownProfile && (
               <Stack sx={{ my: 5, mx: 2 }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{ m: 1, height: 50, width: "100%", alignSelf: "center" }}
+                <form
+                  action="/friendRequest"
+                  method="POST"
+                  onSubmit={handleFriendRequest}
                 >
-                  <PersonAddIcon sx={{ mr: 1 }} /> Add Friend
-                </Button>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      m: 1,
+                      height: 50,
+                      width: "100%",
+                      alignSelf: "center",
+                    }}
+                  >
+                    <PersonAddIcon sx={{ mr: 1 }} /> Add Friend
+                  </Button>
+                </form>
                 <form action="/poke" method="POST" onSubmit={handlePokeSubmit}>
                   <Button
                     disabled={disabledTrigger}
