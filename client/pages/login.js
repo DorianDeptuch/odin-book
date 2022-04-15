@@ -22,6 +22,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import { toastOptions } from "../config/config";
 
 const styles = {
   p: 2,
@@ -96,15 +97,7 @@ function login() {
           console.log(res);
           router.push("/");
         } else {
-          toast.error("Invalid Credentials.", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          toast.error("Invalid Credentials.", toastOptions);
         }
       })
       .then((data) => console.log(data))

@@ -14,6 +14,7 @@ import { avatar_MD } from "../config/config";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { server, client } from "../../config/config";
+import { toastOptions } from "../config/config";
 
 function StatusUpdate() {
   const { user } = useContext(UserContext);
@@ -39,28 +40,12 @@ function StatusUpdate() {
     })
       .then((res) => {
         router.push(`${client}/`);
-        toast.success("Post successfully created.", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.success("Post successfully created.", toastOptions);
         setContent("");
       })
       .catch((err) => {
         console.log(err);
-        toast.error(`${err.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error(`${err.message}`, toastOptions);
       });
   };
 

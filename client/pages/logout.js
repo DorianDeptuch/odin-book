@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
 import { server } from "../../config/config";
 import { toast } from "react-toastify";
+import { toastOptions } from "../config/config";
 
 function logout({ data }) {
   const router = useRouter();
@@ -21,26 +22,10 @@ function logout({ data }) {
 
   const displayLogoutSuccess = () => {
     try {
-      toast.success("You have successfully logged out.", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.success("You have successfully logged out.", toastOptions);
     } catch (err) {
       console.log(err);
-      toast.error(`${err.message}`, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.error(`${err.message}`, toastOptions);
     }
   };
 

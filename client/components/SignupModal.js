@@ -20,6 +20,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import CloseTwoToneIcon from "@mui/icons-material/CloseTwoTone";
 import { toast } from "react-toastify";
+import { toastOptions } from "../config/config";
 
 const schema = Yup.object().shape({
   firstName: Yup.string().required("Please enter your first name"),
@@ -50,27 +51,14 @@ export default function SignupModal({ handleClose }) {
     })
       .then((res) => {
         handleClose();
-        toast.success("You have successfully signed up! Login to continue.", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.success(
+          "You have successfully signed up! Login to continue.",
+          toastOptions
+        );
       })
       .catch((err) => {
         console.log(err);
-        toast.error(`${err.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error(`${err.message}`, toastOptions);
       });
   };
 

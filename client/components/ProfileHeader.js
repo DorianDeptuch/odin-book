@@ -22,6 +22,7 @@ import TouchAppIcon from "@mui/icons-material/TouchApp";
 import { server, client } from "../../config/config";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { toastOptions } from "../config/config";
 
 const styles = {
   width: avatar_SM,
@@ -109,27 +110,11 @@ function ProfileHeader({ id }) {
       .then((res) => {
         handleDisablePoke();
         router.push(`${client}/profile/${profile?._id}`);
-        toast.info(`You poked ${profile?.firstName}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.info(`You poked ${profile?.firstName}`, toastOptions);
       })
       .catch((err) => {
         console.log(err);
-        toast.error(`${err.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error(`${err.message}`, toastOptions);
       });
   };
 
@@ -149,27 +134,14 @@ function ProfileHeader({ id }) {
     })
       .then((res) => {
         router.push(`${client}/profile/${profile?._id}`);
-        toast.info(`Friend Request sent to ${profile?.firstName}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.info(
+          `Friend Request sent to ${profile?.firstName}`,
+          toastOptions
+        );
       })
       .catch((err) => {
         console.log(err);
-        toast.error(`${err.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error(`${err.message}`, toastOptions);
       });
   };
 

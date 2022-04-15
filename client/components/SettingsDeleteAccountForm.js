@@ -10,6 +10,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { toastOptions } from "../config/config";
 
 function SettingsDeleteAccountForm() {
   const [deleteAccount, setDeleteAccount] = useState("");
@@ -33,30 +34,14 @@ function SettingsDeleteAccountForm() {
       body: JSON.stringify(data),
     })
       .then((res) => {
-        toast.success("Account successfully deleted", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.success("Account successfully deleted", toastOptions);
         setDeleteAccount("");
         router.push("/login");
         // setUser(null)
       })
       .catch((err) => {
         console.log(err);
-        toast.error(`${err.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error(`${err.message}`, toastOptions);
         setDeleteAccount("");
       });
   };

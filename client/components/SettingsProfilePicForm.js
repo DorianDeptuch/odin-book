@@ -12,6 +12,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CloseIcon from "@mui/icons-material/Close";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { toast } from "react-toastify";
+import { toastOptions } from "../config/config";
 
 function SettingsProfilePicForm({ data }) {
   const [expanded, setExpanded] = useState(false);
@@ -42,29 +43,13 @@ function SettingsProfilePicForm({ data }) {
       body: JSON.stringify(data),
     })
       .then((res) => {
-        toast.success("Settings updated.", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.success("Settings updated.", toastOptions);
         setProfilePicture("");
         setExpanded(false);
       })
       .catch((err) => {
         console.log(err);
-        toast.error(`${err.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error(`${err.message}`, toastOptions);
         setProfilePicture("");
       });
   };

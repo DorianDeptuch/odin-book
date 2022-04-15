@@ -16,6 +16,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Input from "@mui/material/Input";
 import CloseTwoToneIcon from "@mui/icons-material/CloseTwoTone";
 import { toast } from "react-toastify";
+import { toastOptions } from "../config/config";
 
 const style = {
   position: "absolute",
@@ -69,27 +70,11 @@ function ProfileDetailsForm({ handleClose }) {
       .then((res) => {
         handleClose();
         router.push(`${client}/profile/${user?.user?._id}`);
-        toast.success("Profile details updated.", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.success("Profile details updated.", toastOptions);
       })
       .catch((err) => {
         console.log(err);
-        toast.error(`${err.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error(`${err.message}`, toastOptions);
       });
   };
 

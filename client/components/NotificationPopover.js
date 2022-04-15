@@ -7,6 +7,7 @@ import { UserContext } from "../pages/_app";
 import { server, client } from "../../config/config";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { toastOptions } from "../config/config";
 
 function NotificationPopover({
   idNotification,
@@ -44,15 +45,7 @@ function NotificationPopover({
       })
       .catch((err) => {
         console.log(err);
-        toast.error(`${err.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error(`${err.message}`, toastOptions);
       });
   };
 

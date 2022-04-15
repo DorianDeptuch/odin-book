@@ -9,6 +9,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { toast } from "react-toastify";
+import { toastOptions } from "../config/config";
 
 function SettingsChangePasswordForm() {
   const [oldPassword, setOldPassword] = useState("");
@@ -33,30 +34,14 @@ function SettingsChangePasswordForm() {
       body: JSON.stringify(data),
     })
       .then((res) => {
-        toast.success("Settings updated.", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.success("Settings updated.", toastOptions);
         setOldPassword("");
         setNewPassword("");
         setExpanded(false);
       })
       .catch((err) => {
         console.log(err);
-        toast.error(`${err.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error(`${err.message}`, toastOptions);
         setOldPassword("");
         setNewPassword("");
       });

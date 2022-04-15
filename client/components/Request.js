@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import { red } from "@mui/material/colors";
-import { avatar_LG } from "../config/config";
+import { avatar_LG, toastOptions } from "../config/config";
 import { server, client } from "../../config/config";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
@@ -37,27 +37,14 @@ function Request({
         router.push(`${client}/`);
         setFriendRequestLength((prev) => prev - 1);
         setAnchorElRequest(null);
-        toast.success(`You and ${sender.firstName} are now Friends!`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.success(
+          `You and ${sender.firstName} are now Friends!`,
+          toastOptions
+        );
       })
       .catch((err) => {
         console.log(err);
-        toast.error(`${err.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error(`${err.message}`, toastOptions);
       });
   };
 
@@ -78,27 +65,14 @@ function Request({
         router.push(`${client}/`);
         setFriendRequestLength((prev) => prev - 1);
         setAnchorElRequest(null);
-        toast.info(`You have denied ${sender.firstName}'s friendship.`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.info(
+          `You have denied ${sender.firstName}'s friendship.`,
+          toastOptions
+        );
       })
       .catch((err) => {
         console.log(err);
-        toast.error(`${err.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error(`${err.message}`, toastOptions);
       });
   };
 

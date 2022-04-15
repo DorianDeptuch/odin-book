@@ -3,8 +3,6 @@ import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import Request from "./Request";
 import { UserContext } from "../pages/_app";
-import { useRouter } from "next/router";
-import { toast } from "react-toastify";
 
 function FriendRequestPopover({
   idRequest,
@@ -19,13 +17,8 @@ function FriendRequestPopover({
     user?.user?.friendRequests || null
   );
   const [hasFriendRequests, setHasFriendRequests] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
-    console.log(user);
-    console.log("hasFriendRequests ", hasFriendRequests);
-    console.log("friendRequestArray ", friendRequestArray);
-
     setHasFriendRequests(friendRequestArray?.length ? true : false);
   }, []);
 
