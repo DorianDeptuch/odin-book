@@ -24,7 +24,7 @@ function ProfilePosts({ id }) {
     setProfilePosts(posts);
     // console.log(posts);
     setHasPosts(results.posts.length ? true : false);
-  }, []);
+  }, [currentProfile]);
 
   return (
     <Box sx={{ mx: -3 }}>

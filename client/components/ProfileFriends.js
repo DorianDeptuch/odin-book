@@ -19,7 +19,7 @@ function ProfileFriends() {
     const { results } = currentProfile;
     setFriendsList(results.friends);
     console.log(results.friends);
-  }, []);
+  }, [currentProfile]);
 
   return (
     <Box sx={{ mx: -3 }}>
@@ -43,7 +43,7 @@ function ProfileFriends() {
                 <Link href={`${client}/profile/${item._id}`}>
                   <a>
                     <Paper
-                      elevation={3}
+                      elevation={5}
                       sx={{
                         m: 2,
                         p: 2,

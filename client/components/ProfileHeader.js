@@ -78,14 +78,16 @@ function ProfileHeader({ id }) {
   const [friendsList, setFriendsList] = useState([]);
   const [friendsListLimit5, setFriendsListLimit5] = useState([]);
 
-  useEffect(async () => {
-    // console.log(currentProfile);
+  useEffect(() => {
     const { results } = currentProfile;
     setProfile(results);
     setFriendsList(results.friends);
     setFriendsListLimit5(results.friends.slice(0, 5));
-    console.log(results.friends);
-  }, []);
+  }, [currentProfile]);
+
+  useEffect(() => {
+    setValue(0);
+  }, [id]);
 
   const handleDisablePoke = () => {
     setDisabledTrigger(true);
@@ -175,9 +177,17 @@ function ProfileHeader({ id }) {
               >
                 {profile.firstName} {profile.lastName}
               </Typography>
-              <Typography variant="h6" component="h6">
-                {profile?.friends?.length} Friends
-              </Typography>
+              {profile?.friends?.length === 1 && (
+                <Typography variant="h6" component="h6">
+                  {profile?.friends?.length} Friend
+                </Typography>
+              )}
+              {profile?.friends?.length === 0 ||
+                (profile?.friends?.length > 1 && (
+                  <Typography variant="h6" component="h6">
+                    {profile?.friends?.length} Friends
+                  </Typography>
+                ))}
               <Box
                 sx={{
                   display: "grid",

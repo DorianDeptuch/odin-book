@@ -19,7 +19,7 @@ function ProfileInfo() {
   useEffect(() => {
     const { results } = currentProfile;
     setProfile(results);
-  }, []);
+  }, [currentProfile]);
 
   return (
     <Stack>

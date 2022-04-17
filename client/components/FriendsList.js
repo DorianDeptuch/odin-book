@@ -12,7 +12,7 @@ function FriendsList() {
   useEffect(() => {
     const { results } = currentProfile;
     setFriendsList(results.friends);
-  }, []);
+  }, [currentProfile]);
 
   return (
     <Paper elevation={3} sx={{ p: 2, my: 2 }}>

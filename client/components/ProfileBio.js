@@ -13,7 +13,7 @@ function ProfileBio() {
   useEffect(() => {
     const { results } = currentProfile;
     setProfile(results);
-  }, []);
+  }, [currentProfile]);
 
   return (
     <Stack>
