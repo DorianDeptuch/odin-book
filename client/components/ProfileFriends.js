@@ -6,20 +6,35 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import ProfileFriend from "./ProfileFriend";
 import { ProfileContext } from "../pages/profile/[id]";
+import { UserContext } from "../pages/_app";
 import Link from "next/link";
 import Avatar from "@mui/material/Avatar";
 import { client } from "../../config/config";
 import { avatar_MD } from "../config/config";
 
-function ProfileFriends() {
+function ProfileFriends({ id }) {
   const currentProfile = useContext(ProfileContext);
+  const { user } = useContext(UserContext);
+  const ownProfile = user?.user?._id === id ? true : false;
   const [friendsList, setFriendsList] = useState([]);
+  const [userFriendsList, setUserFriendsList] = useState([]);
 
   useEffect(() => {
     const { results } = currentProfile;
+    setUserFriendsList(user?.user?.friends);
     setFriendsList(results.friends);
-    console.log(results.friends);
+    console.log(compareMutualFriends(userFriendsList, friendsList));
+    console.log(
+      userFriendsList.reduce((a, c) => a + friendsList.includes(c), 0)
+    );
   }, [currentProfile]);
+
+  const compareMutualFriends = (arr1, arr2) => {
+    arr1.reduce((a, c) => a + arr2.includes(c), 0);
+  };
+
+  const getAge = (birthDate) =>
+    Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
 
   return (
     <Box sx={{ mx: -3 }}>
@@ -58,13 +73,47 @@ function ProfileFriends() {
                           src={item.profilePicture || null}
                           sx={{ height: avatar_MD, width: avatar_MD, mr: 2 }}
                         ></Avatar>
-                        <Typography
-                          variant="h6"
-                          component="h6"
-                          sx={{ alignSelf: "center" }}
-                        >
-                          {item.firstName} {item.lastName}
-                        </Typography>
+                        <Stack>
+                          <Typography
+                            variant="h6"
+                            component="h6"
+                            sx={{ alignSelf: "start" }}
+                          >
+                            {item.firstName} {item.lastName}
+                          </Typography>
+                          <Stack direction="row">
+                            <Typography
+                              variant="body1"
+                              component="p"
+                              sx={{ alignSelf: "start", mr: 1 }}
+                            >
+                              <strong>{getAge(item.dateOfBirth)}</strong>
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              component="p"
+                              sx={{ alignSelf: "start", mr: 1 }}
+                            >
+                              <strong>{item.sex}</strong>
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              component="p"
+                              sx={{ alignSelf: "start", mr: 1 }}
+                            >
+                              <strong>{item.currentTown}</strong>
+                            </Typography>
+                          </Stack>
+                          {!ownProfile && (
+                            <Typography variant="body2" component="p">
+                              {compareMutualFriends(
+                                userFriendsList,
+                                friendsList
+                              )}{" "}
+                              mutual friends
+                            </Typography>
+                          )}
+                        </Stack>
                       </Stack>
                     </Paper>
                   </a>

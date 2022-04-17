@@ -415,17 +415,17 @@ exports.index_get = (req, res, next) => {
         { path: "recipient", model: User },
       ],
     })
-    .populate({
-      path: "friends",
-      model: User,
-      options: { sort: { createdAt: -1 } },
-      populate: [
-        { path: "firstName", model: User },
-        { path: "lastName", model: User },
-        { path: "profilePicture", model: User },
-        { path: "_id", model: User },
-      ],
-    })
+    // .populate({
+    //   path: "friends",
+    //   model: User,
+    //   options: { sort: { createdAt: -1 } },
+    //   populate: [
+    //     { path: "firstName", model: User },
+    //     { path: "lastName", model: User },
+    //     { path: "profilePicture", model: User },
+    //     { path: "_id", model: User },
+    //   ],
+    // })
     .then((user) => {
       res.json({ user });
     });

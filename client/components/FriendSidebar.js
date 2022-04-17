@@ -7,7 +7,7 @@ function FriendSidebar() {
   return (
     <Box sx={{ m: 2 }}>
       <FriendRequests />
-      <FriendsList />
+      {/* <FriendsList /> */}
     </Box>
   );
 }

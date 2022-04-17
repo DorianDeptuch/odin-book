@@ -267,7 +267,7 @@ function ProfileHeader({ id }) {
               <ProfileAbout id={id} />
             </TabPanel>
             <TabPanel value={value} index={2} sx={{ backgroundColor: bgc }}>
-              <ProfileFriends />
+              <ProfileFriends id={id} />
             </TabPanel>
             <TabPanel value={value} index={3} sx={{ backgroundColor: bgc }}>
               <ProfilePhotos />
