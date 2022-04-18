@@ -48,6 +48,17 @@ exports.profile_get = (req, res, next) => {
       //   { path: "_id", model: User },
       // ],
     })
+    .populate({
+      path: "friendRequests",
+      model: FriendRequest,
+      options: { sort: { createdAt: -1 } },
+      // populate: [
+      //   { path: "firstName", model: User },
+      //   { path: "lastName", model: User },
+      //   { path: "profilePicture", model: User },
+      //   { path: "_id", model: User },
+      // ],
+    })
     .then((results) => {
       res.json({ results });
     });

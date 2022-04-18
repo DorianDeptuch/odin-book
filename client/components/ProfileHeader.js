@@ -19,6 +19,8 @@ import Tab from "@mui/material/Tab";
 import Button from "@mui/material/Button";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
+import CheckIcon from "@mui/icons-material/Check";
+import GroupIcon from "@mui/icons-material/Group";
 import { server, client } from "../../config/config";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
@@ -77,12 +79,26 @@ function ProfileHeader({ id }) {
   const router = useRouter();
   const [friendsList, setFriendsList] = useState([]);
   const [friendsListLimit5, setFriendsListLimit5] = useState([]);
+  const [friendRequestSent, setFriendRequestSent] = useState(false);
+  const [isFriend, setIsFriend] = useState(false);
 
   useEffect(() => {
     const { results } = currentProfile;
     setProfile(results);
     setFriendsList(results.friends);
     setFriendsListLimit5(results.friends.slice(0, 5));
+    setFriendRequestSent(
+      results.friendRequests
+        .map((item) => item.sender)
+        .includes(user?.user?._id)
+        ? true
+        : false
+    );
+    setIsFriend(
+      results.friends.map((item) => item._id).includes(user?.user?._id)
+        ? true
+        : false
+    );
   }, [currentProfile]);
 
   useEffect(() => {
@@ -142,6 +158,7 @@ function ProfileHeader({ id }) {
       body: JSON.stringify(data),
     })
       .then((res) => {
+        setFriendRequestSent(true);
         router.push(`${client}/profile/${profile?._id}`);
         toast.info(
           `Friend Request sent to ${profile?.firstName}`,
@@ -209,25 +226,62 @@ function ProfileHeader({ id }) {
             </Stack>
             {!ownProfile && (
               <Stack sx={{ my: 5, mx: 2 }}>
-                <form
-                  action="/friendRequest"
-                  method="POST"
-                  onSubmit={handleFriendRequest}
-                >
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    sx={{
-                      m: 1,
-                      height: 50,
-                      width: "100%",
-                      alignSelf: "center",
-                    }}
-                  >
-                    <PersonAddIcon sx={{ mr: 1 }} /> Add Friend
-                  </Button>
-                </form>
+                {isFriend ? (
+                  <form action="/removeFriend" method="POST">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      sx={{
+                        m: 1,
+                        height: 50,
+                        width: "100%",
+                        alignSelf: "center",
+                      }}
+                    >
+                      <GroupIcon sx={{ mr: 1 }} /> Friends
+                    </Button>
+                  </form>
+                ) : (
+                  <>
+                    {!friendRequestSent && (
+                      <form
+                        action="/friendRequest"
+                        method="POST"
+                        onSubmit={handleFriendRequest}
+                      >
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          color="primary"
+                          sx={{
+                            m: 1,
+                            height: 50,
+                            width: "100%",
+                            alignSelf: "center",
+                          }}
+                        >
+                          <PersonAddIcon sx={{ mr: 1 }} /> Add Friend
+                        </Button>
+                      </form>
+                    )}
+                    {friendRequestSent && (
+                      <form action="/cancelFriendRequest" method="POST">
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          sx={{
+                            m: 1,
+                            height: 50,
+                            width: "100%",
+                            alignSelf: "center",
+                          }}
+                        >
+                          <CheckIcon sx={{ mr: 1 }} /> Friend Request Sent
+                        </Button>
+                      </form>
+                    )}
+                  </>
+                )}
                 <form action="/poke" method="POST" onSubmit={handlePokeSubmit}>
                   <Button
                     disabled={disabledTrigger}

@@ -13,7 +13,6 @@ function FriendsList() {
   useEffect(() => {
     const { results } = currentProfile;
     setFriendsList(results.friends);
-    console.log(friendsList);
     setProfile(results);
   }, [currentProfile]);
 
