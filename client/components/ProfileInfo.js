@@ -27,7 +27,12 @@ function ProfileInfo() {
         Info
       </Typography>
       {!profile?.dateOfBirth && !profile?.sex && !profile?.hobbies ? (
-        <Typography variant="body1" component="p">
+        <Typography
+          variant="h6"
+          component="ph6"
+          textAlign="center"
+          sx={{ my: 2, color: "#999" }}
+        >
           There doesn't seem to be anything here
         </Typography>
       ) : (
