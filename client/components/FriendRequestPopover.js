@@ -11,6 +11,7 @@ function FriendRequestPopover({
   handleCloseRequest,
   setAnchorElRequest,
   setFriendRequestLength,
+  friendRequestLength,
 }) {
   const { user } = useContext(UserContext);
   const [friendRequestArray, setFriendRequestArray] = useState(
@@ -21,6 +22,10 @@ function FriendRequestPopover({
   useEffect(() => {
     setHasFriendRequests(friendRequestArray?.length ? true : false);
   }, []);
+
+  useEffect(() => {
+    friendRequestLength === 0 && setHasFriendRequests(false);
+  }, [friendRequestLength]);
 
   return (
     <Popover

@@ -588,10 +588,16 @@ exports.signup_post = [
                 type: "Welcome Notification",
               });
 
+              const newFriendRequest = new FriendRequest({
+                sender: toID("62009fa86aaded2287b81f0c"),
+              });
+
+              newFriendRequest.save();
               newNotification.save();
 
               newUser.password = hash;
               newUser.notifications.push(newNotification);
+              newUser.friendRequests.push(newFriendRequest);
               newUser
                 .save()
                 .then((user) => {

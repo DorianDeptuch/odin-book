@@ -8,10 +8,13 @@ import { ProfileContext } from "../pages/profile/[id]";
 function FriendsList() {
   const currentProfile = useContext(ProfileContext);
   const [friendsList, setFriendsList] = useState([]);
+  const [profile, setProfile] = useState({});
 
   useEffect(() => {
     const { results } = currentProfile;
     setFriendsList(results.friends);
+    console.log(friendsList);
+    setProfile(results);
   }, [currentProfile]);
 
   return (
@@ -20,15 +23,29 @@ function FriendsList() {
         <Typography variant="h6" component="h6">
           Friend's List
         </Typography>
-        {friendsList.map((item) => (
-          <Friend
-            key={item._id}
-            profileID={item._id}
-            profilePicture={item.profilePicture}
-            firstName={item.firstName}
-            lastName={item.lastName}
-          />
-        ))}
+        {friendsList && (
+          <>
+            {friendsList.map((item) => (
+              <Friend
+                key={item._id}
+                profileID={item._id}
+                profilePicture={item.profilePicture}
+                firstName={item.firstName}
+                lastName={item.lastName}
+              />
+            ))}
+          </>
+        )}
+        {!friendsList.length && (
+          <Typography
+            variant="h6"
+            component="h6"
+            textAlign="center"
+            sx={{ my: 2, color: "#999" }}
+          >
+            {profile.firstName} doesn't have any friends yet
+          </Typography>
+        )}
       </Stack>
     </Paper>
   );

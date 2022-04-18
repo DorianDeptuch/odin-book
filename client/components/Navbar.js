@@ -96,6 +96,7 @@ export default function Navbar({ req }) {
                       handleCloseRequest={handleCloseRequest}
                       setAnchorElRequest={setAnchorElRequest}
                       setFriendRequestLength={setFriendRequestLength}
+                      friendRequestLength={friendRequestLength}
                     />
                   </Badge>
                 </Tooltip>
