@@ -23,14 +23,32 @@ function ProfileFriends({ id }) {
     const { results } = currentProfile;
     setUserFriendsList(user?.user?.friends);
     setFriendsList(results.friends);
-    console.log(compareMutualFriends(userFriendsList, friendsList));
-    console.log(
-      userFriendsList.reduce((a, c) => a + friendsList.includes(c), 0)
-    );
+    console.log("User: ", user?.user?.friends);
+    console.log("Profile Page: ", results.friends);
+    // console.log(compareMutualFriends(userFriendsList, friendsList));
+    // console.log(
+    //   userFriendsList
+    //     .map((item) => item._id)
+    //     .reduce(
+    //       (a, c) => a + friendsList.map((item) => item._id).includes(c),
+    //       0
+    //     )
+    // );
   }, [currentProfile]);
 
+  let arr1 = [{ _id: 123 }, { _id: 456 }, { _id: 789 }];
+  let arr2 = [{ _id: 123 }, { _id: 234 }, { _id: 345 }];
+  let arr3 = [{ _id: 234 }, { _id: 222 }, { _id: 123 }, { _id: 345 }];
+
+  const add = (a, b) => {
+    return a + b;
+  };
+
   const compareMutualFriends = (arr1, arr2) => {
-    arr1.reduce((a, c) => a + arr2.includes(c), 0);
+    return arr1.reduce(
+      (a, c) => a + arr2.map((item) => item._id).includes(c),
+      0
+    );
   };
 
   const getAge = (birthDate) =>
