@@ -76,17 +76,19 @@ function Notification({ sender, recipient, date, content, type }) {
         </Paper>
       )}
       {type === "Liked Post" && (
-        <Paper elevation={3} sx={paperStyles}>
-          <Stack direction="row">
-            <Avatar src={sender?.profilePicture || null}>JS</Avatar>
-            <Typography sx={typographyStyles}>
-              <strong>
-                {sender.firstName} {sender.lastName}
-              </strong>{" "}
-              liked your Post.
-            </Typography>
-          </Stack>
-        </Paper>
+        <Link href={`${client}/profile/${recipient._id}#${content}`}>
+          <Paper elevation={3} sx={paperStyles}>
+            <Stack direction="row">
+              <Avatar src={sender?.profilePicture || null}>JS</Avatar>
+              <Typography sx={typographyStyles}>
+                <strong>
+                  {sender.firstName} {sender.lastName}
+                </strong>{" "}
+                liked your Post.
+              </Typography>
+            </Stack>
+          </Paper>
+        </Link>
       )}
       {type === "Comment On Post" && (
         <Link href={`${client}/profile/${recipient._id}#${content}`}>

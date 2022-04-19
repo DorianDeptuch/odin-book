@@ -121,14 +121,27 @@ exports.profileDetailsForm_put = [
 ];
 
 exports.likePost_post = (req, res, next) => {
-  const { postID, sender } = req.body;
+  const { postID, sender, recipient } = req.body;
 
   Post.findById(postID)
     .then((post) => {
       post.likers.push(toID(sender));
       post.likes = post.likes + 1;
       post.save().then((post) => {
-        res.json({ post });
+        const newNotification = new Notification({
+          sender: toID(sender),
+          recipient: toID(recipient),
+          type: "Liked Post",
+          content: postID,
+        });
+        newNotification.save().then((notification) => {
+          User.findById(recipient).then((user) => {
+            user.notifications.push(notification);
+            user.save().then((user) => {
+              res.json(user);
+            });
+          });
+        });
       });
     })
     .catch((err) => {
@@ -153,7 +166,7 @@ exports.unlikePost_post = (req, res, next) => {
 };
 
 exports.likeComment_post = (req, res, next) => {
-  const { commentID, sender } = req.body;
+  const { commentID, sender, recipient } = req.body;
 
   Comment.findById(commentID)
     .then((comment) => {
