@@ -53,4 +53,28 @@ router.post(
   indexController.friendRequest_deny_post
 );
 
+router.post(
+  "/:id/likePost",
+  //ensureAuthentiacted,
+  indexController.likePost_post
+);
+
+router.post(
+  "/:id/unlikePost",
+  //ensureAuthentiacted,
+  indexController.unlikePost_post
+);
+
+router.post(
+  "/:id/likeComment",
+  //ensureAuthentiacted,
+  indexController.likeComment_post
+);
+
+router.post(
+  "/:id/unlikeComment",
+  //ensureAuthentiacted,
+  indexController.unlikeComment_post
+);
+
 module.exports = router;

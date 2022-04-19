@@ -81,20 +81,14 @@ function login() {
   });
 
   const submitForm = (data) => {
-    console.log(data);
-
     fetch(`${server}/loginForm`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
       credentials: "include",
-      // headers: {
-      //   Origin: "http://localhost:3000",
-      // },
     })
       .then((res) => {
         if (res.ok) {
-          console.log(res);
           router.push("/");
         } else {
           toast.error("Invalid Credentials.", toastOptions);

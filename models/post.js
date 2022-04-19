@@ -6,6 +6,7 @@ let PostSchema = new Schema(
   {
     content: { type: String, required: true },
     likes: { type: Number, default: 0 },
+    likers: [{ type: Schema.Types.ObjectId, ref: "User" }],
     comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
     // author: { type: String, required: true },
     author: { type: Schema.Types.ObjectId, ref: "User", required: true },

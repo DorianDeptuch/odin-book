@@ -120,6 +120,70 @@ exports.profileDetailsForm_put = [
   },
 ];
 
+exports.likePost_post = (req, res, next) => {
+  const { postID, sender } = req.body;
+
+  Post.findById(postID)
+    .then((post) => {
+      post.likers.push(toID(sender));
+      post.likes = post.likes + 1;
+      post.save().then((post) => {
+        res.json({ post });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+exports.unlikePost_post = (req, res, next) => {
+  const { postID, sender } = req.body;
+
+  Post.findById(postID)
+    .then((post) => {
+      post.likers.pull(toID(sender));
+      post.likes = post.likes - 1;
+      post.save().then((post) => {
+        res.json({ post });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+exports.likeComment_post = (req, res, next) => {
+  const { commentID, sender } = req.body;
+
+  Comment.findById(commentID)
+    .then((comment) => {
+      comment.likers.push(toID(sender));
+      comment.likes = comment.likes + 1;
+      comment.save().then((comment) => {
+        res.json({ comment });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+exports.unlikeComment_post = (req, res, next) => {
+  const { commentID, sender } = req.body;
+
+  Comment.findById(commentID)
+    .then((comment) => {
+      comment.likers.pull(toID(sender));
+      comment.likes = comment.likes - 1;
+      comment.save().then((comment) => {
+        res.json({ comment });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 // ███╗   ██╗ ██████╗ ████████╗██╗███████╗██╗ ██████╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗███████╗
 // ████╗  ██║██╔═══██╗╚══██╔══╝██║██╔════╝██║██╔════╝██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝
 // ██╔██╗ ██║██║   ██║   ██║   ██║█████╗  ██║██║     ███████║   ██║   ██║██║   ██║██╔██╗ ██║███████╗

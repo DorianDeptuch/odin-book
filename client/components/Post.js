@@ -9,7 +9,6 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import SendIcon from "@mui/icons-material/Send";
 import Comment from "./Comment";
 import LikeCounter from "./LikeCounter";
@@ -102,10 +101,11 @@ function Post({ postID, content, likes, comments, author, date }) {
           {content}
         </Typography>
         <Stack direction="row" sx={{ justifyContent: "start", mt: 2 }}>
-          <LikeCounter style={{ alignSelf: "center" }} />
-          <Button variant="contained" sx={{ mx: 1 }}>
-            <ThumbUpOffAltIcon></ThumbUpOffAltIcon> Like
-          </Button>
+          <LikeCounter
+            style={{ alignSelf: "center" }}
+            postID={postID}
+            likes={likes}
+          />
         </Stack>
         <Box sx={{ my: 2 }}>
           <Stack direction="row">

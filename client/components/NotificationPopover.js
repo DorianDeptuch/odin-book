@@ -27,7 +27,10 @@ function NotificationPopover({
   useEffect(() => {
     console.log(user);
     setHasNotifications(notificationArray?.length ? true : false);
-  }, []);
+    setNotificationArray(user?.user?.notifications);
+  }, [user]);
+
+  useEffect(() => {});
 
   const handleRemoveAllNotifications = (e) => {
     e.preventDefault();
@@ -39,8 +42,8 @@ function NotificationPopover({
       .then((res) => {
         router.push(`${client}/`);
         setHasNotifications(false);
-        setNotificationArray(null);
-        setNotificationLength(null);
+        setNotificationArray([]);
+        setNotificationLength(0);
         setAnchorElNotification(null);
       })
       .catch((err) => {

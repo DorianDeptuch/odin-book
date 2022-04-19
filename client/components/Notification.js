@@ -55,7 +55,7 @@ function Notification({ sender, recipient, date, content, type }) {
             <Avatar src={sender?.profilePicture || null}>JS</Avatar>
             <Typography sx={typographyStyles}>
               <strong>
-                {sender.firstName} {sender.lastName}
+                {sender?.firstName} {sender?.lastName}
               </strong>{" "}
               has accepted your Friend Request.
             </Typography>
