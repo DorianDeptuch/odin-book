@@ -150,14 +150,19 @@ exports.likePost_post = (req, res, next) => {
 };
 
 exports.unlikePost_post = (req, res, next) => {
-  const { postID, sender } = req.body;
+  const { postID, sender, recipient } = req.body;
 
   Post.findById(postID)
     .then((post) => {
       post.likers.pull(toID(sender));
       post.likes = post.likes - 1;
       post.save().then((post) => {
-        res.json({ post });
+        // User.findById(recipient).then((user) => {
+        // user.notifications.pull({ content: postID });
+        // user.save().then((user) => {
+        res.json(post);
+        // });
+        // });
       });
     })
     .catch((err) => {
