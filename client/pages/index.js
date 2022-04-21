@@ -8,6 +8,8 @@ import UserSidebar from "../components/UserSidebar";
 import Newsfeed from "../components/Newsfeed";
 import FriendSidebar from "../components/FriendSidebar";
 
+export const IndexContext = React.createContext();
+
 export default function Home({ data }) {
   const { user, setUser } = useContext(UserContext);
 
@@ -18,19 +20,21 @@ export default function Home({ data }) {
 
   return (
     <Container sx={{ mt: 2 }}>
-      <Box>
-        <Grid container>
-          <Grid item md={3}>
-            <UserSidebar />
+      <IndexContext.Provider value={data}>
+        <Box>
+          <Grid container>
+            <Grid item md={3}>
+              <UserSidebar />
+            </Grid>
+            <Grid item md={6}>
+              <Newsfeed />
+            </Grid>
+            <Grid item md={3}>
+              <FriendSidebar />
+            </Grid>
           </Grid>
-          <Grid item md={6}>
-            <Newsfeed />
-          </Grid>
-          <Grid item md={3}>
-            <FriendSidebar />
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      </IndexContext.Provider>
     </Container>
   );
 }

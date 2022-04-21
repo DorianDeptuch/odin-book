@@ -296,6 +296,61 @@ exports.friendRequest_deny_post = (req, res, next) => {
   });
 };
 
+exports.removeAllNotifications_delete = (req, res, next) => {
+  User.updateOne(
+    { _id: app.locals.user.id },
+    {
+      $set: {
+        notifications: [],
+      },
+    }
+  )
+    .then((user) => {
+      res.json({ user });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  // User.findById(app.locals.user.id)
+  //   .then((user) => {
+  //     // User.updateOne({ notifications: {sender: app.locals.user.id} }, {
+  //     //   $pullAll: {
+  //     //       notifications: [{_id: app.locals.user.notifications._id}],
+  //     //   },
+  //     // });
+
+  //     user.notifications.forEach(async (item) => {
+  //       await user.notifications.pull({ _id: item._id });
+  //       await user.save();
+  //       // await Notification.findByIdAndDelete(item._id, function (err, docs) {
+  //       //   if (err) {
+  //       //     console.log(err);
+  //       //   } else {
+  //       //     console.log("Deleted : ", docs);
+  //       //   }
+  //       // });
+  //       //ParallelSaveError: Can't save() the same doc multiple times in parallel. (Mongoose)
+  //     });
+  //   })
+  //   // .then((user) => {
+  //   //   User.findById(app.locals.user.id).then((user) => {
+  //   //     user.notifications.forEach(async (item) => {
+  //   //       await Notification.findByIdAndDelete(item._id, function (err, docs) {
+  //   //         if (err) {
+  //   //           console.log(err);
+  //   //         } else {
+  //   //           console.log("Deleted : ", docs);
+  //   //         }
+  //   //       });
+  //   //     });
+  //   //   });
+  //   // })
+  //   //MongooseError: Query was already executed: Notification.findOneAndDelete({ _id: new ObjectId("6256508b3...
+  //   .then((user) => {
+  //     res.json({ user });
+  //   });
+};
+
 // ███████╗███████╗████████╗████████╗██╗███╗   ██╗ ██████╗ ███████╗
 // ██╔════╝██╔════╝╚══██╔══╝╚══██╔══╝██║████╗  ██║██╔════╝ ██╔════╝
 // ███████╗█████╗     ██║      ██║   ██║██╔██╗ ██║██║  ███╗███████╗
@@ -477,19 +532,19 @@ exports.index_get = (req, res, next) => {
   // }
 
   User.findById(app.locals.user.id)
-    // .populate({
-    //   path: "posts",
-    //   model: Post,
-    //   options: { sort: { createdAt: -1 } },
-    //   populate: [
-    //     { path: "author", model: User },
-    //     {
-    //       path: "comments",
-    //       model: Comment,
-    //       populate: { path: "author", model: User },
-    //     },
-    //   ],
-    // })
+    .populate({
+      path: "posts",
+      model: Post,
+      options: { sort: { createdAt: -1 } },
+      populate: [
+        { path: "author", model: User },
+        {
+          path: "comments",
+          model: Comment,
+          populate: { path: "author", model: User },
+        },
+      ],
+    })
     .populate({
       path: "notifications",
       model: Notification,
@@ -508,17 +563,29 @@ exports.index_get = (req, res, next) => {
         { path: "recipient", model: User },
       ],
     })
-    // .populate({
-    //   path: "friends",
-    //   model: User,
-    //   options: { sort: { createdAt: -1 } },
-    //   populate: [
-    //     { path: "firstName", model: User },
-    //     { path: "lastName", model: User },
-    //     { path: "profilePicture", model: User },
-    //     { path: "_id", model: User },
-    //   ],
-    // })
+    .populate({
+      path: "friends",
+      model: User,
+      options: { sort: { createdAt: -1 } },
+      populate: [
+        {
+          path: "posts",
+          model: Post,
+          populate: [
+            { path: "author", model: User },
+            {
+              path: "comments",
+              model: Comment,
+              populate: { path: "author", model: User },
+            },
+          ],
+        },
+        // { path: "firstName", model: User },
+        // { path: "lastName", model: User },
+        // { path: "profilePicture", model: User },
+        // { path: "_id", model: User },
+      ],
+    })
     .then((user) => {
       res.json({ user });
     });
@@ -821,44 +888,4 @@ exports.search_get = (req, res, next) => {
   User.find({}, { firstName: 1, lastName: 1, profilePicture: 1 }).then(
     (results) => res.json({ results })
   );
-};
-
-exports.removeAllNotifications_delete = (req, res, next) => {
-  User.findById(app.locals.user.id)
-    .then((user) => {
-      // user.updateOne({ notifications: {sender: app.locals.user.id} }, {
-      //   $pullAll: {
-      //       notifications: [{_id: app.locals.user.notifications._id}],
-      //   },
-      // });
-      user.notifications.forEach(async (item) => {
-        await user.notifications.pull({ _id: item._id });
-        await user.save();
-        // await Notification.findByIdAndDelete(item._id, function (err, docs) {
-        //   if (err) {
-        //     console.log(err);
-        //   } else {
-        //     console.log("Deleted : ", docs);
-        //   }
-        // });
-        //ParallelSaveError: Can't save() the same doc multiple times in parallel. (Mongoose)
-      });
-    })
-    // .then((user) => {
-    //   User.findById(app.locals.user.id).then((user) => {
-    //     user.notifications.forEach(async (item) => {
-    //       await Notification.findByIdAndDelete(item._id, function (err, docs) {
-    //         if (err) {
-    //           console.log(err);
-    //         } else {
-    //           console.log("Deleted : ", docs);
-    //         }
-    //       });
-    //     });
-    //   });
-    // })
-    //MongooseError: Query was already executed: Notification.findOneAndDelete({ _id: new ObjectId("6256508b3...
-    .then((user) => {
-      res.json({ user });
-    });
 };

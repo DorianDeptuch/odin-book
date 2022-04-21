@@ -15,6 +15,7 @@ const typographyStyles = {
 const paperStyles = {
   m: 2,
   p: 2,
+  cursor: "pointer",
 };
 const spanStyles = {
   textDecoration: "underline",
@@ -50,17 +51,19 @@ function Notification({ sender, recipient, date, content, type }) {
         </Link>
       )}
       {type === "Friend Request Accept" && (
-        <Paper elevation={3} sx={paperStyles}>
-          <Stack direction="row">
-            <Avatar src={sender?.profilePicture || null}>JS</Avatar>
-            <Typography sx={typographyStyles}>
-              <strong>
-                {sender?.firstName} {sender?.lastName}
-              </strong>{" "}
-              has accepted your Friend Request.
-            </Typography>
-          </Stack>
-        </Paper>
+        <Link href={`${client}/profile/${sender._id}`}>
+          <Paper elevation={3} sx={paperStyles}>
+            <Stack direction="row">
+              <Avatar src={sender?.profilePicture || null}>JS</Avatar>
+              <Typography sx={typographyStyles}>
+                <strong>
+                  {sender?.firstName} {sender?.lastName}
+                </strong>{" "}
+                has accepted your Friend Request.
+              </Typography>
+            </Stack>
+          </Paper>
+        </Link>
       )}
       {type === "Liked Comment" && (
         <Paper elevation={3} sx={paperStyles}>
