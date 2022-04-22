@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { format } from "date-fns";
+import { htmlDecode } from "../config/config";
 
 const getAge = (birthDate) =>
   Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
@@ -57,7 +58,7 @@ function ProfileInfo() {
           )}
           {profile?.hobbies && (
             <Typography variant="body1" component="p">
-              Hobbies include: <strong>{profile?.hobbies}</strong>
+              Hobbies include: <strong>{htmlDecode(profile?.hobbies)}</strong>
             </Typography>
           )}
         </Box>

@@ -9,15 +9,22 @@ function Newsfeed() {
   const [indexPosts, setIndexPosts] = useState([]);
   const [hasPosts, setHasPosts] = useState(false);
 
-  useEffect(() => {
+  useEffect(async () => {
     const arrayOfFriendsPosts = [];
-    user?.user?.friends.forEach((friend) => {
-      arrayOfFriendsPosts.push(friend.posts);
+    await user?.user?.friends.forEach((friend) => {
+      friend.posts.forEach((post) => arrayOfFriendsPosts.push(post));
     });
-    setIndexPosts(arrayOfFriendsPosts.flat().sort());
-    // setIndexPosts(prev => [...prev, user?.user?.friends.forEach(friend => {
-    //   friend.posts
-    // })])
+    await arrayOfFriendsPosts.push(user?.user?.posts);
+    await arrayOfFriendsPosts.flat(2);
+    // await setIndexPosts(
+    // arrayOfFriendsPosts.sort((a, z) => (a.createdAt > z.createdAt ? 1 : -1));
+    // );
+    await setIndexPosts((prev) => [
+      ...prev,
+      arrayOfFriendsPosts.sort((a, z) => (a.createdAt > z.createdAt ? 1 : -1)),
+    ]);
+    await console.log(indexPosts);
+    await console.log(arrayOfFriendsPosts);
     // setHasPosts(results.posts.length ? true : false)
   }, [user, user?.user?.friends]);
 

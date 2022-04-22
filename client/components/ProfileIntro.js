@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { UserContext } from "../pages/_app";
 import { ProfileContext } from "../pages/profile/[id]";
+import { htmlDecode } from "../config/config";
 
 function ProfileIntro() {
   const { user } = useContext(UserContext);
@@ -36,22 +37,22 @@ function ProfileIntro() {
         <Box>
           {profile?.employment && (
             <Typography variant="body1" component="p">
-              Works at <strong>{profile?.employment}</strong>
+              Works at <strong>{htmlDecode(profile?.employment)}</strong>
             </Typography>
           )}
           {profile?.school && (
             <Typography variant="body1" component="p">
-              Studied at <strong>{profile?.school}</strong>
+              Studied at <strong>{htmlDecode(profile?.school)}</strong>
             </Typography>
           )}
           {profile?.currentTown && (
             <Typography variant="body1" component="p">
-              Lives in <strong>{profile?.currentTown}</strong>
+              Lives in <strong>{htmlDecode(profile?.currentTown)}</strong>
             </Typography>
           )}
           {profile?.hometown && (
             <Typography variant="body1" component="p">
-              From <strong>{profile?.hometown}</strong>
+              From <strong>{htmlDecode(profile?.hometown)}</strong>
             </Typography>
           )}
           {profile?.maritalStatus && (

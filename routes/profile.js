@@ -28,7 +28,7 @@ router.post(
 router.post(
   "/:id/profileDetailsForm",
   // ensureAuthenticated,
-  profileController.profileDetailsForm_put
+  indexController.profileDetailsForm_put
 );
 
 router.post(

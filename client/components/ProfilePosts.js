@@ -16,6 +16,7 @@ function ProfilePosts({ id }) {
   const [profilePosts, setProfilePosts] = useState([]);
   const ownProfile = user?.user?._id === id ? true : false;
   const [hasPosts, setHasPosts] = useState(false);
+  const [postCreated, setPostCreated] = useState(false);
 
   useEffect(() => {
     // console.log(currentProfile);
@@ -24,7 +25,7 @@ function ProfilePosts({ id }) {
     setProfilePosts(posts);
     // console.log(posts);
     setHasPosts(results.posts.length ? true : false);
-  }, [currentProfile]);
+  }, [currentProfile, postCreated]);
 
   return (
     <Box sx={{ mx: -3 }}>
@@ -49,6 +50,7 @@ function ProfilePosts({ id }) {
               comments={item.comments}
               author={item.author}
               date={item.date}
+              setPostCreated={setPostCreated}
             />
           ))}
           {!hasPosts && (

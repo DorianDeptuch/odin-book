@@ -14,7 +14,7 @@ import Comment from "./Comment";
 import LikeCounter from "./LikeCounter";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
-import { avatar_MD, bgc } from "../config/config";
+import { avatar_MD, bgc, htmlDecode } from "../config/config";
 import { server, client } from "../../config/config";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
@@ -22,13 +22,20 @@ import { format, formatDistance, subDays } from "date-fns";
 import Link from "next/link";
 import { toastOptions } from "../config/config";
 
-function Post({ postID, content, likes, comments, author, date }) {
+function Post({
+  postID,
+  content,
+  likes,
+  comments,
+  author,
+  date,
+  setPostCreated,
+}) {
   const { user } = useContext(UserContext);
   const [commentContent, setCommentContent] = useState("");
   const [commentData, setCommentData] = useState([]);
   const [hasComments, setHasComments] = useState(false);
   const [hideCommentLength, setHideCommentLength] = useState(false);
-
   const router = useRouter();
 
   useEffect(() => {
@@ -53,7 +60,8 @@ function Post({ postID, content, likes, comments, author, date }) {
       body: JSON.stringify(data),
     })
       .then((res) => {
-        router.push(`${client}/`);
+        // router.push(`${client}/`);
+        setPostCreated(true);
         // router.reload()
         toast.success("Comment successfully created.", toastOptions);
         setCommentContent("");
@@ -98,7 +106,7 @@ function Post({ postID, content, likes, comments, author, date }) {
           </Stack>
         </Stack>
         <Typography variant="body1" component="p" sx={{ my: 2 }}>
-          {content}
+          {htmlDecode(content)}
         </Typography>
         <Stack direction="row" sx={{ justifyContent: "start", mt: 2 }}>
           <LikeCounter

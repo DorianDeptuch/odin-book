@@ -26,7 +26,7 @@ function LikeCounter({ postID, likes }) {
     setLiked(
       results.posts
         .filter((item) => item._id === postID)[0]
-        .likers.includes(user?.user?._id)
+        ?.likers.includes(user?.user?._id)
         ? true
         : false
     );

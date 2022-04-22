@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
-import { avatar_MD } from "../config/config";
+import { avatar_MD, htmlDecode } from "../config/config";
 import { format, formatDistance, subDays } from "date-fns";
 import Link from "next/link";
 import { client, server } from "../../config/config";
@@ -54,7 +54,7 @@ function Comment({ author, content, date, likes }) {
             </Typography>
           </Stack>
           <Typography variant="body1" component="p" sx={styles}>
-            {content}
+            {htmlDecode(content)}
           </Typography>
         </Stack>
       </Stack>

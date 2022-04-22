@@ -64,6 +64,14 @@ exports.profile_get = (req, res, next) => {
     });
 };
 
+// new ObjectId("62009fa86aaded2287b81f0c"),
+//     new ObjectId("621dddc2c163048087b29c2b"),
+//     new ObjectId("621ddccf0626288957e3bd10"),
+//     new ObjectId("6232c74e8b686940afe8c6f2"),
+//     new ObjectId("6257a66d2e55f7c80adccc77"),
+//     new ObjectId("62587819da5b74e0c932ee53"),
+//     new ObjectId("62579e26945b907f96e42ada")
+
 exports.profileDetailsForm_put = [
   body("hometown").trim().escape(),
   body("currentTown").trim().escape(),
@@ -95,27 +103,43 @@ exports.profileDetailsForm_put = [
         msg: "There seems to be an error with one of the fields, please check again.",
       });
     } else {
-      let user = new User({
-        hometown,
-        currentTown,
-        bio,
-        employment,
-        school,
-        hobbies,
-        dateOfBirth: dateOfBirth.slice(0, 10),
-        maritalStatus,
-        sex,
-        _id: req.params.id,
-      });
-      User.findByIdAndUpdate(req.params.id, user, {}, function (err, newuser) {
-        if (err) {
-          return next(err);
-        }
-        res.json({
-          user: req.user,
-          // success_msg: "You have updated your profile!",
-        });
-      });
+      User.findById(req.params.id)
+        .then((user) => {
+          (user.hometown = hometown),
+            (user.currentTown = currentTown),
+            (user.bio = bio),
+            (user.employment = employment),
+            (user.school = school),
+            (user.hobbies = hobbies),
+            (user.dateOfBirth = dateOfBirth.slice(0, 10)),
+            (user.maritalStatus = maritalStatus),
+            (user.sex = sex),
+            user.save().then((user) => {
+              res.json({ user });
+            });
+        })
+        .catch((err) => console.log(err));
+      // let user = new User({
+      //   hometown,
+      //   currentTown,
+      //   bio,
+      //   employment,
+      //   school,
+      //   hobbies,
+      //   dateOfBirth: dateOfBirth.slice(0, 10),
+      //   maritalStatus,
+      //   sex,
+      //   _id: req.params.id,
+      // });
+      // User.findByIdAndUpdate(req.params.id, user, {}, function (err, newuser) {
+      //   if (err) {
+      //     return next(err);
+      //   }
+      //   res.json({
+      //     user: req.user,
+      //     // success_msg: "You have updated your profile!",
+      //   });
+      // });
     }
   },
 ];
@@ -383,25 +407,33 @@ exports.settingsProfilePicForm_put = [
         msg: "There seems to be an error with one of the fields, please check again.",
       });
     } else {
-      console.log("in new user");
-      let user = new User({
-        profilePicture,
-        _id: app.locals.user.id,
-      });
-      User.findByIdAndUpdate(
-        app.locals.user.id,
-        user,
-        {},
-        function (err, newuser) {
-          if (err) {
-            return next(err);
-          }
-          res.json({
-            user: req.user,
-            // success_msg: "You have updated your profile!",
+      User.findById(app.locals.user.id)
+        .then((user) => {
+          user.profilePicture = profilePicture;
+
+          user.save().then((user) => {
+            res.json({ user });
           });
-        }
-      );
+        })
+        .catch((err) => console.log(err));
+      // let user = new User({
+      //   profilePicture,
+      //   _id: app.locals.user.id,
+      // });
+      // User.findByIdAndUpdate(
+      //   app.locals.user.id,
+      //   user,
+      //   {},
+      //   function (err, newuser) {
+      //     if (err) {
+      //       return next(err);
+      //     }
+      //     res.json({
+      //       user: req.user,
+      //       // success_msg: "You have updated your profile!",
+      //     });
+      //   }
+      // );
     }
   },
 ];
@@ -447,23 +479,32 @@ exports.changePasswordForm_put = [
                   bcrypt.hash(changePasswordForm_New, salt, (err, hash) => {
                     if (err) throw err;
 
-                    const newUser = new User({
-                      password: hash,
-                      _id: app.locals.user.id,
-                    });
+                    User.findById(app.locals.user.id)
+                      .then((user) => {
+                        user.password = hash;
 
-                    User.findByIdAndUpdate(
-                      app.locals.user.id,
-                      newUser,
-                      {},
-                      function (err, updated) {
-                        if (err) {
-                          return next(err);
-                        }
-                        // res.redirect("/settings/" + req.params.id);
-                        res.json({ user: updated });
-                      }
-                    );
+                        user.save().then((user) => {
+                          res.json({ user });
+                        });
+                      })
+                      .catch((err) => console.log(err));
+                    // const newUser = new User({
+                    //   password: hash,
+                    //   _id: app.locals.user.id,
+                    // });
+
+                    // User.findByIdAndUpdate(
+                    //   app.locals.user.id,
+                    //   newUser,
+                    //   {},
+                    //   function (err, updated) {
+                    //     if (err) {
+                    //       return next(err);
+                    //     }
+                    //     // res.redirect("/settings/" + req.params.id);
+                    //     res.json({ user: updated });
+                    //   }
+                    // );
                   })
                 );
               }

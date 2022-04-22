@@ -18,3 +18,8 @@ export const toastOptions = {
   draggable: true,
   progress: undefined,
 };
+
+export const htmlDecode = (input) => {
+  let doc = new DOMParser().parseFromString(input, "text/html");
+  return doc.documentElement.textContent;
+};

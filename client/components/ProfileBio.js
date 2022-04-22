@@ -4,6 +4,7 @@ import { ProfileContext } from "../pages/profile/[id]";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import { htmlDecode } from "../config/config";
 
 function ProfileBio() {
   const { user } = useContext(UserContext);
@@ -31,7 +32,7 @@ function ProfileBio() {
         </Typography>
       ) : (
         <Typography variant="body1" component="p">
-          {profile?.bio}
+          {htmlDecode(profile?.bio)}
         </Typography>
       )}
     </Stack>
