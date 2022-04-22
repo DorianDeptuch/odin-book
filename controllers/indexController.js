@@ -254,7 +254,7 @@ exports.friendRequest_post = (req, res, next) => {
 exports.friendRequest_accept_post = (req, res, next) => {
   const { sender, recipient, friendRequestID } = req.body;
 
-  User.findById(recipient._id).then(async (recipientUser) => {
+  User.findById(recipient._id || recipient).then(async (recipientUser) => {
     await recipientUser.friendRequests.pull({ _id: friendRequestID });
     await recipientUser.friends.push({ _id: toID(sender._id) });
     await recipientUser.save().then((user) => {

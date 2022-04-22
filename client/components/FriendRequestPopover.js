@@ -21,11 +21,11 @@ function FriendRequestPopover({
 
   useEffect(() => {
     setHasFriendRequests(friendRequestArray?.length ? true : false);
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     friendRequestLength === 0 && setHasFriendRequests(false);
-  }, [friendRequestLength]);
+  }, [friendRequestLength, user]);
 
   return (
     <Popover

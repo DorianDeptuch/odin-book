@@ -1,12 +1,12 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import FriendRequests from "./FriendRequests";
+import IndexFriendRequests from "./IndexFriendRequests";
 import FriendsList from "./FriendsList";
 
 function FriendSidebar() {
   return (
     <Box sx={{ m: 2 }}>
-      <FriendRequests />
+      <IndexFriendRequests />
       {/* <FriendsList /> */}
     </Box>
   );

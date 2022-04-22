@@ -9,23 +9,33 @@ import { avatar_LG, toastOptions } from "../config/config";
 import { server, client } from "../../config/config";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { UserContext } from "../pages/_app";
 
-function Request({
+function IndexRequest({
   sender,
   recipient,
-  date,
   friendRequestID,
   setFriendRequestLength,
-  setAnchorElRequest,
+  setFriendRequestArray,
+  friendRequestLength,
 }) {
   const router = useRouter();
+  const { user } = useContext(UserContext);
   const [clicked, setClicked] = useState(false);
+
+  const handleFriendRequestArray = () => {
+    if (friendRequestLength === 0) {
+      setFriendRequestArray([]);
+    } else {
+      return;
+    }
+  };
 
   const handleFriendRequestAccept = (e) => {
     e.preventDefault();
     const data = {
       sender,
-      recipient,
+      recipient: recipient || user?.user?._id,
       friendRequestID,
     };
 
@@ -37,12 +47,12 @@ function Request({
       .then((res) => {
         router.push(`${client}/`);
         setFriendRequestLength((prev) => prev - 1);
-        setAnchorElRequest(null);
+        handleFriendRequestArray();
+        setClicked(true);
         toast.success(
           `You and ${sender.firstName} are now Friends!`,
           toastOptions
         );
-        setClicked(true);
       })
       .catch((err) => {
         console.log(err);
@@ -66,12 +76,12 @@ function Request({
       .then((res) => {
         router.push(`${client}/`);
         setFriendRequestLength((prev) => prev - 1);
-        setAnchorElRequest(null);
+        handleFriendRequestArray();
+        setClicked(true);
         toast.info(
           `You have denied ${sender.firstName}'s friendship.`,
           toastOptions
         );
-        setClicked(true);
       })
       .catch((err) => {
         console.log(err);
@@ -79,11 +89,15 @@ function Request({
       });
   };
 
+  // useEffect(() => {
+  //   console.log("sender ", sender);
+  // }, []);
+
   return (
     <>
       {!clicked ? (
         <Paper sx={{ m: 2, p: 2 }} elevation={3}>
-          <Stack direction="row">
+          <Stack>
             <Avatar
               src={sender?.profilePicture || null}
               sx={{
@@ -96,11 +110,15 @@ function Request({
               JS
             </Avatar>
             <Stack sx={{ ml: 1 }}>
-              <Typography variant="body1" component="p" sx={{ mt: 1 }}>
+              <Typography
+                variant="body1"
+                align="center"
+                component="p"
+                sx={{ mt: 1 }}
+              >
                 <strong>
                   {sender.firstName} {sender.lastName}
-                </strong>{" "}
-                wants to be your friend.
+                </strong>
               </Typography>
               <Stack direction="row" sx={{ mt: 1 }}>
                 <form
@@ -143,4 +161,4 @@ function Request({
   );
 }
 
-export default Request;
+export default IndexRequest;
