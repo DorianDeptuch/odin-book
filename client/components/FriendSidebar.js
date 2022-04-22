@@ -1,13 +1,13 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import IndexFriendRequests from "./IndexFriendRequests";
-import FriendsList from "./FriendsList";
+import IndexFriendsList from "./IndexFriendsList";
 
 function FriendSidebar() {
   return (
     <Box sx={{ m: 2 }}>
       <IndexFriendRequests />
-      {/* <FriendsList /> */}
+      <IndexFriendsList />
     </Box>
   );
 }

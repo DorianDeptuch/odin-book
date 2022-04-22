@@ -17,7 +17,7 @@ let UserSchema = new Schema({
   school: { type: String },
   hobbies: { type: String },
   profilePicture: { type: String },
-  // posts: [{ type: String }],
+  lastOnline: { type: Date },
   posts: [{ type: Schema.Types.ObjectId, ref: "Post", required: true }],
   photos: [{ type: String }],
   friendRequests: [{ type: Schema.Types.ObjectId, ref: "FriendRequest" }],

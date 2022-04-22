@@ -644,6 +644,8 @@ exports.login_post = [
         req.login(user, function () {
           // do whatever here on successful login
           app.locals.user = user;
+          user.lastOnline = new Date(Date.now());
+          user.save();
           res.status(200).json({ reqUser: req.user, user: user });
         });
       }
