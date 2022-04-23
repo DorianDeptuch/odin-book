@@ -15,7 +15,6 @@ function IndexFriendRequests() {
   );
 
   useEffect(() => {
-    console.log(user?.user?.friendRequests);
     setFriendRequestArray(user?.user?.friendRequests);
     setFriendRequestLength(user?.user?.friendRequests.length);
   }, [user]);

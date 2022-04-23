@@ -64,14 +64,6 @@ exports.profile_get = (req, res, next) => {
     });
 };
 
-// new ObjectId("62009fa86aaded2287b81f0c"),
-//     new ObjectId("621dddc2c163048087b29c2b"),
-//     new ObjectId("621ddccf0626288957e3bd10"),
-//     new ObjectId("6232c74e8b686940afe8c6f2"),
-//     new ObjectId("6257a66d2e55f7c80adccc77"),
-//     new ObjectId("62587819da5b74e0c932ee53"),
-//     new ObjectId("62579e26945b907f96e42ada")
-
 exports.profileDetailsForm_put = [
   body("hometown").trim().escape(),
   body("currentTown").trim().escape(),
@@ -119,27 +111,6 @@ exports.profileDetailsForm_put = [
             });
         })
         .catch((err) => console.log(err));
-      // let user = new User({
-      //   hometown,
-      //   currentTown,
-      //   bio,
-      //   employment,
-      //   school,
-      //   hobbies,
-      //   dateOfBirth: dateOfBirth.slice(0, 10),
-      //   maritalStatus,
-      //   sex,
-      //   _id: req.params.id,
-      // });
-      // User.findByIdAndUpdate(req.params.id, user, {}, function (err, newuser) {
-      //   if (err) {
-      //     return next(err);
-      //   }
-      //   res.json({
-      //     user: req.user,
-      //     // success_msg: "You have updated your profile!",
-      //   });
-      // });
     }
   },
 ];
@@ -257,6 +228,8 @@ exports.notification_poke_post = (req, res, next) => {
 
 exports.friendRequest_post = (req, res, next) => {
   const { sender, recipient } = req.body;
+
+  console.log(sender);
 
   User.findById(req.params.id).then((user) => {
     const newFriendRequest = new FriendRequest({
@@ -416,24 +389,6 @@ exports.settingsProfilePicForm_put = [
           });
         })
         .catch((err) => console.log(err));
-      // let user = new User({
-      //   profilePicture,
-      //   _id: app.locals.user.id,
-      // });
-      // User.findByIdAndUpdate(
-      //   app.locals.user.id,
-      //   user,
-      //   {},
-      //   function (err, newuser) {
-      //     if (err) {
-      //       return next(err);
-      //     }
-      //     res.json({
-      //       user: req.user,
-      //       // success_msg: "You have updated your profile!",
-      //     });
-      //   }
-      // );
     }
   },
 ];
@@ -488,23 +443,6 @@ exports.changePasswordForm_put = [
                         });
                       })
                       .catch((err) => console.log(err));
-                    // const newUser = new User({
-                    //   password: hash,
-                    //   _id: app.locals.user.id,
-                    // });
-
-                    // User.findByIdAndUpdate(
-                    //   app.locals.user.id,
-                    //   newUser,
-                    //   {},
-                    //   function (err, updated) {
-                    //     if (err) {
-                    //       return next(err);
-                    //     }
-                    //     // res.redirect("/settings/" + req.params.id);
-                    //     res.json({ user: updated });
-                    //   }
-                    // );
                   })
                 );
               }
@@ -554,24 +492,6 @@ exports.deleteAccountForm_delete = [
 // ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚═╝  ╚═╝
 
 exports.index_get = (req, res, next) => {
-  // console.log("<<<<<<<<<INDEX_GET>>>>>>>>>>");
-  // console.log("req.user: " + req.user);
-  // console.log("req.session: " + JSON.stringify(req.session));
-  // res.json({ user: app.locals.user });
-
-  // if (req.isAuthenticated()) {
-  //   console.log("AUTHENTICATED:");
-  //   console.log(req.isAuthenticated());
-  //   // res.send("You are authenticated, welcome to the homepage");
-  //   res.json({ user: req.user });
-  // } else {
-  //   //    /login-failure
-  //   console.log("AUTHENTICATED:");
-  //   console.log(req.isAuthenticated());
-
-  //   res.redirect("/login");
-  // }
-
   User.findById(app.locals.user.id)
     .populate({
       path: "posts",
@@ -621,10 +541,6 @@ exports.index_get = (req, res, next) => {
             },
           ],
         },
-        // { path: "firstName", model: User },
-        // { path: "lastName", model: User },
-        // { path: "profilePicture", model: User },
-        // { path: "_id", model: User },
       ],
     })
     .then((user) => {
@@ -635,19 +551,12 @@ exports.index_get = (req, res, next) => {
 exports.index_post = (req, res, next) => {};
 
 exports.login_get = (req, res, next) => {
-  //if (req.isAuthenticated()) {
-  //user is already logged in
-  // res.redirect("/")
-  // } else {
-  //continue
-  // }
   res.send("Welcome to login");
 };
 
 exports.logout_get = (req, res, next) => {
   req.logout();
   app.locals.user = null;
-  // res.redirect("/login");
   res.json({ msg: "Logging out..." });
 };
 

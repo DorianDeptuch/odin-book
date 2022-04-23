@@ -159,7 +159,7 @@ function ProfileHeader({ id }) {
     })
       .then((res) => {
         setFriendRequestSent(true);
-        router.push(`${client}/profile/${profile?._id}`);
+        // router.push(`${client}/profile/${profile?._id}`);
         toast.info(
           `Friend Request sent to ${profile?.firstName}`,
           toastOptions

@@ -12,6 +12,7 @@ export default function Home({ data }) {
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
+    console.log(data);
     setUser(data);
   }, []);
 

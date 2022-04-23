@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 //background color
 export const bgc = "#f1f2f6";
 
@@ -22,4 +24,9 @@ export const toastOptions = {
 export const htmlDecode = (input) => {
   let doc = new DOMParser().parseFromString(input, "text/html");
   return doc.documentElement.textContent;
+};
+
+export const useForceUpdate = () => {
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue((value) => value + 1); // update the state to force render
 };
