@@ -37,6 +37,7 @@ function IndexPost({
   const [hasComments, setHasComments] = useState(false);
   const [hideCommentLength, setHideCommentLength] = useState(false);
   const router = useRouter();
+  const [postDate, setPostDate] = useState(new Date(date));
 
   useEffect(() => {
     // console.log("postID: ", postID);
@@ -45,6 +46,8 @@ function IndexPost({
     // console.log("comments: ", comments);
     // console.log("author: ", author);
     console.log("date: ", date);
+    console.log("date: ", typeof date);
+    setTimeout(() => console.log(typeof postDate), 500);
     // console.log("setPostCreated: ", setPostCreated);
     setCommentData(comments);
     setHasComments(comments?.length ? true : false);
@@ -107,7 +110,17 @@ function IndexPost({
               {/* {formatDistance(new Date(date), new Date(), {
                 addSuffix: true,
               })} */}
-              {date}
+              {postDate.toLocaleTimeString("en-US")}
+              {" on "}
+              {(postDate.getMonth() > 8
+                ? postDate.getMonth() + 1
+                : "0" + (postDate.getMonth() + 1)) +
+                "/" +
+                (postDate.getDate() > 9
+                  ? postDate.getDate()
+                  : "0" + postDate.getDate()) +
+                "/" +
+                postDate.getFullYear()}
             </Typography>
           </Stack>
         </Stack>
@@ -173,7 +186,7 @@ function IndexPost({
             )}
           </AccordionSummary>
           <AccordionDetails>
-            {commentData.map((item) => (
+            {commentData?.map((item) => (
               <Comment
                 key={item._id}
                 author={item.author}

@@ -19,7 +19,7 @@ function IndexLikeCounter({ postID, likes, author }) {
 
   useEffect(() => {
     setLiked(
-      author.posts
+      author?.posts
         .filter((item) => item._id === postID)[0]
         ?.likers.includes(user?.user?._id)
         ? true
