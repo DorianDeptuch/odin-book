@@ -7,7 +7,7 @@ import { bgc } from "../config/config";
 
 function Layout({ children }) {
   return (
-    <div style={{ backgroundColor: bgc, height: "100vh" }}>
+    <div style={{ backgroundColor: bgc, height: "100%" }}>
       <ToastContainer
         position="top-center"
         autoClose={5000}

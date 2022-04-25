@@ -10,7 +10,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SendIcon from "@mui/icons-material/Send";
-import IndexComment from "./IndexComment";
+import Comment from "./Comment";
 import IndexLikeCounter from "./IndexLikeCounter";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
@@ -18,7 +18,7 @@ import { avatar_MD, bgc, htmlDecode } from "../config/config";
 import { server, client } from "../../config/config";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { format, formatDistance, subDays } from "date-fns";
+import { format, formatDistance, subDays, parseISO } from "date-fns";
 import Link from "next/link";
 import { toastOptions } from "../config/config";
 
@@ -44,10 +44,11 @@ function IndexPost({
     // console.log("likes: ", likes);
     // console.log("comments: ", comments);
     // console.log("author: ", author);
-    console.log("date: ", typeof date);
+    console.log("date: ", date);
     // console.log("setPostCreated: ", setPostCreated);
     setCommentData(comments);
     setHasComments(comments?.length ? true : false);
+    console.log(date);
   }, []);
 
   const handleSubmit = (e) => {
@@ -77,123 +78,124 @@ function IndexPost({
   };
 
   return (
-    // <Paper elevation={3} sx={{ p: 2, mt: 2 }} id={postID}>
-    //   <Stack>
-    //     <Stack direction="row" sx={{ mb: 2 }}>
-    //       <Link href={`${client}/profile/${author?._id}`}>
-    //         <Avatar
-    //           src={author?.profilePicture || ""}
-    //           sx={{
-    //             height: avatar_MD,
-    //             width: avatar_MD,
-    //             mr: 1,
-    //           }}
-    //         ></Avatar>
-    //       </Link>
-    //       <Stack>
-    //         <Typography variant="h6" component="h6">
-    //           <Link href={`${client}/profile/${author?._id}`}>
-    //             <a>
-    //               {author?.firstName} {author?.lastName}
-    //             </a>
-    //           </Link>
-    //         </Typography>
-    //         <Typography
-    //           variant="body2"
-    //           component="p"
-    //           title={format(new Date(date), "PPpp")}
-    //         >
-    //           {formatDistance(new Date(date), new Date(), {
-    //             addSuffix: true,
-    //           })}
-    //         </Typography>
-    //       </Stack>
-    //     </Stack>
-    //     <Typography variant="body1" component="p" sx={{ my: 2 }}>
-    //       {htmlDecode(content)}
-    //     </Typography>
-    //     <Stack direction="row" sx={{ justifyContent: "start", mt: 2 }}>
-    //       {/* <IndexLikeCounter
-    //         style={{ alignSelf: "center" }}
-    //         postID={postID}
-    //         likes={likes}
-    //       /> */}
-    //     </Stack>
-    //     <Box sx={{ my: 2 }}>
-    //       <Stack direction="row">
-    //         <Avatar
-    //           src={user?.user?.profilePicture || ""}
-    //           sx={{
-    //             alignSelf: "center",
-    //             mr: 2,
-    //             height: avatar_MD,
-    //             width: avatar_MD,
-    //           }}
-    //         ></Avatar>
-    //         <form
-    //           action="/postCommentForm"
-    //           method="POST"
-    //           style={{ width: "100%" }}
-    //           onSubmit={handleSubmit}
-    //         >
-    //           <Stack direction="row">
-    //             <TextField
-    //               fullWidth
-    //               id="new-comment"
-    //               name="postCommentForm"
-    //               variant="outlined"
-    //               placeholder="Write a comment..."
-    //               value={commentContent}
-    //               onChange={(e) => setCommentContent(e.target.value)}
-    //             />
-    //             <Button
-    //               type="submit"
-    //               variant="contained"
-    //               sx={{ mx: 1, height: "100%", alignSelf: "center" }}
-    //             >
-    //               <SendIcon></SendIcon>
-    //             </Button>
-    //           </Stack>
-    //         </form>
-    //       </Stack>
-    //     </Box>
-    //     <Accordion sx={{ backgroundColor: bgc }}>
-    //       <AccordionSummary
-    //         expandIcon={<ExpandMoreIcon />}
-    //         aria-controls="panel1a-content"
-    //         id="panel1a-header"
-    //         onClick={() => setHideCommentLength(!hideCommentLength)}
-    //       >
-    //         <Typography>Comments &nbsp;</Typography>
-    //         {!hideCommentLength && (
-    //           <Typography> ({comments.length})</Typography>
-    //         )}
-    //       </AccordionSummary>
-    //       <AccordionDetails>
-    //         {commentData.map((item) => ({
-    //           /* <IndexComment
-    //             key={item._id}
-    //             author={item.author}
-    //             content={item.content}
-    //             date={item.date}
-    //             likes={item.likes}
-    //           /> */
-    //         }))}
-    //         {!hasComments && (
-    //           <Typography
-    //             variant="h6"
-    //             component="h6"
-    //             textAlign="center"
-    //             sx={{ my: 2, color: "#999" }}
-    //           >
-    //             This post doesn't have any comments.
-    //           </Typography>
-    //         )}
-    //       </AccordionDetails>
-    //     </Accordion>
-    //   </Stack>
-    // </Paper>
-    <div>hi</div>
+    <Paper elevation={3} sx={{ p: 2, mt: 2 }} id={postID}>
+      <Stack>
+        <Stack direction="row" sx={{ mb: 2 }}>
+          <Link href={`${client}/profile/${author?._id}`}>
+            <Avatar
+              src={author?.profilePicture || ""}
+              sx={{
+                height: avatar_MD,
+                width: avatar_MD,
+                mr: 1,
+              }}
+            ></Avatar>
+          </Link>
+          <Stack>
+            <Typography variant="h6" component="h6">
+              <Link href={`${client}/profile/${author?._id}`}>
+                <a>
+                  {author?.firstName} {author?.lastName}
+                </a>
+              </Link>
+            </Typography>
+            <Typography
+              variant="body2"
+              component="p"
+              // title={format(new Date(date), "PPpp")}
+            >
+              {/* {formatDistance(new Date(date), new Date(), {
+                addSuffix: true,
+              })} */}
+              {date}
+            </Typography>
+          </Stack>
+        </Stack>
+        <Typography variant="body1" component="p" sx={{ my: 2 }}>
+          {htmlDecode(content)}
+        </Typography>
+        <Stack direction="row" sx={{ justifyContent: "start", mt: 2 }}>
+          <IndexLikeCounter
+            style={{ alignSelf: "center" }}
+            postID={postID}
+            likes={likes}
+            author={author}
+          />
+        </Stack>
+        <Box sx={{ my: 2 }}>
+          <Stack direction="row">
+            <Avatar
+              src={user?.user?.profilePicture || ""}
+              sx={{
+                alignSelf: "center",
+                mr: 2,
+                height: avatar_MD,
+                width: avatar_MD,
+              }}
+            ></Avatar>
+            <form
+              action="/postCommentForm"
+              method="POST"
+              style={{ width: "100%" }}
+              onSubmit={handleSubmit}
+            >
+              <Stack direction="row">
+                <TextField
+                  fullWidth
+                  id="new-comment"
+                  name="postCommentForm"
+                  variant="outlined"
+                  placeholder="Write a comment..."
+                  value={commentContent}
+                  onChange={(e) => setCommentContent(e.target.value)}
+                />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{ mx: 1, height: "100%", alignSelf: "center" }}
+                >
+                  <SendIcon></SendIcon>
+                </Button>
+              </Stack>
+            </form>
+          </Stack>
+        </Box>
+        <Accordion sx={{ backgroundColor: bgc }}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            onClick={() => setHideCommentLength(!hideCommentLength)}
+          >
+            <Typography>Comments &nbsp;</Typography>
+            {!hideCommentLength && (
+              <Typography> ({comments?.length})</Typography>
+            )}
+          </AccordionSummary>
+          <AccordionDetails>
+            {commentData.map((item) => (
+              <Comment
+                key={item._id}
+                author={item.author}
+                content={item.content}
+                date={item.date}
+                likes={item.likes}
+              />
+            ))}
+            {!hasComments && (
+              <Typography
+                variant="h6"
+                component="h6"
+                textAlign="center"
+                sx={{ my: 2, color: "#999" }}
+              >
+                This post doesn't have any comments.
+              </Typography>
+            )}
+          </AccordionDetails>
+        </Accordion>
+      </Stack>
+    </Paper>
   );
 }
 

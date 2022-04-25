@@ -60,9 +60,7 @@ function Post({
       body: JSON.stringify(data),
     })
       .then((res) => {
-        // router.push(`${client}/`);
         setPostCreated(true);
-        // router.reload()
         toast.success("Comment successfully created.", toastOptions);
         setCommentContent("");
       })
