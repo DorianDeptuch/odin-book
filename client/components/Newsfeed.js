@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { UserContext } from "../pages/_app";
 
-function Newsfeed() {
+function Newsfeed({cloudinary_name}) {
   const { user } = useContext(UserContext);
   const [indexPosts, setIndexPosts] = useState([]);
   const [hasPosts, setHasPosts] = useState(false);
@@ -28,7 +28,7 @@ function Newsfeed() {
 
   return (
     <Box sx={{ m: 2 }}>
-      <StatusUpdate />
+      <StatusUpdate cloudinary_name={cloudinary_name}/>
       {indexPosts &&
         indexPosts.map((item) => (
           <IndexPost

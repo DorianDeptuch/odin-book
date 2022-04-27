@@ -10,6 +10,7 @@ import FriendSidebar from "../components/FriendSidebar";
 
 export default function Home({ data }) {
   const { user, setUser } = useContext(UserContext);
+  const cloudinary_name = process.env.NEXT_PUBLIC_CLOUDINARY_NAME;
 
   useEffect(() => {
     console.log(data);
@@ -24,7 +25,7 @@ export default function Home({ data }) {
             <UserSidebar />
           </Grid>
           <Grid item md={6}>
-            <Newsfeed />
+            <Newsfeed cloudinary_name={cloudinary_name} />
           </Grid>
           <Grid item md={3}>
             <FriendSidebar />

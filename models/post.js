@@ -11,7 +11,7 @@ let PostSchema = new Schema(
     // author: { type: String, required: true },
     author: { type: Schema.Types.ObjectId, ref: "User", required: true },
     date: { type: Date, default: Date.now },
-    photo: { type: String },
+    image: { type: String },
   },
   {
     timestamps: true,

@@ -8,8 +8,10 @@ const Comment = require("../models/comment");
 const Notification = require("../models/notification");
 const FriendRequest = require("../models/friendRequest");
 const { body, validationResult } = require("express-validator");
+const cloudinary = require("cloudinary");
 const mongoose = require("mongoose");
 const toID = mongoose.Types.ObjectId;
+require("dotenv").config();
 
 // ██████╗ ██████╗  ██████╗ ███████╗██╗██╗     ███████╗
 // ██╔══██╗██╔══██╗██╔═══██╗██╔════╝██║██║     ██╔════╝
@@ -724,6 +726,19 @@ exports.signup_post = [
   },
 ];
 
+exports.uploadImage = (req, res, next) => {
+  const timestamp = Math.round(new Date().getTime() / 1000);
+
+  const signature = cloudinary.utils.api_sign_request(
+    {
+      timestamp: timestamp,
+    },
+    process.env.CLOUDINARY_API_SECRET
+  );
+  res.statusCode = 200;
+  res.json({ signature, timestamp });
+};
+
 exports.statusUpdate_post = [
   body("content", "There is no content to submit")
     .trim()
@@ -731,7 +746,7 @@ exports.statusUpdate_post = [
     .escape(),
 
   (req, res, next) => {
-    let { content, author } = req.body;
+    let { content, author, image } = req.body;
     let errors = [];
     let validationErrors = validationResult(req);
 
@@ -745,6 +760,7 @@ exports.statusUpdate_post = [
       const newPost = new Post({
         content: content,
         author: toID(author),
+        image,
       });
       newPost
         .save()
