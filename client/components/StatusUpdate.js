@@ -22,7 +22,7 @@ import { Image } from "cloudinary-react";
 
 const dropZoneStyles = {
   border: "3px #1976d3 dashed",
-  height: "200px",
+  height: "150px",
   mt: 1,
   mr: 10,
   position: "relative",
@@ -41,7 +41,7 @@ const typographyStyles = {
   margin: "auto",
 };
 
-function StatusUpdate({ cloudinary_name }) {
+function StatusUpdate() {
   const { user } = useContext(UserContext);
   const [showChooseFile, setShowChooseFile] = useState(false);
   const [content, setContent] = useState("");
@@ -49,11 +49,14 @@ function StatusUpdate({ cloudinary_name }) {
   const router = useRouter();
 
   const onDrop = useCallback(async (acceptedFile) => {
-    const url = `https://api.cloudinary.com/v1_1/${cloudinary_name}/upload`;
+    const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/upload`;
     const { signature, timestamp } = await getSignature();
     const formData = new FormData();
+    console.log(acceptedFile);
+    console.log("signature: ", signature);
+    console.log("timestamp: ", timestamp);
 
-    formData.append("file", acceptedFile);
+    formData.append("file", acceptedFile[0]);
     formData.append("signature", signature);
     formData.append("timestamp", timestamp);
     formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
@@ -63,6 +66,7 @@ function StatusUpdate({ cloudinary_name }) {
       body: formData,
     });
     const data = await response.json();
+    console.log(data);
     setUploadedImage([data]);
   }, []);
 
@@ -70,6 +74,7 @@ function StatusUpdate({ cloudinary_name }) {
     onDrop,
     accepts: "image/*",
     multiple: false,
+    // maxSize: 300 * 1024 //300kb
   });
 
   const handleChooseFile = () => setShowChooseFile(!showChooseFile);
@@ -109,7 +114,6 @@ function StatusUpdate({ cloudinary_name }) {
   return (
     <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
       <Stack>
-        <p>{cloudinary_name}</p>
         <Stack direction="row">
           <Avatar
             src={user?.user?.profilePicture || ""}
@@ -168,9 +172,10 @@ function StatusUpdate({ cloudinary_name }) {
               <>
                 {uploadedImage.map((image) => (
                   <Image
+                    key={image.asset_id}
                     cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_NAME}
                     publicId={image.public_id}
-                    width="300"
+                    height="150"
                     crop="scale"
                   />
                 ))}

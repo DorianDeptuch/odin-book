@@ -45,13 +45,13 @@ function IndexPost({
     // console.log("likes: ", likes);
     // console.log("comments: ", comments);
     // console.log("author: ", author);
-    console.log("date: ", date);
-    console.log("date: ", typeof date);
-    setTimeout(() => console.log(typeof postDate), 500);
+    // console.log("date: ", date);
+    // console.log("date: ", typeof date);
+    // setTimeout(() => console.log(typeof postDate), 500);
     // console.log("setPostCreated: ", setPostCreated);
     setCommentData(comments);
     setHasComments(comments?.length ? true : false);
-    console.log(date);
+    // console.log(date);
   }, []);
 
   const handleSubmit = (e) => {
