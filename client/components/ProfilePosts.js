@@ -35,7 +35,7 @@ function ProfilePosts({ id }) {
           <FriendsList sx={{ my: 2 }} />
         </Stack>
         <Stack sx={{ width: "60%", ml: 2 }}>
-          {ownProfile && <StatusUpdate />}
+          {ownProfile && <StatusUpdate setPostCreated={setPostCreated} />}
           <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
             <Typography variant="h6" component="h6">
               Posts
@@ -47,6 +47,7 @@ function ProfilePosts({ id }) {
               postID={item._id}
               content={item.content}
               likes={item.likes}
+              image={item.image}
               comments={item.comments}
               author={item.author}
               date={item.date}

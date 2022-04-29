@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import { format, formatDistance, subDays } from "date-fns";
 import Link from "next/link";
 import { toastOptions } from "../config/config";
+import { Image } from "cloudinary-react";
 
 function Post({
   postID,
@@ -28,6 +29,7 @@ function Post({
   likes,
   comments,
   author,
+  image,
   date,
   setPostCreated,
 }) {
@@ -103,6 +105,14 @@ function Post({
             </Typography>
           </Stack>
         </Stack>
+        {image && (
+          <Image
+            cloudName={`${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}`}
+            publicId={`${image}`}
+            crop="scale"
+            style={{ width: "100%" }}
+          />
+        )}
         <Typography variant="body1" component="p" sx={{ my: 2 }}>
           {htmlDecode(content)}
         </Typography>

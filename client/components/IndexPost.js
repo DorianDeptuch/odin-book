@@ -131,7 +131,6 @@ function IndexPost({
           <Image
             cloudName={`${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}`}
             publicId={`${image}`}
-            width="600"
             crop="scale"
             style={{ width: "100%" }}
           />
