@@ -10,7 +10,7 @@ import { UserContext } from "../pages/_app";
 import { server, client } from "../../config/config";
 import { useRouter } from "next/router";
 
-function IndexLikeCounter({ postID, likes, author }) {
+function IndexLikeCounter({ postID, likes, author, likers }) {
   const { user } = useContext(UserContext);
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(likes);
@@ -18,13 +18,7 @@ function IndexLikeCounter({ postID, likes, author }) {
   const router = useRouter();
 
   useEffect(() => {
-    setLiked(
-      author?.posts
-        .filter((item) => item._id === postID)[0]
-        ?.likers.includes(user?.user?._id)
-        ? true
-        : false
-    );
+    setLiked(likers?.includes(user?.user?._id) ? true : false);
   }, [user]);
 
   const handleDisableLike = () => {

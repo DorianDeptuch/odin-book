@@ -21,14 +21,17 @@ import { useRouter } from "next/router";
 import { format, formatDistance, subDays, parseISO } from "date-fns";
 import Link from "next/link";
 import { toastOptions } from "../config/config";
+import { Image } from "cloudinary-react";
 
 function IndexPost({
   postID,
   content,
   likes,
+  likers,
   comments,
   author,
   date,
+  image,
   setPostCreated,
 }) {
   const { user } = useContext(UserContext);
@@ -49,6 +52,7 @@ function IndexPost({
     // console.log("date: ", typeof date);
     // setTimeout(() => console.log(typeof postDate), 500);
     // console.log("setPostCreated: ", setPostCreated);
+    // console.log(image);
     setCommentData(comments);
     setHasComments(comments?.length ? true : false);
     // console.log(date);
@@ -70,7 +74,6 @@ function IndexPost({
       body: JSON.stringify(data),
     })
       .then((res) => {
-        setPostCreated(true);
         toast.success("Comment successfully created.", toastOptions);
         setCommentContent("");
       })
@@ -124,6 +127,15 @@ function IndexPost({
             </Typography>
           </Stack>
         </Stack>
+        {image && (
+          <Image
+            cloudName={`${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}`}
+            publicId={`${image}`}
+            width="600"
+            crop="scale"
+            style={{ width: "100%" }}
+          />
+        )}
         <Typography variant="body1" component="p" sx={{ my: 2 }}>
           {htmlDecode(content)}
         </Typography>
@@ -132,6 +144,7 @@ function IndexPost({
             style={{ alignSelf: "center" }}
             postID={postID}
             likes={likes}
+            likers={likers}
             author={author}
           />
         </Stack>

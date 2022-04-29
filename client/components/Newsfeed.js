@@ -8,7 +8,6 @@ import { UserContext } from "../pages/_app";
 function Newsfeed() {
   const { user } = useContext(UserContext);
   const [indexPosts, setIndexPosts] = useState([]);
-  const [hasPosts, setHasPosts] = useState(false);
   const [postCreated, setPostCreated] = useState(false);
 
   useEffect(async () => {
@@ -17,18 +16,16 @@ function Newsfeed() {
       friend.posts.forEach((post) => arrayOfFriendsPosts.push(post));
     });
     await user?.user?.posts.forEach((post) => arrayOfFriendsPosts.push(post));
-    // await arrayOfFriendsPosts.flat(2);
     await setIndexPosts((prev) => [
       ...prev,
       arrayOfFriendsPosts.sort((a, z) => (a.createdAt > z.createdAt ? -1 : 1)),
     ]);
     await setIndexPosts((prev) => prev.flat());
-    // setHasPosts(results.posts.length ? true : false)
-  }, [user, user?.user?.friends]);
+  }, [user, user?.user?.friends, postCreated]);
 
   return (
     <Box sx={{ m: 2 }}>
-      <StatusUpdate />
+      <StatusUpdate setPostCreated={setPostCreated} />
       {indexPosts &&
         indexPosts.map((item) => (
           <IndexPost
@@ -36,10 +33,12 @@ function Newsfeed() {
             postID={item._id}
             content={item.content}
             likes={item.likes}
+            likers={item.likers}
             comments={item.comments}
             author={item.author}
             date={item.date}
-            setPostCreated={setPostCreated}
+            image={item.image || null}
+            postCreated={postCreated}
           />
         ))}
       {!indexPosts.length && (

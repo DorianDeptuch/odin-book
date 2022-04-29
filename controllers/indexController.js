@@ -500,7 +500,11 @@ exports.index_get = (req, res, next) => {
       model: Post,
       options: { sort: { createdAt: -1 } },
       populate: [
-        { path: "author", model: User },
+        {
+          path: "author",
+          model: User,
+          populate: { path: "posts", model: Post },
+        },
         {
           path: "comments",
           model: Comment,
@@ -767,6 +771,9 @@ exports.statusUpdate_post = [
         .then(async (post) => {
           let user = await User.findById(toID(author));
           user.posts.push(newPost);
+          if (image) {
+            user.photos.push(image);
+          }
           await user.save();
 
           Post.find().exec(function (err, list_posts) {

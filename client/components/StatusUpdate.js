@@ -41,7 +41,7 @@ const typographyStyles = {
   margin: "auto",
 };
 
-function StatusUpdate() {
+function StatusUpdate({ setPostCreated }) {
   const { user } = useContext(UserContext);
   const [showChooseFile, setShowChooseFile] = useState(false);
   const [content, setContent] = useState("");
@@ -91,7 +91,7 @@ function StatusUpdate() {
     const data = {
       content,
       author: user?.user?._id,
-      image: uploadedImage.public_id,
+      image: uploadedImage[0].public_id || null,
     };
     console.log(data);
 
@@ -101,9 +101,12 @@ function StatusUpdate() {
       body: JSON.stringify(data),
     })
       .then((res) => {
-        router.push(`${client}/`);
+        // router.push(`${client}/`);
         toast.success("Post successfully created.", toastOptions);
         setContent("");
+        setPostCreated(true);
+        setUploadedImage(null);
+        setShowChooseFile(false);
       })
       .catch((err) => {
         console.log(err);
