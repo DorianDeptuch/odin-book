@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { ProfileContext } from "../pages/profile/[id]";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -18,18 +18,8 @@ import Backdrop from "@mui/material/Backdrop";
 import Fade from "@mui/material/Fade";
 import { Image } from "cloudinary-react";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 700,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-};
-
 function ProfilePhotos() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(null);
   const currentProfile = useContext(ProfileContext);
   // const [profile, setProfile] = useState({});
   const [postsWithImages, setPostsWithImages] = useState([]);
@@ -42,7 +32,7 @@ function ProfilePhotos() {
     );
     console.log(postsWithImages);
   }, []);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = useCallback((index) => setOpen(index));
   const handleClose = () => setOpen(false);
 
   return (
@@ -59,50 +49,20 @@ function ProfilePhotos() {
               </ListSubheader>
             </ImageListItem>
             {postsWithImages.length ? (
-              postsWithImages.map((item) => (
-                <ImageListItem onClick={handleOpen} key={item.image} cols={1}>
-                  <img
-                    src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1651189593/${item.image}?w=248&fit=crop&auto=format`}
-                    srcSet={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1651189593/${item.image}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                    alt={item.content}
-                    loading="lazy"
-                  />
-
-                  <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                      timeout: 500,
-                    }}
-                  >
-                    <Fade in={open}>
-                      <Box sx={style}>
-                        <ProfilePhotosModal
-                          handleClose={handleClose}
-                          content={item.content}
-                          cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_NAME}
-                          publicId={item.image}
-                        />
-                      </Box>
-                    </Fade>
-                  </Modal>
-                  <ImageListItemBar
-                    title={item.content}
-                    subtitle={`${item.author.firstName} ${item.author.lastName}`}
-                    actionIcon={
-                      <IconButton
-                        sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-                        aria-label={`info about ${item.content}`}
-                      >
-                        <InfoIcon />
-                      </IconButton>
-                    }
-                  />
-                </ImageListItem>
+              postsWithImages.map((item, index) => (
+                <ProfilePhotosModal
+                  key={item._id}
+                  index={index}
+                  cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_NAME}
+                  publicId={item.image}
+                  content={item.content}
+                  firstName={item.author.firstName}
+                  lastName={item.author.lastName}
+                  open={open}
+                  handleOpen={handleOpen}
+                  handleClose={handleClose}
+                  setOpen={setOpen}
+                />
               ))
             ) : (
               <Typography

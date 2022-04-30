@@ -46,7 +46,6 @@ function StatusUpdate({ setPostCreated }) {
   const [showChooseFile, setShowChooseFile] = useState(false);
   const [content, setContent] = useState("");
   const [uploadedImage, setUploadedImage] = useState([]);
-  const router = useRouter();
 
   const onDrop = useCallback(async (acceptedFile) => {
     const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/upload`;
