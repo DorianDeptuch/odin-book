@@ -28,7 +28,7 @@ function ProfileFriends({ id }) {
   }, [currentProfile]);
 
   const compareMutualFriends = (arr1, arr2) => {
-    return arr1.reduce(
+    return arr1?.reduce(
       (a, c) => a + arr2.map((item) => item._id).includes(c),
       0
     );
