@@ -36,6 +36,10 @@ const centerAlign = {
   my: 6,
 };
 
+const mobileStyles = {
+  flexDirection: ["column", "row"],
+};
+
 const modalStyle = {
   position: "absolute",
   top: "50%",
@@ -100,8 +104,8 @@ function login() {
 
   return (
     <Container sx={centerAlign}>
-      <Stack direction="row" sx={centerAlign}>
-        <Stack sx={{ width: "40%", marginRight: "4rem" }}>
+      <Stack direction="row" sx={(centerAlign, mobileStyles)}>
+        <Stack sx={{ width: ["100%", "40%"], marginRight: [0, "4rem"] }}>
           <Typography
             variant="h3"
             color="primary.main"
@@ -114,7 +118,10 @@ function login() {
             around you on OdinBook.
           </Typography>
         </Stack>
-        <Paper elevation={5} sx={{ ...styles, width: "40%" }}>
+        <Paper
+          elevation={5}
+          sx={{ ...styles, width: ["100%", "40%"], alignSelf: "center" }}
+        >
           <Stack spacing={2}>
             <Typography>
               Log in to <span color="primary.main">OdinBook</span>
@@ -160,7 +167,7 @@ function login() {
         </Paper>
       </Stack>
       <Modal
-        sx={centerAlign}
+        sx={{ ...centerAlign, width: ["100%", "100%"] }}
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
@@ -172,7 +179,7 @@ function login() {
         }}
       >
         <Fade in={open}>
-          <Box sx={modalStyle}>
+          <Box sx={{ ...modalStyle, width: ["90%", "80%"] }}>
             <SignupModal handleClose={handleClose} />
           </Box>
         </Fade>

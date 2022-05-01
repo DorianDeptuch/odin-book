@@ -17,9 +17,10 @@ import MenuItem from "@mui/material/MenuItem";
 import FriendRequestPopover from "./FriendRequestPopover";
 import NotificationPopover from "./NotificationPopover";
 import { avatar_SM } from "../config/config";
+import SearchIcon from "@mui/icons-material/Search";
 
 const styles = {
-  mx: 2,
+  mx: [1, 2, 2],
   cursor: "pointer",
 };
 
@@ -70,16 +71,38 @@ export default function Navbar({ req }) {
               <Typography
                 variant="h6"
                 component="div"
-                sx={{ ...styles, flexGrow: 1, alignSelf: "center" }}
+                sx={{
+                  ...styles,
+                  flexGrow: 1,
+                  alignSelf: "center",
+                  marginRight: ["3rem", "5rem"],
+                }}
               >
                 OdinBook
               </Typography>
             </Link>
             <Stack direction="row">
               {user && (
+                <Tooltip
+                  title="Search"
+                  sx={{
+                    display: ["block", "block", "none"],
+                    transform: "translateY(-50px)",
+                  }}
+                >
+                  <Link href="/search">
+                    <a>
+                      <Stack direction="row" sx={{ p: 1 }}>
+                        <SearchIcon></SearchIcon>
+                      </Stack>
+                    </a>
+                  </Link>
+                </Tooltip>
+              )}
+              {user && (
                 <Tooltip title="Friend Requests">
                   <Badge
-                    sx={styles}
+                    sx={{ ...styles, mt: [1, 1, 0] }}
                     color="error"
                     badgeContent={
                       friendRequestLength ? friendRequestLength : null
@@ -104,7 +127,7 @@ export default function Navbar({ req }) {
               {user && (
                 <Tooltip title="Notifications">
                   <Badge
-                    sx={styles}
+                    sx={{ ...styles, mt: [1, 1, 0] }}
                     color="error"
                     badgeContent={
                       notificationLength ? notificationLength : null

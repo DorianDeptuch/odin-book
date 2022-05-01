@@ -8,6 +8,10 @@ import UserSidebar from "../components/UserSidebar";
 import Newsfeed from "../components/Newsfeed";
 import FriendSidebar from "../components/FriendSidebar";
 
+const mobileStyles = {
+  display: ["none", "none", "block"],
+};
+
 export default function Home({ data }) {
   const { user, setUser } = useContext(UserContext);
 
@@ -21,13 +25,13 @@ export default function Home({ data }) {
       <Box>
         <Grid container>
           <Grid item md={3}>
-            <UserSidebar />
+            <UserSidebar sx={mobileStyles} />
           </Grid>
           <Grid item md={6}>
             <Newsfeed />
           </Grid>
           <Grid item md={3}>
-            <FriendSidebar />
+            <FriendSidebar sx={mobileStyles} />
           </Grid>
         </Grid>
       </Box>

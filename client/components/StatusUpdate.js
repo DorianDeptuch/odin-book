@@ -32,7 +32,7 @@ const avatarStyles = {
   height: avatar_MD,
   width: avatar_MD,
   borderRadius: "50%",
-  mr: 2,
+  mr: [1, 2],
 };
 
 const typographyStyles = {
@@ -143,7 +143,13 @@ function StatusUpdate({ setPostCreated }) {
                 <Button
                   type="submit"
                   variant="contained"
-                  sx={{ mx: 1, height: "100%", alignSelf: "center" }}
+                  sx={{
+                    mx: 1,
+                    height: "100%",
+                    alignSelf: "center",
+                    py: 2,
+                    px: 0,
+                  }}
                 >
                   <SendIcon></SendIcon>
                 </Button>

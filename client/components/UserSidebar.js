@@ -22,7 +22,10 @@ function UserSidebar() {
   const { user, setUser } = useContext(UserContext);
 
   return (
-    <Paper elevation={3} sx={{ m: 2, p: 2 }}>
+    <Paper
+      elevation={3}
+      sx={{ m: 2, p: 2, display: ["none", "none", "block"] }}
+    >
       <Box>
         <Link href={`/profile/${user?.user?._id}`}>
           <a>

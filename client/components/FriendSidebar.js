@@ -5,7 +5,7 @@ import IndexFriendsList from "./IndexFriendsList";
 
 function FriendSidebar() {
   return (
-    <Box sx={{ m: 2 }}>
+    <Box sx={{ m: 2, display: ["none", "none", "block"] }}>
       <IndexFriendRequests />
       <IndexFriendsList />
     </Box>

@@ -39,7 +39,7 @@ function Search({ data }) {
   }, [searchTerm]);
 
   return (
-    <Box sx={{ m: 2, p: 2 }}>
+    <Box sx={{ m: [0, 1, 2], p: [0, 1, 2], mt: [2, 1, 0] }}>
       <Stack>
         <Paper elevation={3}>
           <Typography variant="h6" component="h6" sx={{ m: 2, p: 2 }}>

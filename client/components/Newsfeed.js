@@ -24,7 +24,7 @@ function Newsfeed() {
   }, [user, user?.user?.friends, postCreated]);
 
   return (
-    <Box sx={{ m: 2 }}>
+    <Box sx={{ m: [0, 1, 2] }}>
       <StatusUpdate setPostCreated={setPostCreated} />
       {indexPosts &&
         indexPosts.map((item) => (

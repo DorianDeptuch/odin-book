@@ -11,7 +11,6 @@ import InfoIcon from "@mui/icons-material/Info";
 import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import Fade from "@mui/material/Fade";
-import styles from "../styles/ProfilePhotosModal.module.css";
 
 const style = {
   position: "absolute",

@@ -73,9 +73,9 @@ function Post({
   };
 
   return (
-    <Paper elevation={3} sx={{ p: 2, mt: 2 }} id={postID}>
+    <Paper elevation={3} sx={{ pt: 2, mt: 2 }} id={postID}>
       <Stack>
-        <Stack direction="row" sx={{ mb: 2 }}>
+        <Stack direction="row" sx={{ mb: 2, px: 2 }}>
           <Link href={`${client}/profile/${author._id}`}>
             <Avatar
               src={author?.profilePicture || ""}
@@ -113,17 +113,17 @@ function Post({
             style={{ width: "100%" }}
           />
         )}
-        <Typography variant="body1" component="p" sx={{ my: 2 }}>
+        <Typography variant="body1" component="p" sx={{ my: 2, px: 2 }}>
           {htmlDecode(content)}
         </Typography>
-        <Stack direction="row" sx={{ justifyContent: "start", mt: 2 }}>
+        <Stack direction="row" sx={{ justifyContent: "start", mt: 2, px: 2 }}>
           <LikeCounter
             style={{ alignSelf: "center" }}
             postID={postID}
             likes={likes}
           />
         </Stack>
-        <Box sx={{ my: 2 }}>
+        <Box sx={{ my: 2, px: 2 }}>
           <Stack direction="row">
             <Avatar
               src={user?.user?.profilePicture || ""}
@@ -153,7 +153,13 @@ function Post({
                 <Button
                   type="submit"
                   variant="contained"
-                  sx={{ mx: 1, height: "100%", alignSelf: "center" }}
+                  sx={{
+                    mx: 1,
+                    height: "100%",
+                    alignSelf: "center",
+                    py: 2,
+                    px: 0,
+                  }}
                 >
                   <SendIcon></SendIcon>
                 </Button>
@@ -161,7 +167,7 @@ function Post({
             </form>
           </Stack>
         </Box>
-        <Accordion sx={{ backgroundColor: bgc }}>
+        <Accordion sx={{ backgroundColor: bgc, px: 2 }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
