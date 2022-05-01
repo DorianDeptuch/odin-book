@@ -33,7 +33,7 @@ function ProfilePhotos() {
     console.log(postsWithImages);
   }, []);
   const handleOpen = useCallback((index) => setOpen(index));
-  const handleClose = () => setOpen(false);
+  const handleClose = () => setOpen(null);
 
   return (
     <Box sx={{ backgroundColor: bgc, mx: -3 }}>
@@ -61,7 +61,6 @@ function ProfilePhotos() {
                   open={open}
                   handleOpen={handleOpen}
                   handleClose={handleClose}
-                  setOpen={setOpen}
                 />
               ))
             ) : (

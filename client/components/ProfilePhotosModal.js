@@ -35,24 +35,29 @@ function ProfilePhotosModal({
   open,
   handleOpen,
   handleClose,
-  setOpen,
 }) {
-  const [closed, setClosed] = useState(false);
-
-  const handleModalClose = () => {
-    handleClose();
-    // setClosed(true);
-    handleOpen(null);
-  };
-
   return (
-    <ImageListItem onClick={() => handleOpen(index)} cols={1}>
-      <img
-        src={`https://res.cloudinary.com/${cloudName}/image/upload/v1651189593/${publicId}?w=248&fit=crop&auto=format`}
-        srcSet={`https://res.cloudinary.com/${cloudName}/image/upload/v1651189593/${publicId}?w=248&fit=crop&auto=format&dpr=2 2x`}
-        alt={content}
-        loading="lazy"
-      />
+    <>
+      <ImageListItem onClick={() => handleOpen(index)} cols={1}>
+        <img
+          src={`https://res.cloudinary.com/${cloudName}/image/upload/v1651189593/${publicId}?w=248&fit=crop&auto=format`}
+          srcSet={`https://res.cloudinary.com/${cloudName}/image/upload/v1651189593/${publicId}?w=248&fit=crop&auto=format&dpr=2 2x`}
+          alt={content}
+          loading="lazy"
+        />
+        <ImageListItemBar
+          title={content}
+          subtitle={`${firstName} ${lastName}`}
+          actionIcon={
+            <IconButton
+              sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+              aria-label={`info about ${content}`}
+            >
+              <InfoIcon />
+            </IconButton>
+          }
+        />
+      </ImageListItem>
 
       <Modal
         open={open === index}
@@ -64,7 +69,6 @@ function ProfilePhotosModal({
         BackdropProps={{
           timeout: 500,
         }}
-        className={closed ? styles.modal_closed : ""}
       >
         <Fade in={open}>
           <Box sx={style}>
@@ -79,7 +83,7 @@ function ProfilePhotosModal({
                 {content}
               </Typography>
               <Button
-                onClick={handleModalClose}
+                onClick={handleClose}
                 variant="contained"
                 color="error"
                 sx={{ mx: "auto", my: 2 }}
@@ -90,19 +94,7 @@ function ProfilePhotosModal({
           </Box>
         </Fade>
       </Modal>
-      <ImageListItemBar
-        title={content}
-        subtitle={`${firstName} ${lastName}`}
-        actionIcon={
-          <IconButton
-            sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-            aria-label={`info about ${content}`}
-          >
-            <InfoIcon />
-          </IconButton>
-        }
-      />
-    </ImageListItem>
+    </>
   );
 }
 
