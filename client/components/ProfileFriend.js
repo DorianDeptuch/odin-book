@@ -10,15 +10,16 @@ import Link from "next/link";
 
 function ProfileFriend(profileID, profilePicture, firstName, lastName) {
   return (
-    <Link href={`${client}/profile/${profileID}`}>
+    <Link href={`${client}/profile/${profileID}`} style={{ width: "100%" }}>
       <a>
-        <Grid item md={4}>
+        <Grid item md={4} sx={{ width: "100% !important" }}>
           <Paper
             elevation={3}
             sx={{
               m: 2,
               p: 2,
               "&:hover": { backgroundColor: "#eee", cursor: "pointer" },
+              width: "100%",
             }}
           >
             <Stack direction="row">

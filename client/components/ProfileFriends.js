@@ -56,7 +56,7 @@ function ProfileFriends({ id }) {
               />
             ))} */}
               {friendsList.map((item) => (
-                <Grid item md={4}>
+                <Grid item md={4} sx={{ width: "100% !important" }}>
                   <Link href={`${client}/profile/${item._id}`}>
                     <a>
                       <Paper

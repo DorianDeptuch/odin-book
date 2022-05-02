@@ -47,6 +47,7 @@ function ProfilePhotosModal({
         <ImageListItemBar
           title={content}
           subtitle={`${firstName} ${lastName}`}
+          sx={{ display: ["none", "block"] }}
           actionIcon={
             <IconButton
               sx={{ color: "rgba(255, 255, 255, 0.54)" }}
@@ -70,13 +71,13 @@ function ProfilePhotosModal({
         }}
       >
         <Fade in={open}>
-          <Box sx={style}>
+          <Box sx={{ ...style, maxWidth: "100vw" }}>
             <Stack>
               <Image
                 cloudName={cloudName}
                 publicId={publicId}
                 crop="scale"
-                style={{ width: "100%" }}
+                style={{ width: "100%", maxWidth: "100vw" }}
               />
               <Typography variant="body1" component="p" sx={{ p: 2 }}>
                 {content}

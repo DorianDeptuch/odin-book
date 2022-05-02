@@ -56,7 +56,7 @@ function Biography({ id }) {
   };
 
   return (
-    <Paper elevation={3}>
+    <Paper elevation={3} sx={{ display: ["none", "block", "block"] }}>
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs

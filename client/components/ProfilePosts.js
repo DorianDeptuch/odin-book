@@ -10,6 +10,10 @@ import StatusUpdate from "./StatusUpdate";
 import Post from "./Post";
 import FriendsList from "./FriendsList";
 
+const mobileStyles = {
+  display: ["none", "block", "block"],
+};
+
 function ProfilePosts({ id }) {
   const { user } = useContext(UserContext);
   const currentProfile = useContext(ProfileContext);
@@ -28,13 +32,13 @@ function ProfilePosts({ id }) {
   }, [currentProfile, postCreated]);
 
   return (
-    <Box sx={{ mx: -3 }}>
+    <Box sx={{ mx: [0, -3], ml: [-5], mr: [-3] }}>
       <Stack direction="row">
-        <Stack sx={{ width: "40%", mr: 2 }}>
-          <Biography id={id} />
-          <FriendsList sx={{ my: 2 }} />
+        <Stack sx={{ width: ["0%", "40%"], mr: 2, display: ["none", "block"] }}>
+          <Biography id={id} sx={{ ...mobileStyles }} />
+          <FriendsList sx={{ my: 2, ...mobileStyles }} />
         </Stack>
-        <Stack sx={{ width: "60%", ml: 2 }}>
+        <Stack sx={{ width: ["100%", "60%", "60%"], ml: 2 }}>
           {ownProfile && <StatusUpdate setPostCreated={setPostCreated} />}
           <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
             <Typography variant="h6" component="h6">

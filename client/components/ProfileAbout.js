@@ -22,11 +22,14 @@ function ProfileAbout({ id }) {
   const bioMargin = ownProfile ? 2 : 0;
   return (
     <Box sx={{ backgroundColor: bgc, mx: -3 }}>
-      <Stack direction="row">
-        <Paper elevation={3} sx={{ width: "40%", p: 2, mr: 2, mb: 2 }}>
+      <Stack direction="row" sx={{ flexWrap: ["wrap", "nowrap", "nowrap"] }}>
+        <Paper
+          elevation={3}
+          sx={{ width: ["100%", "40%"], p: 2, mr: [0, 2], mb: 2 }}
+        >
           <ProfileIntro />
         </Paper>
-        <Paper elevation={3} sx={{ width: "60%", p: 2, ml: 2 }}>
+        <Paper elevation={3} sx={{ width: ["100%", "60%"], p: 2, ml: [0, 2] }}>
           <ProfileInfo />
         </Paper>
       </Stack>

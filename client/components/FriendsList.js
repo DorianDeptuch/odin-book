@@ -17,7 +17,10 @@ function FriendsList() {
   }, [currentProfile]);
 
   return (
-    <Paper elevation={3} sx={{ p: 2, my: 2 }}>
+    <Paper
+      elevation={3}
+      sx={{ p: 2, my: 2, display: ["none", "block", "block"] }}
+    >
       <Stack>
         <Typography variant="h6" component="h6">
           Friend's List

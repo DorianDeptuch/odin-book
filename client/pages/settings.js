@@ -10,9 +10,12 @@ import Stack from "@mui/material/Stack";
 
 function settings({ data }) {
   return (
-    <Container>
-      <Paper elevation={3} sx={{ m: 2, p: 2 }}>
-        <Typography variant="h6" component="h6">
+    <Container sx={{ my: 10 }}>
+      <Paper
+        elevation={3}
+        sx={{ m: [0, 1, 2], p: [0, 1, 2], mt: [2, 2, 0], mb: 10 }}
+      >
+        <Typography variant="h6" component="h6" sx={{ p: [2, 1, 0] }}>
           Settings
         </Typography>
         <Stack sx={{ my: 2 }}>
