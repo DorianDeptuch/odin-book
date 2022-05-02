@@ -10,18 +10,21 @@ import { server, client } from "../../config/config";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { UserContext } from "../pages/_app";
+import { FriendRequestContext } from "../pages/_app";
 
 function IndexRequest({
   sender,
   recipient,
   friendRequestID,
-  setFriendRequestLength,
+  // setFriendRequestLength,
   setFriendRequestArray,
-  friendRequestLength,
+  // friendRequestLength,
 }) {
   const router = useRouter();
   const { user } = useContext(UserContext);
   const [clicked, setClicked] = useState(false);
+  const { friendRequestLength, setFriendRequestLength } =
+    useContext(FriendRequestContext);
 
   const handleFriendRequestArray = () => {
     if (friendRequestLength === 0) {
@@ -30,6 +33,10 @@ function IndexRequest({
       return;
     }
   };
+
+  useEffect(() => {
+    handleFriendRequestArray();
+  }, [friendRequestLength]);
 
   const handleFriendRequestAccept = (e) => {
     e.preventDefault();

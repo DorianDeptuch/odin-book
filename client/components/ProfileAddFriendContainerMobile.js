@@ -54,7 +54,6 @@ function ProfileAddFriendContainerMobile() {
     })
       .then((res) => {
         setFriendRequestSent(true);
-        // router.push(`${client}/profile/${profile?._id}`);
         toast.info(
           `Friend Request sent to ${profile?.firstName}`,
           toastOptions
@@ -84,7 +83,6 @@ function ProfileAddFriendContainerMobile() {
     })
       .then((res) => {
         handleDisablePoke();
-        router.push(`${client}/profile/${profile?._id}`);
         toast.info(`You poked ${profile?.firstName}`, toastOptions);
       })
       .catch((err) => {

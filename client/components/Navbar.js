@@ -1,5 +1,6 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../pages/_app";
+import { FriendRequestContext } from "../pages/_app";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
@@ -26,13 +27,14 @@ const styles = {
 
 export default function Navbar({ req }) {
   const { user } = useContext(UserContext);
-  const [notificationLength, setNotificationLength] = React.useState(null);
-  const [friendRequestLength, setFriendRequestLength] = React.useState(null);
-  const [anchorElRequest, setAnchorElRequest] = React.useState(null);
-  const [anchorElNotification, setAnchorElNotification] = React.useState(null);
+  const [notificationLength, setNotificationLength] = useState(null);
+  // const [friendRequestLength, setFriendRequestLength] = useState(null);
+  const {friendRequestLength, setFriendRequestLength} = useContext(FriendRequestContext)
+  const [anchorElRequest, setAnchorElRequest] = useState(null);
+  const [anchorElNotification, setAnchorElNotification] = useState(null);
   const openRequest = Boolean(anchorElRequest);
   const openNotification = Boolean(anchorElNotification);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const idRequest = openRequest ? "simple-popover" : undefined;

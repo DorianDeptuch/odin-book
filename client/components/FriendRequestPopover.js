@@ -54,6 +54,7 @@ function FriendRequestPopover({
                 date={item.date}
                 setFriendRequestLength={setFriendRequestLength}
                 setAnchorElRequest={setAnchorElRequest}
+                setFriendRequestArray={setFriendRequestArray}
               />
             ))}
         </>

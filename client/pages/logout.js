@@ -31,8 +31,8 @@ function logout({ data }) {
 
   return (
     <Container>
-      <Box sx={{ height: "100vh" }}>
-        <Typography variant="h6" component="h6">
+      <Box sx={{ height: "100vh", mx: "auto", mt: 10 }}>
+        <Typography variant="h6" component="h6" align="center">
           Logging out...
         </Typography>
       </Box>

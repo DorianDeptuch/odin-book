@@ -16,7 +16,9 @@ function Request({
   date,
   friendRequestID,
   setFriendRequestLength,
+  friendRequestLength,
   setAnchorElRequest,
+  setFriendRequestArray,
 }) {
   const router = useRouter();
   const [clicked, setClicked] = useState(false);
@@ -35,8 +37,8 @@ function Request({
       body: JSON.stringify(data),
     })
       .then((res) => {
-        router.push(`${client}/`);
         setFriendRequestLength((prev) => prev - 1);
+        handleFriendRequestArray();
         setAnchorElRequest(null);
         toast.success(
           `You and ${sender.firstName} are now Friends!`,
@@ -64,8 +66,8 @@ function Request({
       body: JSON.stringify(data),
     })
       .then((res) => {
-        router.push(`${client}/`);
         setFriendRequestLength((prev) => prev - 1);
+        handleFriendRequestArray();
         setAnchorElRequest(null);
         toast.info(
           `You have denied ${sender.firstName}'s friendship.`,
@@ -78,6 +80,18 @@ function Request({
         toast.error(`${err.message}`, toastOptions);
       });
   };
+
+  const handleFriendRequestArray = () => {
+    if (friendRequestLength === 0) {
+      setFriendRequestArray([]);
+    } else {
+      return;
+    }
+  };
+
+  useEffect(() => {
+    handleFriendRequestArray();
+  }, [friendRequestLength]);
 
   return (
     <>
