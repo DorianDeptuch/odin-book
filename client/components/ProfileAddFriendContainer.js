@@ -4,6 +4,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
 import CheckIcon from "@mui/icons-material/Check";
 import GroupIcon from "@mui/icons-material/Group";
+import PendingIcon from "@mui/icons-material/Pending";
 import Stack from "@mui/material/Stack";
 import { ProfileContext } from "../pages/profile/[id]";
 import { UserContext } from "../pages/_app";
@@ -17,6 +18,7 @@ function ProfileAddFriendContainer() {
   const [profile, setProfile] = useState({});
 
   const [friendRequestSent, setFriendRequestSent] = useState(false);
+  const [pendingFriendRequest, setPendingFriendRequest] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
   const [disabledTrigger, setDisabledTrigger] = useState(false);
 
@@ -36,6 +38,20 @@ function ProfileAddFriendContainer() {
         ? true
         : false
     );
+    setPendingFriendRequest(
+      user?.user?.friendRequests
+        .map((item) => item.sender._id)
+        .includes(results._id)
+        ? true
+        : false
+    );
+    console.log(
+      "logged in user's Requests: ",
+      user?.user?.friendRequests
+        .map((item) => item.sender._id)
+        .includes(results._id)
+    );
+    console.log("current profile: ", results._id);
   }, [currentProfile]);
 
   const handleFriendRequest = (e) => {
@@ -121,7 +137,7 @@ function ProfileAddFriendContainer() {
           </form>
         ) : (
           <>
-            {!friendRequestSent && (
+            {!friendRequestSent && !pendingFriendRequest && (
               <form
                 action="/friendRequest"
                 method="POST"
@@ -155,6 +171,22 @@ function ProfileAddFriendContainer() {
                   }}
                 >
                   <CheckIcon sx={{ mr: 1 }} /> Friend Request Sent
+                </Button>
+              </form>
+            )}
+            {pendingFriendRequest && (
+              <form action="/" method="POST">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    m: 1,
+                    height: 50,
+                    width: "100%",
+                    alignSelf: "center",
+                  }}
+                >
+                  <PendingIcon sx={{ mr: 1 }} /> Pending Request
                 </Button>
               </form>
             )}

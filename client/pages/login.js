@@ -105,7 +105,13 @@ function login() {
   return (
     <Container sx={centerAlign}>
       <Stack direction="row" sx={(centerAlign, mobileStyles)}>
-        <Stack sx={{ width: ["100%", "40%"], marginRight: [0, "4rem"] }}>
+        <Stack
+          sx={{
+            width: ["100%", "40%"],
+            marginRight: [0, "4rem"],
+            my: [0, "auto"],
+          }}
+        >
           <Typography
             variant="h3"
             color="primary.main"

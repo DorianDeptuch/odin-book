@@ -52,6 +52,9 @@ function FriendRequestPopover({
                 sender={item.sender}
                 recipient={item.recipient}
                 date={item.date}
+                // maybe delete this if it's not working vvvvv
+                friendRequestLength={friendRequestLength}
+                //  ^^^^^^
                 setFriendRequestLength={setFriendRequestLength}
                 setAnchorElRequest={setAnchorElRequest}
                 setFriendRequestArray={setFriendRequestArray}

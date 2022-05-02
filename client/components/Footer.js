@@ -18,7 +18,7 @@ const mobileStyles = {
 
 function Footer() {
   return (
-    <>
+    <Box sx={{ mt: [0, 20, 20] }}>
       <Box
         sx={{
           bgcolor: grey[300],
@@ -73,7 +73,7 @@ function Footer() {
           </Typography>
         </Stack>
       </Box>
-    </>
+    </Box>
   );
 }
 
