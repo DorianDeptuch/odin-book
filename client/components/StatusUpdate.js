@@ -90,7 +90,7 @@ function StatusUpdate({ setPostCreated }) {
     const data = {
       content,
       author: user?.user?._id,
-      image: uploadedImage[0].public_id || null,
+      image: uploadedImage[0]?.public_id || null,
     };
     console.log(data);
 

@@ -20,9 +20,9 @@ require("dotenv").config();
 // ██║     ██║  ██║╚██████╔╝██║     ██║███████╗███████╗
 // ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚══════╝
 
-exports.statusUpdate_post = (req, res, next) => {};
+// exports.statusUpdate_post = (req, res, next) => {};
 
-exports.postComment_post = (req, res, next) => {};
+// exports.postComment_post = (req, res, next) => {};
 
 exports.profile_get = (req, res, next) => {
   User.findById(req.params.id)
@@ -503,7 +503,6 @@ exports.index_get = (req, res, next) => {
         {
           path: "author",
           model: User,
-          populate: { path: "posts", model: Post },
         },
         {
           path: "comments",
@@ -791,6 +790,79 @@ exports.statusUpdate_post = [
     }
   },
 ];
+
+// exports.statusUpdate_post = [
+//   body("content", "There is no content to submit")
+//     .trim()
+//     .isLength({ min: 1 })
+//     .escape(),
+
+//   (req, res, next) => {
+//     let { content, author, image } = req.body;
+//     let errors = [];
+//     let validationErrors = validationResult(req);
+
+//     if (!content) {
+//       errors.push({ msg: "Please enter a message to submit" });
+//     }
+
+//     if (errors.length > 0) {
+//       res.json({ errors });
+//     } else {
+//       const newPost = new Post({
+//         content: content,
+//         author: toID(author),
+//         image,
+//       });
+//       newPost
+//         .save()
+//         .then(async (post) => {
+//           let user = await User.findById(toID(author));
+//           user.posts.push(newPost);
+//           if (image) {
+//             user.photos.push(image);
+//           }
+//           await user.save();
+
+//           const newNotification = new Notification({
+//             sender: toID(app.locals.user.id),
+//             // recipient: toID(post.author._id),
+//             content: post._id,
+//             type: "Friend Posted",
+//           });
+//           newNotification.save().then((notification) => {
+//             user.friends.forEach((friend) => {
+//               User.findById(friend._id).then((result) => {
+//                 notification.recipient = toID(friend._id);
+//                 result.notifications.push(notification);
+//                 result.save().then((response) => {
+//                   return res.json({ response }); //Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+//                 });
+//               });
+//             });
+//             // user
+//             //   .save()
+//             //   .then((user) => {
+//             //     console.log(user);
+//             //   })
+//             // .catch((err) => console.log(err));
+//           });
+
+//           // Post.find().exec(function (err, list_posts) {
+//           //   //populate posts ??
+//           //   if (err) {
+//           //     return next(err);
+//           //   }
+//           //   res.json({
+//           //     error: err,
+//           //     post_list: list_posts,
+//           //   });
+//           // });
+//         })
+//         .catch((err) => console.log(err));
+//     }
+//   },
+// ];
 
 exports.postComment_post = [
   body("content", "There is no content to submit")
