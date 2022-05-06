@@ -46,6 +46,8 @@ function StatusUpdate({ setPostCreated }) {
   const [showChooseFile, setShowChooseFile] = useState(false);
   const [content, setContent] = useState("");
   const [uploadedImage, setUploadedImage] = useState([]);
+  const regex =
+    /(?:https?:)?(?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]{7,15})(?:[\?&][a-zA-Z0-9\_-]+=[a-zA-Z0-9\_-]+)*(?:[&\/\#].*)?/;
 
   const onDrop = useCallback(async (acceptedFile) => {
     const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/upload`;
@@ -86,6 +88,14 @@ function StatusUpdate({ setPostCreated }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (regex.test(content) && uploadedImage.length) {
+      toast.warn(
+        "Posts cannot contain both a YouTube URL and an Image. Delete on before continuing.",
+        toastOptions
+      );
+      return;
+    }
 
     const data = {
       content,

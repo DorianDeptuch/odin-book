@@ -22,6 +22,7 @@ import { format, formatDistance, subDays, parseISO } from "date-fns";
 import Link from "next/link";
 import { toastOptions } from "../config/config";
 import { Image } from "cloudinary-react";
+import YouTube from "react-youtube";
 
 function IndexPost({
   postID,
@@ -41,21 +42,27 @@ function IndexPost({
   const [hideCommentLength, setHideCommentLength] = useState(false);
   const router = useRouter();
   const [postDate, setPostDate] = useState(new Date(date));
+  const [hasYoutubeLink, setHasYoutubeLink] = useState(false);
+  const [youtubeURL, setYoutubeURL] = useState("");
+  const regex =
+    /(?:https?:)?(?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]{7,15})(?:[\?&][a-zA-Z0-9\_-]+=[a-zA-Z0-9\_-]+)*(?:[&\/\#].*)?/;
+
+  const opts = {
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 0,
+    },
+  };
+
+  const onPlayerReady = (e) => {
+    e.target.pauseVideo();
+  };
 
   useEffect(() => {
-    // console.log("postID: ", postID);
-    // console.log("content: ", content);
-    // console.log("likes: ", likes);
-    // console.log("comments: ", comments);
-    // console.log("author: ", author);
-    // console.log("date: ", date);
-    // console.log("date: ", typeof date);
-    // setTimeout(() => console.log(typeof postDate), 500);
-    // console.log("setPostCreated: ", setPostCreated);
-    // console.log(image);
     setCommentData(comments);
     setHasComments(comments?.length ? true : false);
-    // console.log(date);
+    setHasYoutubeLink(regex.test(htmlDecode(content)));
+    setYoutubeURL(htmlDecode(content)?.match(regex) || "");
   }, []);
 
   const handleSubmit = (e) => {
@@ -132,6 +139,14 @@ function IndexPost({
             cloudName={`${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}`}
             publicId={`${image}`}
             crop="scale"
+            style={{ width: "100%" }}
+          />
+        )}
+        {hasYoutubeLink && (
+          <YouTube
+            videoId={youtubeURL[1]}
+            opts={opts}
+            onReady={onPlayerReady}
             style={{ width: "100%" }}
           />
         )}

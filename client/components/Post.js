@@ -22,6 +22,7 @@ import { format, formatDistance, subDays } from "date-fns";
 import Link from "next/link";
 import { toastOptions } from "../config/config";
 import { Image } from "cloudinary-react";
+import YouTube from "react-youtube";
 
 function Post({
   postID,
@@ -38,12 +39,30 @@ function Post({
   const [commentData, setCommentData] = useState([]);
   const [hasComments, setHasComments] = useState(false);
   const [hideCommentLength, setHideCommentLength] = useState(false);
+  const [hasYoutubeLink, setHasYoutubeLink] = useState(false);
+  const [youtubeURL, setYoutubeURL] = useState("");
+  const regex =
+    /(?:https?:)?(?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]{7,15})(?:[\?&][a-zA-Z0-9\_-]+=[a-zA-Z0-9\_-]+)*(?:[&\/\#].*)?/;
   const router = useRouter();
 
+  const opts = {
+    height: "390",
+    width: "640",
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 1,
+    },
+  };
+
+  const onPlayerReady = (e) => {
+    e.target.pauseVideo();
+  };
+
   useEffect(() => {
-    // console.log(comments);
     setCommentData(comments);
     setHasComments(comments.length ? true : false);
+    setHasYoutubeLink(regex.test(htmlDecode(content)));
+    setYoutubeURL(htmlDecode(content)?.match(regex) || "");
   }, []);
 
   const handleSubmit = (e) => {
@@ -110,6 +129,14 @@ function Post({
             cloudName={`${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}`}
             publicId={`${image}`}
             crop="scale"
+            style={{ width: "100%" }}
+          />
+        )}
+        {hasYoutubeLink && (
+          <YouTube
+            videoId={youtubeURL[1]}
+            opts={opts}
+            onReady={onPlayerReady}
             style={{ width: "100%" }}
           />
         )}

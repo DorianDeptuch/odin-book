@@ -24,3 +24,7 @@ a {
 #about-tabpanel-2 > .css-19kzrtu {
   background-color: white;
 }
+
+iframe {
+  width: 100%;
+}
