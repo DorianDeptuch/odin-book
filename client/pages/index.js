@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import UserSidebar from "../components/UserSidebar";
 import Newsfeed from "../components/Newsfeed";
 import FriendSidebar from "../components/FriendSidebar";
+import { useRouter } from "next/router";
 
 const mobileStyles = {
   display: ["none", "none", "block"],
@@ -14,9 +15,14 @@ const mobileStyles = {
 
 export default function Home({ data }) {
   const { user, setUser } = useContext(UserContext);
+  const router = useRouter();
 
   useEffect(() => {
-    console.log(data);
+    console.log(data.user);
+    if (!data.user) {
+      router.push("/login");
+      return;
+    }
     setUser(data);
   }, []);
 
@@ -41,7 +47,7 @@ export default function Home({ data }) {
 
 export async function getServerSideProps(context) {
   const res = await fetch(`${server}/`);
-  const data = await res.json();
+  const data = (await res.json()) || null;
   return {
     props: { data: data },
   };

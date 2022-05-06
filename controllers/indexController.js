@@ -494,6 +494,11 @@ exports.deleteAccountForm_delete = [
 // ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚═╝  ╚═╝
 
 exports.index_get = (req, res, next) => {
+  console.log(app.locals.User);
+  if (!app.locals.user) {
+    res.status(403).json({ user: null });
+    return;
+  }
   User.findById(app.locals.user.id)
     .populate({
       path: "posts",

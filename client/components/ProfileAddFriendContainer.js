@@ -16,7 +16,6 @@ function ProfileAddFriendContainer() {
   const currentProfile = useContext(ProfileContext);
   const { user } = useContext(UserContext);
   const [profile, setProfile] = useState({});
-
   const [friendRequestSent, setFriendRequestSent] = useState(false);
   const [pendingFriendRequest, setPendingFriendRequest] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
@@ -45,13 +44,6 @@ function ProfileAddFriendContainer() {
         ? true
         : false
     );
-    console.log(
-      "logged in user's Requests: ",
-      user?.user?.friendRequests
-        .map((item) => item.sender._id)
-        .includes(results._id)
-    );
-    console.log("current profile: ", results._id);
   }, [currentProfile]);
 
   const handleFriendRequest = (e) => {
