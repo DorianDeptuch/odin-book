@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import SettingsProfilePicForm from "../components/SettingsProfilePicForm";
 import SettingsChangePasswordForm from "../components/SettingsChangePasswordForm";
 import SettingsDeleteAccountForm from "../components/SettingsDeleteAccountForm";
@@ -7,23 +7,43 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import { toastOptions } from "../config/config";
+import Unauthorized from "../components/Unauthorized";
+import { UserContext } from "./_app";
 
 function settings({ data }) {
+  const { user } = useContext(UserContext);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+      toast.warn(
+        "You need to be logged in to view this resource",
+        toastOptions
+      );
+      return;
+    }
+  }, []);
+
   return (
     <Container sx={{ my: 10 }}>
-      <Paper
-        elevation={3}
-        sx={{ m: [0, 1, 2], p: [0, 1, 2], mt: [2, 2, 0], mb: 10 }}
-      >
-        <Typography variant="h6" component="h6" sx={{ p: [2, 1, 0] }}>
-          Settings
-        </Typography>
-        <Stack sx={{ my: 2 }}>
-          <SettingsProfilePicForm data={data} />
-          <SettingsChangePasswordForm />
-          <SettingsDeleteAccountForm />
+      {user ? (
+        <Paper
+          elevation={3}
+          sx={{ m: [0, 1, 2], p: [0, 1, 2], mt: [2, 2, 0], mb: 10 }}
+        >
+          <Typography variant="h6" component="h6" sx={{ p: [2, 1, 0] }}>
+            Settings
+          </Typography>
+          <Stack sx={{ my: 2 }}>
+            <SettingsProfilePicForm data={data} />
+            <SettingsChangePasswordForm />
+            <SettingsDeleteAccountForm />
 
-          {/* <Accordion
+            {/* <Accordion
             expanded={expanded === "panel3"}
             onChange={handleChange("panel3")}
           >
@@ -54,8 +74,11 @@ function settings({ data }) {
               </Box>
             </AccordionDetails>
           </Accordion> */}
-        </Stack>
-      </Paper>
+          </Stack>
+        </Paper>
+      ) : (
+        <Unauthorized />
+      )}
     </Container>
   );
 }

@@ -8,6 +8,9 @@ import UserSidebar from "../components/UserSidebar";
 import Newsfeed from "../components/Newsfeed";
 import FriendSidebar from "../components/FriendSidebar";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import { toastOptions } from "../config/config";
+import Unauthorized from "../components/Unauthorized";
 
 const mobileStyles = {
   display: ["none", "none", "block"],
@@ -21,6 +24,10 @@ export default function Home({ data }) {
     console.log(data.user);
     if (!data.user) {
       router.push("/login");
+      toast.warn(
+        "You need to be logged in to view this resource",
+        toastOptions
+      );
       return;
     }
     setUser(data);
@@ -28,19 +35,23 @@ export default function Home({ data }) {
 
   return (
     <Container sx={{ mt: 2 }}>
-      <Box>
-        <Grid container>
-          <Grid item md={3}>
-            <UserSidebar sx={mobileStyles} />
+      {data.user ? (
+        <Box>
+          <Grid container>
+            <Grid item md={3}>
+              <UserSidebar sx={mobileStyles} />
+            </Grid>
+            <Grid item md={6}>
+              <Newsfeed />
+            </Grid>
+            <Grid item md={3}>
+              <FriendSidebar sx={mobileStyles} />
+            </Grid>
           </Grid>
-          <Grid item md={6}>
-            <Newsfeed />
-          </Grid>
-          <Grid item md={3}>
-            <FriendSidebar sx={mobileStyles} />
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      ) : (
+        <Unauthorized />
+      )}
     </Container>
   );
 }

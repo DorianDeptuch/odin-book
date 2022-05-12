@@ -4,6 +4,9 @@ import ProfileHeader from "../../components/ProfileHeader";
 import { server } from "../../../config/config";
 import { UserContext } from "../_app";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import { toastOptions } from "../../config/config";
+import Unauthorized from "../../components/Unauthorized";
 
 export const ProfileContext = React.createContext();
 
@@ -14,14 +17,22 @@ function profileDetail({ data, id }) {
   useEffect(() => {
     if (!user) {
       router.push("/login");
+      toast.warn(
+        "You need to be logged in to view this resource",
+        toastOptions
+      );
       return;
     }
   }, []);
   return (
     <Container sx={{ mt: 2 }}>
-      <ProfileContext.Provider value={data}>
-        <ProfileHeader id={id} />
-      </ProfileContext.Provider>
+      {user ? (
+        <ProfileContext.Provider value={data}>
+          <ProfileHeader id={id} />
+        </ProfileContext.Provider>
+      ) : (
+        <Unauthorized />
+      )}
     </Container>
   );
 }
