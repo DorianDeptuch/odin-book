@@ -24,6 +24,7 @@ function profileDetail({ data, id }) {
       return;
     }
   }, []);
+
   return (
     <Container sx={{ mt: 2 }}>
       {user ? (

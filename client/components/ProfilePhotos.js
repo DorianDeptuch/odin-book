@@ -27,10 +27,14 @@ function ProfilePhotos() {
   useEffect(() => {
     const { results } = currentProfile;
     // setProfile(results);
+
     setPostsWithImages(
-      results.posts.filter((item) => (item?.image !== null ? item : null))
+      results.posts.filter((item) =>
+        item.image !== undefined && item.image !== null ? item : null
+      )
     );
-    console.log(postsWithImages);
+    // console.log(postsWithImages);
+    results.posts.filter((item) => console.log(item.image));
   }, []);
   const handleOpen = useCallback((index) => setOpen(index));
   const handleClose = () => setOpen(null);

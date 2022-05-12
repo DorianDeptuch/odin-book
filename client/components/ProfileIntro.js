@@ -57,7 +57,7 @@ function ProfileIntro() {
           )}
           {profile?.maritalStatus && (
             <Typography variant="body1" component="p">
-              <strong>{profile?.maritalStatus}</strong>
+              <strong>{htmlDecode(profile?.maritalStatus)}</strong>
             </Typography>
           )}
         </Box>

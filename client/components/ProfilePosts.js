@@ -9,6 +9,7 @@ import Biography from "./Biography";
 import StatusUpdate from "./StatusUpdate";
 import Post from "./Post";
 import FriendsList from "./FriendsList";
+import Loader from "./Loader";
 
 const mobileStyles = {
   display: ["none", "block", "block"],
@@ -21,14 +22,17 @@ function ProfilePosts({ id }) {
   const ownProfile = user?.user?._id === id ? true : false;
   const [hasPosts, setHasPosts] = useState(false);
   const [postCreated, setPostCreated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // console.log(currentProfile);
     const { results } = currentProfile;
     const { posts } = results;
+
     setProfilePosts(posts);
     // console.log(posts);
     setHasPosts(results.posts.length ? true : false);
+    setLoading(false);
   }, [currentProfile, postCreated]);
 
   return (
@@ -45,6 +49,7 @@ function ProfilePosts({ id }) {
               Posts
             </Typography>
           </Paper>
+          {loading && <Loader />}
           {profilePosts.map((item) => (
             <Post
               key={item._id}
@@ -58,7 +63,7 @@ function ProfilePosts({ id }) {
               setPostCreated={setPostCreated}
             />
           ))}
-          {!hasPosts && (
+          {!hasPosts && !loading && (
             <Typography
               variant="h6"
               component="h6"

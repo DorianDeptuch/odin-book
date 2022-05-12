@@ -4,11 +4,13 @@ import IndexPost from "./IndexPost";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { UserContext } from "../pages/_app";
+import Loader from "./Loader";
 
 function Newsfeed() {
   const { user } = useContext(UserContext);
   const [indexPosts, setIndexPosts] = useState([]);
   const [postCreated, setPostCreated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(async () => {
     const arrayOfFriendsPosts = [];
@@ -16,6 +18,7 @@ function Newsfeed() {
       friend.posts.forEach((post) => arrayOfFriendsPosts.push(post));
     });
     await user?.user?.posts.forEach((post) => arrayOfFriendsPosts.push(post));
+    await setLoading(false);
     await setIndexPosts((prev) => [
       ...prev,
       arrayOfFriendsPosts.sort((a, z) => (a.createdAt > z.createdAt ? -1 : 1)),
@@ -26,6 +29,7 @@ function Newsfeed() {
   return (
     <Box sx={{ m: [0, 1, 2] }}>
       <StatusUpdate setPostCreated={setPostCreated} />
+      {loading && <Loader />}
       {indexPosts &&
         indexPosts.map((item) => (
           <IndexPost
@@ -41,7 +45,7 @@ function Newsfeed() {
             postCreated={postCreated}
           />
         ))}
-      {!indexPosts.length && (
+      {!indexPosts.length && !loading && (
         <Typography
           variant="h6"
           component="h6"
