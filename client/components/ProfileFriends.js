@@ -24,14 +24,25 @@ function ProfileFriends({ id }) {
     const { results } = currentProfile;
     setUserFriendsList(user?.user?.friends);
     setFriendsList(results.friends);
+    // user?.user?.friends.forEach((friend) => console.log(friend._id));
+    // results.friends.forEach((friend) => console.log(friend._id));
     setProfile(results);
   }, [currentProfile]);
 
   const compareMutualFriends = (arr1, arr2) => {
-    return arr1?.reduce(
-      (a, c) => a + arr2.map((item) => item._id).includes(c),
-      0
-    );
+    // return arr1?.reduce(
+    //   (a, c) => a + arr2.map((item) => item._id).includes(c),
+    //   0
+    // );
+    // return arr1.filter((friend) => arr2.indexOf(friend._id) !== -1);
+    let matches = [];
+
+    for (let i = 0; i < arr1.length; i++) {
+      for (let e = 0; e < arr2.length; e++) {
+        if (arr1[i]._id === arr2[e]._id) matches.push(arr1[i]._id);
+      }
+    }
+    return matches.length;
   };
 
   const getAge = (birthDate) =>
