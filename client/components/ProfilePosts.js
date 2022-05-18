@@ -21,7 +21,7 @@ function ProfilePosts({ id }) {
   const [profilePosts, setProfilePosts] = useState([]);
   const ownProfile = user?.user?._id === id ? true : false;
   const [hasPosts, setHasPosts] = useState(false);
-  const [postCreated, setPostCreated] = useState(false);
+  const [parent, setParent] = useState("ProfilePosts");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function ProfilePosts({ id }) {
     // console.log(posts);
     setHasPosts(results.posts.length ? true : false);
     setLoading(false);
-  }, [currentProfile, postCreated]);
+  }, [currentProfile]);
 
   return (
     <Box sx={{ mx: [0, -3], ml: [-5], mr: [-3] }}>
@@ -43,7 +43,9 @@ function ProfilePosts({ id }) {
           <FriendsList sx={{ my: 2, ...mobileStyles }} />
         </Stack>
         <Stack sx={{ width: ["100%", "60%", "60%"], ml: 2 }}>
-          {ownProfile && <StatusUpdate setPostCreated={setPostCreated} />}
+          {ownProfile && (
+            <StatusUpdate parent={parent} setProfilePosts={setProfilePosts} />
+          )}
           <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
             <Typography variant="h6" component="h6">
               Posts
@@ -60,7 +62,6 @@ function ProfilePosts({ id }) {
               comments={item.comments}
               author={item.author}
               date={item.date}
-              setPostCreated={setPostCreated}
             />
           ))}
           {!hasPosts && !loading && (

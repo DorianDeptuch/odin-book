@@ -9,7 +9,7 @@ import Loader from "./Loader";
 function Newsfeed() {
   const { user } = useContext(UserContext);
   const [indexPosts, setIndexPosts] = useState([]);
-  const [postCreated, setPostCreated] = useState(false);
+  const [parent, setParent] = useState("Newsfeed");
   const [loading, setLoading] = useState(true);
 
   useEffect(async () => {
@@ -24,11 +24,11 @@ function Newsfeed() {
       arrayOfFriendsPosts.sort((a, z) => (a.createdAt > z.createdAt ? -1 : 1)),
     ]);
     await setIndexPosts((prev) => prev.flat());
-  }, [user, user?.user?.friends, postCreated]);
+  }, [user, user?.user?.friends]);
 
   return (
     <Box sx={{ m: [0, 1, 2] }}>
-      <StatusUpdate setPostCreated={setPostCreated} />
+      <StatusUpdate parent={parent} setIndexPosts={setIndexPosts} />
       {loading && <Loader />}
       {indexPosts &&
         indexPosts.map((item) => (
@@ -42,7 +42,6 @@ function Newsfeed() {
             author={item.author}
             date={item.date}
             image={item.image || null}
-            postCreated={postCreated}
           />
         ))}
       {!indexPosts.length && !loading && (

@@ -33,7 +33,6 @@ function IndexPost({
   author,
   date,
   image,
-  setPostCreated,
 }) {
   const { user } = useContext(UserContext);
   const [commentContent, setCommentContent] = useState("");

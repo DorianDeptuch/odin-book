@@ -41,7 +41,7 @@ const typographyStyles = {
   margin: "auto",
 };
 
-function StatusUpdate({ setPostCreated }) {
+function StatusUpdate({ parent, setIndexPosts, setProfilePosts }) {
   const { user } = useContext(UserContext);
   const [showChooseFile, setShowChooseFile] = useState(false);
   const [content, setContent] = useState("");
@@ -86,12 +86,23 @@ function StatusUpdate({ setPostCreated }) {
     //TODO: Delete image from cloudinary
   };
 
+  const handleSubmittedPost = (post) => {
+    if (parent === "Newsfeed") {
+      setIndexPosts((prev) => [post, ...prev]);
+      return;
+    }
+    if (parent === "ProfilePosts") {
+      setProfilePosts((prev) => [post, ...prev]);
+      return;
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (regex.test(content) && uploadedImage.length) {
       toast.warn(
-        "Posts cannot contain both a YouTube URL and an Image. Delete on before continuing.",
+        "Posts cannot contain both a YouTube URL and an Image. Delete one before continuing.",
         toastOptions
       );
       return;
@@ -109,13 +120,16 @@ function StatusUpdate({ setPostCreated }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
-      .then((res) => {
+      .then((res) => res.json())
+      .then((data) => {
         // router.push(`${client}/`);
+        let submittedPost = data.post_list[data.post_list.length - 1];
+        submittedPost.author = user?.user;
         toast.success("Post successfully created.", toastOptions);
         setContent("");
-        setPostCreated(true);
         setUploadedImage(null);
         setShowChooseFile(false);
+        handleSubmittedPost(submittedPost);
       })
       .catch((err) => {
         console.log(err);

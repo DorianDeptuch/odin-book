@@ -24,16 +24,7 @@ import { toastOptions } from "../config/config";
 import { Image } from "cloudinary-react";
 import YouTube from "react-youtube";
 
-function Post({
-  postID,
-  content,
-  likes,
-  comments,
-  author,
-  image,
-  date,
-  setPostCreated,
-}) {
+function Post({ postID, content, likes, comments, author, image, date }) {
   const { user } = useContext(UserContext);
   const [commentContent, setCommentContent] = useState("");
   const [commentData, setCommentData] = useState([]);
@@ -79,7 +70,6 @@ function Post({
       body: JSON.stringify(data),
     })
       .then((res) => {
-        setPostCreated(true);
         toast.success("Comment successfully created.", toastOptions);
         setCommentContent("");
       })

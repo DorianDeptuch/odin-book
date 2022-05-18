@@ -11,6 +11,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import Fade from "@mui/material/Fade";
+import { htmlDecode } from "../config/config";
 
 const style = {
   position: "absolute",
@@ -45,7 +46,7 @@ function ProfilePhotosModal({
           loading="lazy"
         />
         <ImageListItemBar
-          title={content}
+          title={htmlDecode(content)}
           subtitle={`${firstName} ${lastName}`}
           sx={{ display: ["none", "block"] }}
           actionIcon={
