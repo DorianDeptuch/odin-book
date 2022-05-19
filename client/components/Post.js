@@ -29,9 +29,11 @@ function Post({ postID, content, likes, comments, author, image, date }) {
   const [commentContent, setCommentContent] = useState("");
   const [commentData, setCommentData] = useState([]);
   const [hasComments, setHasComments] = useState(false);
+  const [commentLength, setCommentLength] = useState(comments?.length || 0);
   const [hideCommentLength, setHideCommentLength] = useState(false);
   const [hasYoutubeLink, setHasYoutubeLink] = useState(false);
   const [youtubeURL, setYoutubeURL] = useState("");
+  const [parent, setParent] = useState("Post");
   const regex =
     /(?:https?:)?(?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]{7,15})(?:[\?&][a-zA-Z0-9\_-]+=[a-zA-Z0-9\_-]+)*(?:[&\/\#].*)?/;
   const router = useRouter();
@@ -69,9 +71,15 @@ function Post({ postID, content, likes, comments, author, image, date }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
-      .then((res) => {
+      .then((res) => res.json())
+      .then((data) => {
+        let submittedComment = data.comment_list[data.comment_list.length - 1];
+        submittedComment.author = user?.user;
         toast.success("Comment successfully created.", toastOptions);
         setCommentContent("");
+        setCommentData((prev) => [submittedComment, ...prev]);
+        setHasComments(true);
+        setCommentLength((prev) => prev + 1);
       })
       .catch((err) => {
         console.log(err);
@@ -190,14 +198,14 @@ function Post({ postID, content, likes, comments, author, image, date }) {
             onClick={() => setHideCommentLength(!hideCommentLength)}
           >
             <Typography>Comments &nbsp;</Typography>
-            {!hideCommentLength && (
-              <Typography> ({comments.length})</Typography>
-            )}
+            {!hideCommentLength && <Typography> ({commentLength})</Typography>}
           </AccordionSummary>
           <AccordionDetails>
             {commentData.map((item) => (
               <Comment
                 key={item._id}
+                parent={parent}
+                setCommentData={setCommentData}
                 author={item.author}
                 content={item.content}
                 date={item.date}

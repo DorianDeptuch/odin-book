@@ -87,8 +87,11 @@ function IndexLikeCounter({ postID, likes, author, likers }) {
   return (
     <Stack direction="row">
       <Typography variant="subtitle1" component="p">
-        {likes === 1 && <strong>{likeCount} like</strong>}
-        {likes !== 1 && <strong>{likeCount} likes</strong>}
+        {likeCount === 1 ? (
+          <strong>{likeCount} like</strong>
+        ) : (
+          <strong>{likeCount} likes</strong>
+        )}
       </Typography>
       {!liked && (
         <form action="/likePost" method="POST" onSubmit={handleLikePost}>

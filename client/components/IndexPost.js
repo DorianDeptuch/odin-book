@@ -38,6 +38,7 @@ function IndexPost({
   const [commentContent, setCommentContent] = useState("");
   const [commentData, setCommentData] = useState([]);
   const [hasComments, setHasComments] = useState(false);
+  const [commentLength, setCommentLength] = useState(comments?.length || 0);
   const [hideCommentLength, setHideCommentLength] = useState(false);
   const router = useRouter();
   const [postDate, setPostDate] = useState(new Date(date));
@@ -79,9 +80,15 @@ function IndexPost({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
-      .then((res) => {
+      .then((res) => res.json())
+      .then((data) => {
+        let submittedComment = data.comment_list[data.comment_list.length - 1];
+        submittedComment.author = user?.user;
         toast.success("Comment successfully created.", toastOptions);
         setCommentContent("");
+        setCommentData((prev) => [submittedComment, ...prev]);
+        setHasComments(true);
+        setCommentLength((prev) => prev + 1);
       })
       .catch((err) => {
         console.log(err);
@@ -213,9 +220,7 @@ function IndexPost({
             onClick={() => setHideCommentLength(!hideCommentLength)}
           >
             <Typography>Comments &nbsp;</Typography>
-            {!hideCommentLength && (
-              <Typography> ({comments?.length})</Typography>
-            )}
+            {!hideCommentLength && <Typography> ({commentLength})</Typography>}
           </AccordionSummary>
           <AccordionDetails>
             {commentData?.map((item) => (
