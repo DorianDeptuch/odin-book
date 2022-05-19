@@ -81,6 +81,7 @@ function ProfileHeader({ id }) {
     const { results } = currentProfile;
     setProfile(results);
     setFriendsList(results.friends);
+    console.log(results.friends);
     setFriendsListLimit5(results.friends.slice(0, 5));
     // setFriendRequestSent(
     //   results.friendRequests
@@ -99,72 +100,6 @@ function ProfileHeader({ id }) {
   useEffect(() => {
     setValue(0);
   }, [id]);
-
-  // const handleDisablePoke = () => {
-  //   setDisabledTrigger(true);
-  //   let timer1 = setTimeout(() => {
-  //     setDisabledTrigger(false);
-  //   }, 60000);
-
-  //   return () => {
-  //     clearTimeout(timer1);
-  //   };
-  // };
-
-  // const handlePokeSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   const data = {
-  //     sender: user?.user?._id,
-  //     recipient: profile?._id,
-  //     content: "poked you!",
-  //   };
-  //   // console.log(data);
-  //   handleDisablePoke();
-
-  //   fetch(`${server}/profile/${profile?._id}/poke`, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(data),
-  //   })
-  //     .then((res) => {
-  //       handleDisablePoke();
-  //       router.push(`${client}/profile/${profile?._id}`);
-  //       toast.info(`You poked ${profile?.firstName}`, toastOptions);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       toast.error(`${err.message}`, toastOptions);
-  //     });
-  // };
-
-  // const handleFriendRequest = (e) => {
-  //   e.preventDefault();
-
-  //   const data = {
-  //     sender: user?.user?._id,
-  //     recipient: profile?._id,
-  //   };
-  //   // console.log(data);
-
-  //   fetch(`${server}/profile/${profile?._id}/friendRequest`, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(data),
-  //   })
-  //     .then((res) => {
-  //       setFriendRequestSent(true);
-  //       // router.push(`${client}/profile/${profile?._id}`);
-  //       toast.info(
-  //         `Friend Request sent to ${profile?.firstName}`,
-  //         toastOptions
-  //       );
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       toast.error(`${err.message}`, toastOptions);
-  //     });
-  // };
 
   // this is for the tab component
   const [value, setValue] = React.useState(0);

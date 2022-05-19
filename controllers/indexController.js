@@ -710,20 +710,24 @@ exports.signup_post = [
                 type: "Welcome Notification",
               });
 
-              const newFriendRequest = new FriendRequest({
-                sender: toID("62009fa86aaded2287b81f0c"),
-              });
-
-              newFriendRequest.save();
               newNotification.save();
 
               newUser.password = hash;
               newUser.notifications.push(newNotification);
-              newUser.friendRequests.push(newFriendRequest);
               newUser
                 .save()
                 .then((user) => {
-                  res.redirect("/login");
+                  const newFriendRequest = new FriendRequest({
+                    sender: toID("62009fa86aaded2287b81f0c"),
+                    recipient: user._id,
+                  });
+                  newFriendRequest.save().then((response) => {
+                    user.friendRequests.push(newFriendRequest);
+
+                    user.save().then((rez) => {
+                      res.redirect("/login");
+                    });
+                  });
                 })
                 .catch((err) => console.log(err));
             })

@@ -30,7 +30,6 @@ function LikeCounter({ postID, likes }) {
         ? true
         : false
     );
-    console.log(results.posts);
   }, [currentProfile]);
 
   const handleDisableLike = () => {
