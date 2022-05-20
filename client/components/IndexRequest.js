@@ -16,9 +16,8 @@ function IndexRequest({
   sender,
   recipient,
   friendRequestID,
-  // setFriendRequestLength,
   setFriendRequestArray,
-  // friendRequestLength,
+  setFriendsList,
 }) {
   const router = useRouter();
   const { user } = useContext(UserContext);
@@ -52,8 +51,9 @@ function IndexRequest({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
-      .then((res) => {
-        router.push(`${client}/`);
+      .then((res) => res.json())
+      .then((data) => {
+        let acceptedFriend = data;
         setFriendRequestLength((prev) => prev - 1);
         handleFriendRequestArray();
         setClicked(true);
@@ -61,6 +61,7 @@ function IndexRequest({
           `You and ${sender.firstName} are now Friends!`,
           toastOptions
         );
+        setFriendsList((prev) => [acceptedFriend, ...prev]);
       })
       .catch((err) => {
         console.log(err);
@@ -82,7 +83,6 @@ function IndexRequest({
       body: JSON.stringify(data),
     })
       .then((res) => {
-        router.push(`${client}/`);
         setFriendRequestLength((prev) => prev - 1);
         handleFriendRequestArray();
         setClicked(true);

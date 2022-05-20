@@ -5,9 +5,9 @@ import Typography from "@mui/material/Typography";
 import IndexFriend from "./IndexFriend";
 import { UserContext } from "../pages/_app";
 
-function IndexFriendsList() {
+function IndexFriendsList({friendsList, setFriendsList}) {
   const { user } = useContext(UserContext);
-  const [friendsList, setFriendsList] = useState(user?.user?.friends);
+  // const [friendsList, setFriendsList] = useState(user?.user?.friends); 
   const [friendsListLength, setFriendsListLength] = useState(
     user?.user?.friends.length
   );

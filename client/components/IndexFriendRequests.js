@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import IndexRequest from "./IndexRequest";
 import { UserContext } from "../pages/_app";
 
-function IndexFriendRequests() {
+function IndexFriendRequests({ setFriendsList }) {
   const { user } = useContext(UserContext);
   const [friendRequestArray, setFriendRequestArray] = useState(
     user?.user?.friendRequests
@@ -33,6 +33,7 @@ function IndexFriendRequests() {
                 friendRequestID={item._id}
                 sender={item.sender}
                 recipient={item?.recipient}
+                setFriendsList={setFriendsList}
                 setFriendRequestLength={setFriendRequestLength}
                 setFriendRequestArray={setFriendRequestArray}
                 friendRequestLength={friendRequestLength}
