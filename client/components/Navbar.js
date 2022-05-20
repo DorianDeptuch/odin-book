@@ -29,13 +29,15 @@ export default function Navbar({ req }) {
   const { user } = useContext(UserContext);
   const [notificationLength, setNotificationLength] = useState(null);
   // const [friendRequestLength, setFriendRequestLength] = useState(null);
-  const {friendRequestLength, setFriendRequestLength} = useContext(FriendRequestContext)
+  const { friendRequestLength, setFriendRequestLength } =
+    useContext(FriendRequestContext);
   const [anchorElRequest, setAnchorElRequest] = useState(null);
   const [anchorElNotification, setAnchorElNotification] = useState(null);
   const openRequest = Boolean(anchorElRequest);
   const openNotification = Boolean(anchorElNotification);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const regex = /[a-z0-9]{20}/;
 
   const idRequest = openRequest ? "simple-popover" : undefined;
   const idNotification = openNotification ? "simple-popover" : undefined;
@@ -154,7 +156,11 @@ export default function Navbar({ req }) {
                 <Stack direction="row" sx={{ ...styles, width: avatar_SM }}>
                   {user?.user?.profilePicture ? (
                     <Avatar
-                      src={user.user.profilePicture}
+                      src={
+                        regex.test(user.user.profilePicture)
+                          ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${user.user.profilePicture}.jpg`
+                          : user.user.profilePicture || ""
+                      }
                       sx={{ height: avatar_SM, width: avatar_SM }}
                       id="basic-button"
                       aria-controls={open ? "basic-menu" : undefined}

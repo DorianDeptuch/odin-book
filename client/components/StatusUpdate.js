@@ -48,7 +48,7 @@ function StatusUpdate({ parent, setIndexPosts, setProfilePosts }) {
   const [uploadedImage, setUploadedImage] = useState([]);
   const regex =
     /(?:https?:)?(?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]{7,15})(?:[\?&][a-zA-Z0-9\_-]+=[a-zA-Z0-9\_-]+)*(?:[&\/\#].*)?/;
-
+  const regex2 = /[a-z0-9]{20}/;
   const onDrop = useCallback(async (acceptedFile) => {
     const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/upload`;
     const { signature, timestamp } = await getSignature();
@@ -142,7 +142,11 @@ function StatusUpdate({ parent, setIndexPosts, setProfilePosts }) {
       <Stack>
         <Stack direction="row">
           <Avatar
-            src={user?.user?.profilePicture || ""}
+            src={
+              regex2.test(user?.user?.profilePicture)
+                ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${user?.user?.profilePicture}.jpg`
+                : user?.user?.profilePicture || ""
+            }
             sx={avatarStyles}
           ></Avatar>
 

@@ -20,6 +20,7 @@ const iconStyle = {
 
 function UserSidebar() {
   const { user, setUser } = useContext(UserContext);
+  const regex = /[a-z0-9]{20}/;
 
   return (
     <Paper
@@ -31,7 +32,11 @@ function UserSidebar() {
           <a>
             <Stack direction="row" sx={{ p: 1 }}>
               <Avatar
-                src={user?.user?.profilePicture || ""}
+                src={
+                  regex.test(user?.user?.profilePicture)
+                    ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${user?.user?.profilePicture}.jpg`
+                    : user?.user?.profilePicture || ""
+                }
                 sx={iconStyle}
               ></Avatar>
               <Typography

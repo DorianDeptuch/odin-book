@@ -15,12 +15,18 @@ const styles = {
 };
 
 function Comment({ author, content, date, likes }) {
+  const regex = /[a-z0-9]{20}/;
+
   return (
     <Paper sx={{ m: 1 }} elevation={3}>
       <Stack direction="row">
         <Link href={`${client}/profile/${author._id}`}>
           <Avatar
-            src={author?.profilePicture || ""}
+            src={
+              regex.test(author?.profilePicture)
+                ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${author?.profilePicture}.jpg`
+                : author?.profilePicture || ""
+            }
             sx={{
               height: avatar_MD,
               width: avatar_MD,

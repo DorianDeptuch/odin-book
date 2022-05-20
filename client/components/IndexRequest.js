@@ -25,6 +25,7 @@ function IndexRequest({
   const [clicked, setClicked] = useState(false);
   const { friendRequestLength, setFriendRequestLength } =
     useContext(FriendRequestContext);
+  const regex = /[a-z0-9]{20}/;
 
   const handleFriendRequestArray = () => {
     if (friendRequestLength === 0) {
@@ -106,7 +107,11 @@ function IndexRequest({
         <Paper sx={{ m: 2, p: 2 }} elevation={3}>
           <Stack>
             <Avatar
-              src={sender?.profilePicture || null}
+              src={
+                regex.test(sender?.profilePicture)
+                  ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${sender?.profilePicture}.jpg`
+                  : sender?.profilePicture || ""
+              }
               sx={{
                 height: avatar_LG,
                 width: avatar_LG,

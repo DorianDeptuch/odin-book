@@ -19,6 +19,7 @@ function ProfileFriends({ id }) {
   const [friendsList, setFriendsList] = useState([]);
   const [userFriendsList, setUserFriendsList] = useState([]);
   const [profile, setProfile] = useState({});
+  const regex = /[a-z0-9]{20}/;
 
   useEffect(() => {
     const { results } = currentProfile;
@@ -83,7 +84,11 @@ function ProfileFriends({ id }) {
                       >
                         <Stack direction="row">
                           <Avatar
-                            src={item.profilePicture || null}
+                            src={
+                              regex.test(item?.profilePicture)
+                                ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${item?.profilePicture}.jpg`
+                                : item?.profilePicture || ""
+                            }
                             sx={{ height: avatar_MD, width: avatar_MD, mr: 2 }}
                           ></Avatar>
                           <Stack>

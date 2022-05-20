@@ -25,6 +25,7 @@ const spanStyles = {
 
 function Notification({ sender, recipient, date, content, type }) {
   const { user } = useContext(UserContext);
+  const regex = /[a-z0-9]{20}/;
 
   return (
     <>
@@ -32,7 +33,15 @@ function Notification({ sender, recipient, date, content, type }) {
         <Link href={`${client}/profile/${sender._id}`}>
           <Paper elevation={3} sx={paperStyles}>
             <Stack direction="row">
-              <Avatar src={sender?.profilePicture || null}>JS</Avatar>
+              <Avatar
+                src={
+                  regex.test(sender?.profilePicture)
+                    ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${sender?.profilePicture}.jpg`
+                    : sender?.profilePicture || ""
+                }
+              >
+                JS
+              </Avatar>
               <Stack>
                 <Typography sx={typographyStyles}>
                   <strong>
@@ -54,7 +63,15 @@ function Notification({ sender, recipient, date, content, type }) {
         <Link href={`${client}/profile/${sender._id}`}>
           <Paper elevation={3} sx={paperStyles}>
             <Stack direction="row">
-              <Avatar src={sender?.profilePicture || null}>JS</Avatar>
+              <Avatar
+                src={
+                  regex.test(sender?.profilePicture)
+                    ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${sender?.profilePicture}.jpg`
+                    : sender?.profilePicture || ""
+                }
+              >
+                JS
+              </Avatar>
               <Typography sx={typographyStyles}>
                 <strong>
                   {sender?.firstName} {sender?.lastName}
@@ -68,7 +85,15 @@ function Notification({ sender, recipient, date, content, type }) {
       {type === "Liked Comment" && (
         <Paper elevation={3} sx={paperStyles}>
           <Stack direction="row">
-            <Avatar src={sender?.profilePicture || null}>JS</Avatar>
+            <Avatar
+              src={
+                regex.test(sender?.profilePicture)
+                  ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${sender?.profilePicture}.jpg`
+                  : sender?.profilePicture || ""
+              }
+            >
+              JS
+            </Avatar>
             <Typography sx={typographyStyles}>
               <strong>
                 {sender.firstName} {sender.lastName}
@@ -82,7 +107,15 @@ function Notification({ sender, recipient, date, content, type }) {
         <Link href={`${client}/profile/${recipient._id}#${content}`}>
           <Paper elevation={3} sx={paperStyles}>
             <Stack direction="row">
-              <Avatar src={sender?.profilePicture || null}>JS</Avatar>
+              <Avatar
+                src={
+                  regex.test(sender?.profilePicture)
+                    ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${sender?.profilePicture}.jpg`
+                    : sender?.profilePicture || ""
+                }
+              >
+                JS
+              </Avatar>
               <Typography sx={typographyStyles}>
                 <strong>
                   {sender.firstName} {sender.lastName}
@@ -97,7 +130,15 @@ function Notification({ sender, recipient, date, content, type }) {
         <Link href={`${client}/profile/${recipient._id}#${content}`}>
           <Paper elevation={3} sx={paperStyles}>
             <Stack direction="row">
-              <Avatar src={sender?.profilePicture || null}>JS</Avatar>
+              <Avatar
+                src={
+                  regex.test(sender?.profilePicture)
+                    ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${sender?.profilePicture}.jpg`
+                    : sender?.profilePicture || ""
+                }
+              >
+                JS
+              </Avatar>
               <Stack>
                 <Typography sx={typographyStyles}>
                   <strong>
@@ -118,7 +159,15 @@ function Notification({ sender, recipient, date, content, type }) {
       {type === "Friend Posted" && (
         <Paper elevation={3} sx={paperStyles}>
           <Stack direction="row">
-            <Avatar src={sender?.profilePicture || null}>JS</Avatar>
+            <Avatar
+              src={
+                regex.test(sender?.profilePicture)
+                  ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${sender?.profilePicture}.jpg`
+                  : sender?.profilePicture || ""
+              }
+            >
+              JS
+            </Avatar>
             <Typography sx={typographyStyles}>
               <strong>
                 {sender.firstName} {sender.lastName}

@@ -9,6 +9,8 @@ import { client } from "../../config/config";
 import Link from "next/link";
 
 function ProfileFriend(profileID, profilePicture, firstName, lastName) {
+  const regex = /[a-z0-9]{20}/;
+
   return (
     <Link href={`${client}/profile/${profileID}`} style={{ width: "100%" }}>
       <a>
@@ -24,7 +26,11 @@ function ProfileFriend(profileID, profilePicture, firstName, lastName) {
           >
             <Stack direction="row">
               <Avatar
-                src={profilePicture || null}
+                src={
+                  regex.test(profilePicture)
+                    ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${profilePicture}.jpg`
+                    : profilePicture || ""
+                }
                 sx={{ height: avatar_MD, width: avatar_MD, mr: 2 }}
               ></Avatar>
               <Typography

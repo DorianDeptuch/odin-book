@@ -36,6 +36,7 @@ function Post({ postID, content, likes, comments, author, image, date }) {
   const [parent, setParent] = useState("Post");
   const regex =
     /(?:https?:)?(?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]{7,15})(?:[\?&][a-zA-Z0-9\_-]+=[a-zA-Z0-9\_-]+)*(?:[&\/\#].*)?/;
+  const regex2 = /[a-z0-9]{20}/;
   const router = useRouter();
 
   const opts = {
@@ -93,7 +94,11 @@ function Post({ postID, content, likes, comments, author, image, date }) {
         <Stack direction="row" sx={{ mb: 2, px: 2 }}>
           <Link href={`${client}/profile/${author._id}`}>
             <Avatar
-              src={author?.profilePicture || ""}
+              src={
+                regex2.test(author?.profilePicture)
+                  ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${author?.profilePicture}.jpg`
+                  : author?.profilePicture || ""
+              }
               sx={{
                 height: avatar_MD,
                 width: avatar_MD,
@@ -149,7 +154,11 @@ function Post({ postID, content, likes, comments, author, image, date }) {
         <Box sx={{ my: 2, px: 2 }}>
           <Stack direction="row">
             <Avatar
-              src={user?.user?.profilePicture || ""}
+              src={
+                regex2.test(user?.user?.profilePicture)
+                  ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${user?.user?.profilePicture}.jpg`
+                  : user?.user?.profilePicture || ""
+              }
               sx={{
                 alignSelf: "center",
                 mr: 2,

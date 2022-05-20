@@ -75,6 +75,7 @@ function ProfileHeader({ id }) {
   const router = useRouter();
   const [friendsList, setFriendsList] = useState([]);
   const [friendsListLimit5, setFriendsListLimit5] = useState([]);
+  const regex = /[a-z0-9]{20}/;
   // const [isFriend, setIsFriend] = useState(false);
 
   useEffect(() => {
@@ -83,18 +84,6 @@ function ProfileHeader({ id }) {
     setFriendsList(results.friends);
     console.log(results.friends);
     setFriendsListLimit5(results.friends.slice(0, 5));
-    // setFriendRequestSent(
-    //   results.friendRequests
-    //     .map((item) => item.sender)
-    //     .includes(user?.user?._id)
-    //     ? true
-    //     : false
-    // );
-    // setIsFriend(
-    //   results.friends.map((item) => item._id).includes(user?.user?._id)
-    //     ? true
-    //     : false
-    // );
   }, [currentProfile]);
 
   useEffect(() => {
@@ -113,7 +102,11 @@ function ProfileHeader({ id }) {
         <Stack>
           <Stack direction="row">
             <Avatar
-              src={profile.profilePicture || ""}
+              src={
+                regex.test(profile.profilePicture)
+                  ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${profile.profilePicture}.jpg`
+                  : profile.profilePicture || ""
+              }
               sx={{ height: avatar_XL, width: avatar_XL, m: 2 }}
             ></Avatar>
             <Stack sx={{ alignSelf: "center" }}>
@@ -147,7 +140,11 @@ function ProfileHeader({ id }) {
                       <Avatar
                         key={item._id}
                         title={`${item.firstName} ${item.lastName}`}
-                        src={item.profilePicture}
+                        src={
+                          regex.test(item.profilePicture)
+                            ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${item.profilePicture}.jpg`
+                            : item.profilePicture || ""
+                        }
                         sx={styles}
                       ></Avatar>
                     </Link>

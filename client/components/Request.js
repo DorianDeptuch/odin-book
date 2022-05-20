@@ -99,7 +99,11 @@ function Request({
         <Paper sx={{ m: 2, p: 2 }} elevation={3}>
           <Stack direction="row">
             <Avatar
-              src={sender?.profilePicture || null}
+              src={
+                regex.test(sender?.profilePicture)
+                  ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${sender?.profilePicture}.jpg`
+                  : sender?.profilePicture || ""
+              }
               sx={{
                 height: avatar_LG,
                 width: avatar_LG,
