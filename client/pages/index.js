@@ -21,11 +21,10 @@ export default function Home({ data }) {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(data.user);
     if (!data.user) {
       router.push("/login");
       toast.warn(
-        "You need to be logged in to view this resource",
+        "You must to be logged in to view this resource",
         toastOptions
       );
       return;

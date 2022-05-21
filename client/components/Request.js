@@ -9,6 +9,7 @@ import { avatar_LG, toastOptions } from "../config/config";
 import { server, client } from "../../config/config";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 function Request({
   sender,
@@ -22,6 +23,7 @@ function Request({
 }) {
   const router = useRouter();
   const [clicked, setClicked] = useState(false);
+  const regex = /[a-z0-9]{20}/;
 
   const handleFriendRequestAccept = (e) => {
     e.preventDefault();
@@ -98,28 +100,32 @@ function Request({
       {!clicked ? (
         <Paper sx={{ m: 2, p: 2 }} elevation={3}>
           <Stack direction="row">
-            <Avatar
-              src={
-                regex.test(sender?.profilePicture)
-                  ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${sender?.profilePicture}.jpg`
-                  : sender?.profilePicture || ""
-              }
-              sx={{
-                height: avatar_LG,
-                width: avatar_LG,
-                alignSelf: "center",
-                mr: 1,
-              }}
-            >
-              JS
-            </Avatar>
+            <Link href={`${client}/profile/${sender?._id}`}>
+              <Avatar
+                src={
+                  regex.test(sender?.profilePicture)
+                    ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${sender?.profilePicture}.jpg`
+                    : sender?.profilePicture || ""
+                }
+                sx={{
+                  height: avatar_LG,
+                  width: avatar_LG,
+                  alignSelf: "center",
+                  mr: 1,
+                }}
+              >
+                {`${sender?.firstName.charAt(0)}${sender?.lastName.charAt(0)}`}
+              </Avatar>
+            </Link>
             <Stack sx={{ ml: 1 }}>
-              <Typography variant="body1" component="p" sx={{ mt: 1 }}>
-                <strong>
-                  {sender.firstName} {sender.lastName}
-                </strong>{" "}
-                wants to be your friend.
-              </Typography>
+              <Link href={`${client}/profile/${sender?._id}`}>
+                <Typography variant="body1" component="p" sx={{ mt: 1 }}>
+                  <strong>
+                    {sender.firstName} {sender.lastName}
+                  </strong>{" "}
+                  wants to be your friend.
+                </Typography>
+              </Link>
               <Stack direction="row" sx={{ mt: 1 }}>
                 <form
                   action="/friendRequestAccept"

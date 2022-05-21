@@ -58,19 +58,9 @@ const schema = Yup.object().shape({
 
 function login() {
   const [open, setOpen] = React.useState(false);
-  // const [displaySignupSuccess, setDisplaySignupSuccess] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const router = useRouter();
-
-  // useEffect(() => {
-  //   if (displaySignupSuccess) {
-
-  //     setDisplaySignupSuccess(false);
-  //   } else {
-
-  //   }
-  // }, [open]);
 
   useEffect(() => {
     router.prefetch("/");
@@ -98,7 +88,6 @@ function login() {
           toast.error("Invalid Credentials.", toastOptions);
         }
       })
-      .then((data) => console.log(data))
       .catch((err) => console.log(err));
   };
 

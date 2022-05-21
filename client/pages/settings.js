@@ -21,7 +21,7 @@ function settings({ data }) {
     if (!user) {
       router.push("/login");
       toast.warn(
-        "You need to be logged in to view this resource",
+        "You must to be logged in to view this resource",
         toastOptions
       );
       return;
