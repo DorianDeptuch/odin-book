@@ -9,7 +9,9 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddIcon from "@mui/icons-material/Add";
 import SendIcon from "@mui/icons-material/Send";
+import CloseIcon from "@mui/icons-material/Close";
 import Comment from "./Comment";
 import LikeCounter from "./LikeCounter";
 import Avatar from "@mui/material/Avatar";
@@ -23,6 +25,7 @@ import Link from "next/link";
 import { toastOptions } from "../config/config";
 import { Image } from "cloudinary-react";
 import YouTube from "react-youtube";
+import GiphyContainer from "./GiphyContainer";
 
 function Post({ postID, content, likes, comments, author, image, date }) {
   const { user } = useContext(UserContext);
@@ -34,6 +37,8 @@ function Post({ postID, content, likes, comments, author, image, date }) {
   const [hasYoutubeLink, setHasYoutubeLink] = useState(false);
   const [youtubeURL, setYoutubeURL] = useState("");
   const [parent, setParent] = useState("Post");
+  const [showGiphy, setShowGiphy] = useState(false);
+
   const regex =
     /(?:https?:)?(?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]{7,15})(?:[\?&][a-zA-Z0-9\_-]+=[a-zA-Z0-9\_-]+)*(?:[&\/\#].*)?/;
   const regex2 = /[a-z0-9]{20}/;
@@ -59,6 +64,9 @@ function Post({ postID, content, likes, comments, author, image, date }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    //if !commentContent && !Giphy => toast.warn(etc) return;
+    //or add validation
 
     const data = {
       content: commentContent,
@@ -153,48 +161,78 @@ function Post({ postID, content, likes, comments, author, image, date }) {
         </Stack>
         <Box sx={{ my: 2, px: 2 }}>
           <Stack direction="row">
-            <Avatar
-              src={
-                regex2.test(user?.user?.profilePicture)
-                  ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${user?.user?.profilePicture}.jpg`
-                  : user?.user?.profilePicture || ""
-              }
-              sx={{
-                alignSelf: "center",
-                mr: 2,
-                height: avatar_MD,
-                width: avatar_MD,
-              }}
-            ></Avatar>
+            {!showGiphy && (
+              <Avatar
+                src={
+                  regex2.test(user?.user?.profilePicture)
+                    ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${user?.user?.profilePicture}.jpg`
+                    : user?.user?.profilePicture || ""
+                }
+                sx={{
+                  alignSelf: "start",
+                  mr: 2,
+                  height: avatar_MD,
+                  width: avatar_MD,
+                }}
+              ></Avatar>
+            )}
             <form
               action="/postCommentForm"
               method="POST"
               style={{ width: "100%" }}
               onSubmit={handleSubmit}
             >
-              <Stack direction="row">
-                <TextField
-                  fullWidth
-                  id="new-comment"
-                  name="postCommentForm"
-                  variant="outlined"
-                  placeholder="Write a comment..."
-                  value={commentContent}
-                  onChange={(e) => setCommentContent(e.target.value)}
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  sx={{
-                    mx: 1,
-                    height: "100%",
-                    alignSelf: "center",
-                    py: 2,
-                    px: 0,
-                  }}
-                >
-                  <SendIcon></SendIcon>
-                </Button>
+              <Stack>
+                <Stack direction="row">
+                  {!showGiphy ? (
+                    <TextField
+                      fullWidth
+                      id="new-comment"
+                      name="postCommentForm"
+                      variant="outlined"
+                      placeholder="Write a comment..."
+                      value={commentContent}
+                      onChange={(e) => setCommentContent(e.target.value)}
+                    />
+                  ) : (
+                    <GiphyContainer />
+                  )}
+                  {!showGiphy && (
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      disabled={showGiphy}
+                      sx={{
+                        mx: 1,
+                        height: "100%",
+                        alignSelf: "center",
+                        py: 2,
+                        px: 0,
+                      }}
+                    >
+                      <SendIcon></SendIcon>
+                    </Button>
+                  )}
+                </Stack>
+                {!showGiphy ? (
+                  <Button
+                    sx={{ ml: "auto", mr: 10 }}
+                    onClick={() => setShowGiphy(true)}
+                    // onClick={() => handleShowGiphy(true)}
+                  >
+                    <AddIcon sx={{ mr: 1 }} />
+                    Add GIPHY
+                  </Button>
+                ) : (
+                  <Button
+                    sx={{ ml: "auto", mr: 10 }}
+                    onClick={() => setShowGiphy(false)}
+                    // onClick={() => handleShowGiphy(false)}
+                  >
+                    <CloseIcon sx={{ mr: 0.25 }} color="error" />
+                    <Typography color="error">Close</Typography>
+                  </Button>
+                )}
               </Stack>
             </form>
           </Stack>
