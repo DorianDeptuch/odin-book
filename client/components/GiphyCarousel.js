@@ -4,6 +4,15 @@ import { Carousel } from "@giphy/react-components";
 
 const giphyFetch = new GiphyFetch(process.env.NEXT_PUBLIC_GIPHY_API_KEY);
 
+const Overlay = ({ gif, isHovered }) => {
+  return (
+    <div
+      className="overlay"
+      style={{ background: isHovered ? "#1976d380" : "" }}
+    ></div>
+  );
+};
+
 function GiphyCarousel({
   submittedSearchTerm,
   setSelectedGiphy,
@@ -23,6 +32,7 @@ function GiphyCarousel({
           setSelectedGiphy(e.id);
           setShowGiphy(false);
         }}
+        overlay={Overlay}
       />
     </div>
   );
