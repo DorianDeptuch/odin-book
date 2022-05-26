@@ -72,12 +72,19 @@ function Notification({ sender, recipient, date, content, type }) {
               >
                 JS
               </Avatar>
-              <Typography sx={typographyStyles}>
-                <strong>
-                  {sender?.firstName} {sender?.lastName}
-                </strong>{" "}
-                has accepted your Friend Request.
-              </Typography>
+              <Stack>
+                <Typography sx={typographyStyles}>
+                  <strong>
+                    {sender?.firstName} {sender?.lastName}
+                  </strong>{" "}
+                  has accepted your Friend Request.
+                </Typography>
+                <Typography variant="body2" component="p" sx={typographyStyles}>
+                  {formatDistance(new Date(date), new Date(), {
+                    addSuffix: true,
+                  })}
+                </Typography>
+              </Stack>
             </Stack>
           </Paper>
         </Link>
@@ -94,12 +101,19 @@ function Notification({ sender, recipient, date, content, type }) {
             >
               JS
             </Avatar>
-            <Typography sx={typographyStyles}>
-              <strong>
-                {sender.firstName} {sender.lastName}
-              </strong>{" "}
-              liked your Comment.
-            </Typography>
+            <Stack>
+              <Typography sx={typographyStyles}>
+                <strong>
+                  {sender.firstName} {sender.lastName}
+                </strong>{" "}
+                liked your Comment.
+              </Typography>
+              <Typography variant="body2" component="p" sx={typographyStyles}>
+                {formatDistance(new Date(date), new Date(), {
+                  addSuffix: true,
+                })}
+              </Typography>
+            </Stack>
           </Stack>
         </Paper>
       )}
@@ -116,12 +130,19 @@ function Notification({ sender, recipient, date, content, type }) {
               >
                 JS
               </Avatar>
-              <Typography sx={typographyStyles}>
-                <strong>
-                  {sender.firstName} {sender.lastName}
-                </strong>{" "}
-                liked your Post.
-              </Typography>
+              <Stack>
+                <Typography sx={typographyStyles}>
+                  <strong>
+                    {sender.firstName} {sender.lastName}
+                  </strong>{" "}
+                  liked your Post.
+                </Typography>
+                <Typography variant="body2" component="p" sx={typographyStyles}>
+                  {formatDistance(new Date(date), new Date(), {
+                    addSuffix: true,
+                  })}
+                </Typography>
+              </Stack>
             </Stack>
           </Paper>
         </Link>
@@ -168,12 +189,19 @@ function Notification({ sender, recipient, date, content, type }) {
             >
               JS
             </Avatar>
-            <Typography sx={typographyStyles}>
-              <strong>
-                {sender.firstName} {sender.lastName}
-              </strong>{" "}
-              created a Post.
-            </Typography>
+            <Stack>
+              <Typography sx={typographyStyles}>
+                <strong>
+                  {sender.firstName} {sender.lastName}
+                </strong>{" "}
+                created a Post.
+              </Typography>
+              <Typography variant="body2" component="p" sx={typographyStyles}>
+                {formatDistance(new Date(date), new Date(), {
+                  addSuffix: true,
+                })}
+              </Typography>
+            </Stack>
           </Stack>
         </Paper>
       )}

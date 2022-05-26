@@ -100,6 +100,14 @@ function StatusUpdate({ parent, setIndexPosts, setProfilePosts }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!content) {
+      toast.warn(
+        "Your Post must contain content before submitting",
+        toastOptions
+      );
+      return;
+    }
+
     if (regex.test(content) && uploadedImage.length) {
       toast.warn(
         "Posts cannot contain both a YouTube URL and an Image. Delete one before continuing.",

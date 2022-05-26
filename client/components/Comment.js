@@ -32,11 +32,12 @@ function Comment({ author, content, date, likes, giphy }) {
               height: avatar_MD,
               width: avatar_MD,
               mx: 2,
-              alignSelf: "center",
+              mt: 2,
+              alignSelf: "start",
             }}
           ></Avatar>
         </Link>
-        <Stack sx={{ mb: 2 }}>
+        <Stack sx={{ my: 2 }}>
           <Stack direction="row">
             <Typography variant="h4" component="h4" sx={styles}>
               <strong>

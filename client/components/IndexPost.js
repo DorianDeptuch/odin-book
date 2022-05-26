@@ -9,7 +9,9 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddIcon from "@mui/icons-material/Add";
 import SendIcon from "@mui/icons-material/Send";
+import CloseIcon from "@mui/icons-material/Close";
 import Comment from "./Comment";
 import IndexLikeCounter from "./IndexLikeCounter";
 import Avatar from "@mui/material/Avatar";
@@ -23,6 +25,8 @@ import Link from "next/link";
 import { toastOptions } from "../config/config";
 import { Image } from "cloudinary-react";
 import YouTube from "react-youtube";
+import GiphyContainer from "./GiphyContainer";
+import Giphy from "./Giphy";
 
 function IndexPost({
   postID,
@@ -40,13 +44,15 @@ function IndexPost({
   const [hasComments, setHasComments] = useState(false);
   const [commentLength, setCommentLength] = useState(comments?.length || 0);
   const [hideCommentLength, setHideCommentLength] = useState(false);
-  const router = useRouter();
   const [postDate, setPostDate] = useState(new Date(date));
   const [hasYoutubeLink, setHasYoutubeLink] = useState(false);
   const [youtubeURL, setYoutubeURL] = useState("");
+  const [showGiphy, setShowGiphy] = useState(false);
+  const [selectedGiphy, setSelectedGiphy] = useState(null);
   const regex =
     /(?:https?:)?(?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]{7,15})(?:[\?&][a-zA-Z0-9\_-]+=[a-zA-Z0-9\_-]+)*(?:[&\/\#].*)?/;
   const regex2 = /[a-z0-9]{20}/;
+  // const router = useRouter();
 
   const opts = {
     playerVars: {
@@ -69,12 +75,20 @@ function IndexPost({
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!commentContent && !selectedGiphy) {
+      toast.warn(
+        "Your Comment must contain content before submitting",
+        toastOptions
+      );
+      return;
+    }
+
     const data = {
-      content: commentContent,
+      content: commentContent || null,
       author: user?.user?._id,
       post: postID,
+      giphy: selectedGiphy || null,
     };
-    console.log(data);
 
     fetch(`${server}/postCommentForm`, {
       method: "POST",
@@ -88,6 +102,7 @@ function IndexPost({
         toast.success("Comment successfully created.", toastOptions);
         setCommentContent("");
         setCommentData((prev) => [submittedComment, ...prev]);
+        setSelectedGiphy(null);
         setHasComments(true);
         setCommentLength((prev) => prev + 1);
       })
@@ -95,6 +110,17 @@ function IndexPost({
         console.log(err);
         toast.error(`${err.message}`, toastOptions);
       });
+  };
+
+  useEffect(() => {
+    if (selectedGiphy) {
+      setCommentContent("");
+    }
+  }, [selectedGiphy]);
+
+  const handleRemoveGiphy = () => {
+    setSelectedGiphy(null);
+    setShowGiphy(false);
   };
 
   return (
@@ -175,48 +201,91 @@ function IndexPost({
         </Stack>
         <Box sx={{ my: 2, px: 2 }}>
           <Stack direction="row">
-            <Avatar
-              src={
-                regex2.test(user?.user?.profilePicture)
-                  ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${user?.user?.profilePicture}.jpg`
-                  : user?.user?.profilePicture || ""
-              }
-              sx={{
-                alignSelf: "center",
-                mr: 2,
-                height: avatar_MD,
-                width: avatar_MD,
-              }}
-            ></Avatar>
+            {!showGiphy && (
+              <Avatar
+                src={
+                  regex2.test(user?.user?.profilePicture)
+                    ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${user?.user?.profilePicture}.jpg`
+                    : user?.user?.profilePicture || ""
+                }
+                sx={{
+                  alignSelf: "start",
+                  mr: 2,
+                  height: avatar_MD,
+                  width: avatar_MD,
+                }}
+              ></Avatar>
+            )}
             <form
               action="/postCommentForm"
               method="POST"
               style={{ width: "100%" }}
               onSubmit={handleSubmit}
             >
-              <Stack direction="row">
-                <TextField
-                  fullWidth
-                  id="new-comment"
-                  name="postCommentForm"
-                  variant="outlined"
-                  placeholder="Write a comment..."
-                  value={commentContent}
-                  onChange={(e) => setCommentContent(e.target.value)}
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  sx={{
-                    mx: 1,
-                    height: "100%",
-                    alignSelf: "center",
-                    py: 2,
-                    px: 0,
-                  }}
-                >
-                  <SendIcon></SendIcon>
-                </Button>
+              <Stack>
+                <Stack direction="row">
+                  {!showGiphy ? (
+                    <TextField
+                      fullWidth
+                      id="new-comment"
+                      name="postCommentForm"
+                      variant="outlined"
+                      placeholder="Write a comment..."
+                      value={commentContent}
+                      onChange={(e) => setCommentContent(e.target.value)}
+                      disabled={selectedGiphy}
+                    />
+                  ) : (
+                    <GiphyContainer
+                      setSelectedGiphy={setSelectedGiphy}
+                      setShowGiphy={setShowGiphy}
+                    />
+                  )}
+                  {!showGiphy && (
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      disabled={showGiphy}
+                      sx={{
+                        mx: 1,
+                        height: "100%",
+                        alignSelf: "center",
+                        py: 2,
+                        px: 0,
+                      }}
+                    >
+                      <SendIcon></SendIcon>
+                    </Button>
+                  )}
+                </Stack>
+                {selectedGiphy ? (
+                  <Stack direction="row">
+                    <Giphy selectedGiphy={selectedGiphy}></Giphy>
+                    <Button
+                      sx={{ ml: "auto", mr: 10, alignSelf: "start" }}
+                      onClick={() => handleRemoveGiphy()}
+                    >
+                      <CloseIcon sx={{ mr: 1 }} color="error" />
+                      <Typography color="error">Remove GIPHY</Typography>
+                    </Button>
+                  </Stack>
+                ) : !showGiphy ? (
+                  <Button
+                    sx={{ ml: "auto", mr: 10 }}
+                    onClick={() => setShowGiphy(true)}
+                  >
+                    <AddIcon sx={{ mr: 1 }} />
+                    Add GIPHY
+                  </Button>
+                ) : (
+                  <Button
+                    sx={{ ml: "auto", mr: 10 }}
+                    onClick={() => setShowGiphy(false)}
+                  >
+                    <CloseIcon sx={{ mr: 0.25 }} color="error" />
+                    <Typography color="error">Close</Typography>
+                  </Button>
+                )}
               </Stack>
             </form>
           </Stack>
@@ -236,9 +305,10 @@ function IndexPost({
               <Comment
                 key={item._id}
                 author={item.author}
-                content={item.content}
+                content={item?.content}
                 date={item.date}
                 likes={item.likes}
+                giphy={item?.giphy}
               />
             ))}
             {!hasComments && (

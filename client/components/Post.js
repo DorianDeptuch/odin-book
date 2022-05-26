@@ -69,7 +69,7 @@ function Post({ postID, content, likes, comments, author, image, date }) {
 
     if (!commentContent && !selectedGiphy) {
       toast.warn(
-        "Your comment must have content before submitting",
+        "Your Comment must contain content before submitting",
         toastOptions
       );
       return;
