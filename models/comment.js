@@ -4,7 +4,8 @@ const { format } = require("date-fns");
 
 let CommentSchema = new Schema(
   {
-    content: { type: String, required: true },
+    content: { type: String },
+    giphy: { type: String },
     likes: { type: Number },
     post: { type: Schema.Types.ObjectId, ref: "Post", required: true },
     // author: { type: String, required: true },

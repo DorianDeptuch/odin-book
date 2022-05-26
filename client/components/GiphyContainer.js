@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import GiphyCarousel from "./GiphyCarousel";
 import Loader from "./Loader";
 
-function GiphyContainer() {
+function GiphyContainer({ setSelectedGiphy, setShowGiphy }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [submittedSearchTerm, setSubmittedSearchTerm] = useState("");
   const [showCarousel, setShowCarousel] = useState(false);
@@ -61,7 +61,11 @@ function GiphyContainer() {
         </Button>
       </Stack>
       {showCarousel && (
-        <GiphyCarousel submittedSearchTerm={submittedSearchTerm} />
+        <GiphyCarousel
+          submittedSearchTerm={submittedSearchTerm}
+          setSelectedGiphy={setSelectedGiphy}
+          setShowGiphy={setShowGiphy}
+        />
       )}
       {loading && <Loader />}
     </Stack>

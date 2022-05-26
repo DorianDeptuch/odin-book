@@ -8,13 +8,14 @@ import { avatar_MD, htmlDecode } from "../config/config";
 import { format, formatDistance, subDays } from "date-fns";
 import Link from "next/link";
 import { client, server } from "../../config/config";
+import Giphy from "./Giphy";
 
 const styles = {
   m: 0,
   p: 1,
 };
 
-function Comment({ author, content, date, likes }) {
+function Comment({ author, content, date, likes, giphy }) {
   const regex = /[a-z0-9]{20}/;
 
   return (
@@ -59,9 +60,13 @@ function Comment({ author, content, date, likes }) {
               )
             </Typography>
           </Stack>
-          <Typography variant="body1" component="p" sx={styles}>
-            {htmlDecode(content)}
-          </Typography>
+          {giphy ? (
+            <Giphy selectedGiphy={giphy} />
+          ) : (
+            <Typography variant="body1" component="p" sx={styles}>
+              {htmlDecode(content)}
+            </Typography>
+          )}
         </Stack>
       </Stack>
     </Paper>

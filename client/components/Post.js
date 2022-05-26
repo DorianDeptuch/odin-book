@@ -26,6 +26,7 @@ import { toastOptions } from "../config/config";
 import { Image } from "cloudinary-react";
 import YouTube from "react-youtube";
 import GiphyContainer from "./GiphyContainer";
+import Giphy from "./Giphy";
 
 function Post({ postID, content, likes, comments, author, image, date }) {
   const { user } = useContext(UserContext);
@@ -38,6 +39,7 @@ function Post({ postID, content, likes, comments, author, image, date }) {
   const [youtubeURL, setYoutubeURL] = useState("");
   const [parent, setParent] = useState("Post");
   const [showGiphy, setShowGiphy] = useState(false);
+  const [selectedGiphy, setSelectedGiphy] = useState(null);
 
   const regex =
     /(?:https?:)?(?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]{7,15})(?:[\?&][a-zA-Z0-9\_-]+=[a-zA-Z0-9\_-]+)*(?:[&\/\#].*)?/;
@@ -65,13 +67,21 @@ function Post({ postID, content, likes, comments, author, image, date }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    //if !commentContent && !Giphy => toast.warn(etc) return;
+    if (!commentContent && !selectedGiphy) {
+      toast.warn(
+        "Your comment must have content before submitting",
+        toastOptions
+      );
+      return;
+    }
     //or add validation
 
     const data = {
-      content: commentContent,
+      // content: Giphy || commentContent,
+      content: commentContent || null,
       author: user?.user?._id,
       post: postID,
+      giphy: selectedGiphy || null,
     };
     console.log(data);
 
@@ -87,6 +97,7 @@ function Post({ postID, content, likes, comments, author, image, date }) {
         toast.success("Comment successfully created.", toastOptions);
         setCommentContent("");
         setCommentData((prev) => [submittedComment, ...prev]);
+        setSelectedGiphy(null);
         setHasComments(true);
         setCommentLength((prev) => prev + 1);
       })
@@ -94,6 +105,17 @@ function Post({ postID, content, likes, comments, author, image, date }) {
         console.log(err);
         toast.error(`${err.message}`, toastOptions);
       });
+  };
+
+  useEffect(() => {
+    if (selectedGiphy) {
+      setCommentContent("");
+    }
+  }, [selectedGiphy]);
+
+  const handleRemoveGiphy = () => {
+    setSelectedGiphy(null);
+    setShowGiphy(false);
   };
 
   return (
@@ -193,9 +215,13 @@ function Post({ postID, content, likes, comments, author, image, date }) {
                       placeholder="Write a comment..."
                       value={commentContent}
                       onChange={(e) => setCommentContent(e.target.value)}
+                      disabled={selectedGiphy}
                     />
                   ) : (
-                    <GiphyContainer />
+                    <GiphyContainer
+                      setSelectedGiphy={setSelectedGiphy}
+                      setShowGiphy={setShowGiphy}
+                    />
                   )}
                   {!showGiphy && (
                     <Button
@@ -214,11 +240,21 @@ function Post({ postID, content, likes, comments, author, image, date }) {
                     </Button>
                   )}
                 </Stack>
-                {!showGiphy ? (
+                {selectedGiphy ? (
+                  <Stack direction="row">
+                    <Giphy selectedGiphy={selectedGiphy}></Giphy>
+                    <Button
+                      sx={{ ml: "auto", mr: 10, alignSelf: "start" }}
+                      onClick={() => handleRemoveGiphy()}
+                    >
+                      <CloseIcon sx={{ mr: 1 }} color="error" />
+                      <Typography color="error">Remove GIPHY</Typography>
+                    </Button>
+                  </Stack>
+                ) : !showGiphy ? (
                   <Button
                     sx={{ ml: "auto", mr: 10 }}
                     onClick={() => setShowGiphy(true)}
-                    // onClick={() => handleShowGiphy(true)}
                   >
                     <AddIcon sx={{ mr: 1 }} />
                     Add GIPHY
@@ -227,7 +263,6 @@ function Post({ postID, content, likes, comments, author, image, date }) {
                   <Button
                     sx={{ ml: "auto", mr: 10 }}
                     onClick={() => setShowGiphy(false)}
-                    // onClick={() => handleShowGiphy(false)}
                   >
                     <CloseIcon sx={{ mr: 0.25 }} color="error" />
                     <Typography color="error">Close</Typography>
@@ -254,9 +289,10 @@ function Post({ postID, content, likes, comments, author, image, date }) {
                 parent={parent}
                 setCommentData={setCommentData}
                 author={item.author}
-                content={item.content}
+                content={item?.content}
                 date={item.date}
                 likes={item.likes}
+                giphy={item?.giphy}
               />
             ))}
             {!hasComments && (

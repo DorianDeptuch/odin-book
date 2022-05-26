@@ -881,12 +881,12 @@ exports.postComment_post = [
 
   (req, res, next) => {
     // if (req.isAuthenticated()) {
-    let { content, author, post } = req.body;
+    let { content, author, post, giphy } = req.body;
     let errors = [];
     let validationErrors = validationResult(req);
 
-    if (!content) {
-      errors.push({ msg: "Please enter a comment to submit" });
+    if (!content && !giphy) {
+      errors.push({ msg: "Please enter content to submit" });
     }
 
     if (errors.length > 0) {
@@ -896,6 +896,7 @@ exports.postComment_post = [
         content: content,
         author: toID(author),
         post: toID(post),
+        giphy: giphy,
       });
       newComment
         .save()
