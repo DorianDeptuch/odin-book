@@ -120,6 +120,7 @@ function StatusUpdate({ parent, setIndexPosts, setProfilePosts }) {
       content,
       author: user?.user?._id,
       image: uploadedImage[0]?.public_id || null,
+      currentUser: user?.user?._id,
     };
     console.log(data);
 
