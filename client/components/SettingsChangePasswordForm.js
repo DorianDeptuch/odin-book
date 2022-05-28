@@ -26,6 +26,7 @@ function SettingsChangePasswordForm() {
     const data = {
       changePasswordForm_Old: oldPassword,
       changePasswordForm_New: newPassword,
+      currentUser: user?.user?._id,
     };
 
     fetch(`${server}/settings/changePasswordForm`, {

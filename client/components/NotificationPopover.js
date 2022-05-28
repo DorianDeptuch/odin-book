@@ -6,7 +6,6 @@ import Notification from "./Notification";
 import { UserContext } from "../pages/_app";
 import { server, client } from "../../config/config";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
 import { toastOptions } from "../config/config";
 
 function NotificationPopover({
@@ -22,7 +21,6 @@ function NotificationPopover({
     user?.user?.notifications || null
   );
   const [hasNotifications, setHasNotifications] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     setHasNotifications(notificationArray?.length ? true : false);
@@ -32,12 +30,16 @@ function NotificationPopover({
   const handleRemoveAllNotifications = (e) => {
     e.preventDefault();
 
+    const data = {
+      user: user?.user?._id,
+    };
+
     fetch(`${server}/removeAllNotifications`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     })
       .then((res) => {
-        // router.push(`${client}/`);
         setHasNotifications(false);
         setNotificationArray([]);
         setNotificationLength(0);

@@ -37,14 +37,13 @@ function Post({ postID, content, likes, comments, author, image, date }) {
   const [hideCommentLength, setHideCommentLength] = useState(false);
   const [hasYoutubeLink, setHasYoutubeLink] = useState(false);
   const [youtubeURL, setYoutubeURL] = useState("");
-  const [parent, setParent] = useState("Post");
+  // const [parent, setParent] = useState("Post");
   const [showGiphy, setShowGiphy] = useState(false);
   const [selectedGiphy, setSelectedGiphy] = useState(null);
-
   const regex =
     /(?:https?:)?(?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]{7,15})(?:[\?&][a-zA-Z0-9\_-]+=[a-zA-Z0-9\_-]+)*(?:[&\/\#].*)?/;
   const regex2 = /[a-z0-9]{20}/;
-  const router = useRouter();
+  // const router = useRouter();
 
   const opts = {
     playerVars: {
@@ -74,16 +73,14 @@ function Post({ postID, content, likes, comments, author, image, date }) {
       );
       return;
     }
-    //or add validation
 
     const data = {
-      // content: Giphy || commentContent,
       content: commentContent || null,
       author: user?.user?._id,
       post: postID,
       giphy: selectedGiphy || null,
+      currentUser: user?.user?._id,
     };
-    console.log(data);
 
     fetch(`${server}/postCommentForm`, {
       method: "POST",
@@ -286,7 +283,7 @@ function Post({ postID, content, likes, comments, author, image, date }) {
             {commentData.map((item) => (
               <Comment
                 key={item._id}
-                parent={parent}
+                // parent={parent}
                 setCommentData={setCommentData}
                 author={item.author}
                 content={item?.content}

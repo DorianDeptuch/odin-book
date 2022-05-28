@@ -88,6 +88,7 @@ function SettingsProfilePicForm({ data }) {
 
     const data = {
       profilePicture: uploadedImage[0].public_id || profilePicture,
+      currentUser: user?.user?._id,
     };
 
     fetch(`${server}/settings/settingsProfilePicForm`, {

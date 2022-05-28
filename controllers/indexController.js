@@ -20,10 +20,6 @@ require("dotenv").config();
 // ██║     ██║  ██║╚██████╔╝██║     ██║███████╗███████╗
 // ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚══════╝
 
-// exports.statusUpdate_post = (req, res, next) => {};
-
-// exports.postComment_post = (req, res, next) => {};
-
 exports.profile_get = (req, res, next) => {
   User.findById(req.params.id)
     .populate({
@@ -43,23 +39,11 @@ exports.profile_get = (req, res, next) => {
       path: "friends",
       model: User,
       options: { sort: { createdAt: -1 } },
-      // populate: [
-      //   { path: "firstName", model: User },
-      //   { path: "lastName", model: User },
-      //   { path: "profilePicture", model: User },
-      //   { path: "_id", model: User },
-      // ],
     })
     .populate({
       path: "friendRequests",
       model: FriendRequest,
       options: { sort: { createdAt: -1 } },
-      // populate: [
-      //   { path: "firstName", model: User },
-      //   { path: "lastName", model: User },
-      //   { path: "profilePicture", model: User },
-      //   { path: "_id", model: User },
-      // ],
     })
     .then((results) => {
       res.json({ results });
@@ -92,6 +76,13 @@ exports.profileDetailsForm_put = [
     let errors = [];
     const validationErrors = validationResult(req);
 
+    if (app.locals.user.id !== req.params.id) {
+      errors.push({
+        msg: "You are not authenticated for this action.",
+      });
+      return;
+    }
+
     if (!validationErrors.isEmpty()) {
       errors.push({
         msg: "There seems to be an error with one of the fields, please check again.",
@@ -119,6 +110,10 @@ exports.profileDetailsForm_put = [
 
 exports.likePost_post = (req, res, next) => {
   const { postID, sender, recipient } = req.body;
+
+  if (app.locals.user.id !== sender) {
+    return;
+  }
 
   Post.findById(postID)
     .then((post) => {
@@ -149,6 +144,10 @@ exports.likePost_post = (req, res, next) => {
 exports.unlikePost_post = (req, res, next) => {
   const { postID, sender, recipient } = req.body;
 
+  if (app.locals.user.id !== sender) {
+    return;
+  }
+
   Post.findById(postID)
     .then((post) => {
       post.likers.pull(toID(sender));
@@ -170,6 +169,10 @@ exports.unlikePost_post = (req, res, next) => {
 exports.likeComment_post = (req, res, next) => {
   const { commentID, sender, recipient } = req.body;
 
+  if (app.locals.user.id !== sender) {
+    return;
+  }
+
   Comment.findById(commentID)
     .then((comment) => {
       comment.likers.push(toID(sender));
@@ -185,6 +188,10 @@ exports.likeComment_post = (req, res, next) => {
 
 exports.unlikeComment_post = (req, res, next) => {
   const { commentID, sender } = req.body;
+
+  if (app.locals.user.id !== sender) {
+    return;
+  }
 
   Comment.findById(commentID)
     .then((comment) => {
@@ -209,6 +216,10 @@ exports.unlikeComment_post = (req, res, next) => {
 exports.notification_poke_post = (req, res, next) => {
   const { sender, content, recipient } = req.body;
 
+  if (app.locals.user.id !== sender) {
+    return;
+  }
+
   User.findById(req.params.id).then((user) => {
     const newNotification = new Notification({
       sender: toID(sender),
@@ -231,7 +242,9 @@ exports.notification_poke_post = (req, res, next) => {
 exports.friendRequest_post = (req, res, next) => {
   const { sender, recipient } = req.body;
 
-  console.log(sender);
+  if (app.locals.user.id !== sender) {
+    return;
+  }
 
   User.findById(req.params.id).then((user) => {
     const newFriendRequest = new FriendRequest({
@@ -252,6 +265,10 @@ exports.friendRequest_post = (req, res, next) => {
 
 exports.friendRequest_accept_post = (req, res, next) => {
   const { sender, recipient, friendRequestID } = req.body;
+
+  if (app.locals.user.id !== recipient) {
+    return;
+  }
 
   User.findById(recipient._id || recipient).then(async (recipientUser) => {
     await recipientUser.friendRequests.pull({ _id: friendRequestID });
@@ -282,6 +299,10 @@ exports.friendRequest_accept_post = (req, res, next) => {
 exports.friendRequest_deny_post = (req, res, next) => {
   const { sender, recipient, friendRequestID } = req.body;
 
+  if (app.locals.user.id !== recipient) {
+    return;
+  }
+
   User.findById(recipient._id).then((user) => {
     user.friendRequests.pull({ _id: friendRequestID });
     user
@@ -296,8 +317,14 @@ exports.friendRequest_deny_post = (req, res, next) => {
 };
 
 exports.removeAllNotifications_delete = (req, res, next) => {
+  const { user } = req.body;
+
+  if (app.locals.user.id !== user) {
+    return;
+  }
+
   User.updateOne(
-    { _id: app.locals.user.id },
+    { _id: user },
     {
       $set: {
         notifications: [],
@@ -310,44 +337,6 @@ exports.removeAllNotifications_delete = (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
-  // User.findById(app.locals.user.id)
-  //   .then((user) => {
-  //     // User.updateOne({ notifications: {sender: app.locals.user.id} }, {
-  //     //   $pullAll: {
-  //     //       notifications: [{_id: app.locals.user.notifications._id}],
-  //     //   },
-  //     // });
-
-  //     user.notifications.forEach(async (item) => {
-  //       await user.notifications.pull({ _id: item._id });
-  //       await user.save();
-  //       // await Notification.findByIdAndDelete(item._id, function (err, docs) {
-  //       //   if (err) {
-  //       //     console.log(err);
-  //       //   } else {
-  //       //     console.log("Deleted : ", docs);
-  //       //   }
-  //       // });
-  //       //ParallelSaveError: Can't save() the same doc multiple times in parallel. (Mongoose)
-  //     });
-  //   })
-  //   // .then((user) => {
-  //   //   User.findById(app.locals.user.id).then((user) => {
-  //   //     user.notifications.forEach(async (item) => {
-  //   //       await Notification.findByIdAndDelete(item._id, function (err, docs) {
-  //   //         if (err) {
-  //   //           console.log(err);
-  //   //         } else {
-  //   //           console.log("Deleted : ", docs);
-  //   //         }
-  //   //       });
-  //   //     });
-  //   //   });
-  //   // })
-  //   //MongooseError: Query was already executed: Notification.findOneAndDelete({ _id: new ObjectId("6256508b3...
-  //   .then((user) => {
-  //     res.json({ user });
-  //   });
 };
 
 // ███████╗███████╗████████╗████████╗██╗███╗   ██╗ ██████╗ ███████╗
@@ -358,12 +347,7 @@ exports.removeAllNotifications_delete = (req, res, next) => {
 // ╚══════╝╚══════╝   ╚═╝      ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝
 
 exports.settings_get = (req, res, next) => {
-  // res.send("Coming soon");
-  console.log(app.locals.user);
-  // console.log(req.app.locals);
-  // res.json({ user: req.app.locals });
   res.json({ user: app.locals.user });
-  // User.findById(user.id).then((results) => res.json({ results }));
 };
 
 exports.settingsProfilePicForm_put = [
@@ -373,10 +357,13 @@ exports.settingsProfilePicForm_put = [
   // .escape(),
 
   (req, res, next) => {
-    const { profilePicture } = req.body;
+    const { profilePicture, currentUser } = req.body;
+
+    if (app.locals.user.id !== currentUser) {
+      return;
+    }
     let errors = [];
     const validationErrors = validationResult(req);
-    console.log(req.body);
     if (!validationErrors.isEmpty()) {
       errors.push({
         msg: "There seems to be an error with one of the fields, please check again.",
@@ -406,9 +393,14 @@ exports.changePasswordForm_put = [
     .escape(),
 
   (req, res, next) => {
-    const { changePasswordForm_Old, changePasswordForm_New } = req.body;
+    const { changePasswordForm_Old, changePasswordForm_New, currentUser } =
+      req.body;
     let errors = [];
     const validationErrors = validationResult(req);
+
+    if (app.locals.user.id !== currentUser) {
+      return;
+    }
 
     if (!changePasswordForm_Old || !changePasswordForm_New) {
       errors.push({ msg: "Please fill in all fields" });
@@ -460,9 +452,13 @@ exports.deleteAccountForm_delete = [
   body("deleteAccountForm").trim().escape(),
 
   (req, res, next) => {
-    const { deleteAccountForm } = req.body;
+    const { deleteAccountForm, currentUser } = req.body;
     let errors = [];
     const validationErrors = validationResult(req);
+
+    if (app.locals.user.id !== currentUser) {
+      return;
+    }
 
     User.findById(app.locals.user.id).then((user) => {
       if (!validationErrors.isEmpty()) {
@@ -557,8 +553,6 @@ exports.index_get = (req, res, next) => {
       res.json({ user });
     });
 };
-
-exports.index_post = (req, res, next) => {};
 
 exports.login_get = (req, res, next) => {
   res.send("Welcome to login");
@@ -687,12 +681,6 @@ exports.signup_post = [
             newPassword,
           });
         } else {
-          // const newNotification = new Notification({
-          //   type: "Welcome Notification",
-          //   recipient: app.locals.user
-          // });
-          // newNotification.save();
-
           const newUser = new User({
             email: newEmail.toLowerCase(),
             password: newPassword,
@@ -758,9 +746,13 @@ exports.statusUpdate_post = [
     .escape(),
 
   (req, res, next) => {
-    let { content, author, image } = req.body;
+    let { content, author, image, currentUser } = req.body;
     let errors = [];
     let validationErrors = validationResult(req);
+
+    if (app.locals.user.id !== currentUser) {
+      return;
+    }
 
     if (!content) {
       errors.push({ msg: "Please enter a message to submit" });
@@ -800,79 +792,6 @@ exports.statusUpdate_post = [
   },
 ];
 
-// exports.statusUpdate_post = [
-//   body("content", "There is no content to submit")
-//     .trim()
-//     .isLength({ min: 1 })
-//     .escape(),
-
-//   (req, res, next) => {
-//     let { content, author, image } = req.body;
-//     let errors = [];
-//     let validationErrors = validationResult(req);
-
-//     if (!content) {
-//       errors.push({ msg: "Please enter a message to submit" });
-//     }
-
-//     if (errors.length > 0) {
-//       res.json({ errors });
-//     } else {
-//       const newPost = new Post({
-//         content: content,
-//         author: toID(author),
-//         image,
-//       });
-//       newPost
-//         .save()
-//         .then(async (post) => {
-//           let user = await User.findById(toID(author));
-//           user.posts.push(newPost);
-//           if (image) {
-//             user.photos.push(image);
-//           }
-//           await user.save();
-
-//           const newNotification = new Notification({
-//             sender: toID(app.locals.user.id),
-//             // recipient: toID(post.author._id),
-//             content: post._id,
-//             type: "Friend Posted",
-//           });
-//           newNotification.save().then((notification) => {
-//             user.friends.forEach((friend) => {
-//               User.findById(friend._id).then((result) => {
-//                 notification.recipient = toID(friend._id);
-//                 result.notifications.push(notification);
-//                 result.save().then((response) => {
-//                   return res.json({ response }); //Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
-//                 });
-//               });
-//             });
-//             // user
-//             //   .save()
-//             //   .then((user) => {
-//             //     console.log(user);
-//             //   })
-//             // .catch((err) => console.log(err));
-//           });
-
-//           // Post.find().exec(function (err, list_posts) {
-//           //   //populate posts ??
-//           //   if (err) {
-//           //     return next(err);
-//           //   }
-//           //   res.json({
-//           //     error: err,
-//           //     post_list: list_posts,
-//           //   });
-//           // });
-//         })
-//         .catch((err) => console.log(err));
-//     }
-//   },
-// ];
-
 exports.postComment_post = [
   body("content", "There is no content to submit")
     .trim()
@@ -881,9 +800,13 @@ exports.postComment_post = [
 
   (req, res, next) => {
     // if (req.isAuthenticated()) {
-    let { content, author, post, giphy } = req.body;
+    let { content, author, post, giphy, currentUser } = req.body;
     let errors = [];
     let validationErrors = validationResult(req);
+
+    if (app.locals.user.id !== currentUser) {
+      return;
+    }
 
     if (!content && !giphy) {
       errors.push({ msg: "Please enter content to submit" });

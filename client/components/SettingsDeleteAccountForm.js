@@ -26,6 +26,7 @@ function SettingsDeleteAccountForm() {
 
     const data = {
       deleteAccountForm: deleteAccount,
+      currentUser: user?.user?._id,
     };
 
     fetch(`${server}/settings/deleteAccountForm`, {

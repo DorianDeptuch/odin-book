@@ -88,6 +88,7 @@ function IndexPost({
       author: user?.user?._id,
       post: postID,
       giphy: selectedGiphy || null,
+      currentUser: user?.user?._id,
     };
 
     fetch(`${server}/postCommentForm`, {
