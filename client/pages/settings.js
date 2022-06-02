@@ -40,8 +40,8 @@ function settings({ data }) {
           </Typography>
           <Stack sx={{ my: 2 }}>
             <SettingsProfilePicForm data={data} />
-            <SettingsChangePasswordForm />
-            <SettingsDeleteAccountForm />
+            <SettingsChangePasswordForm data={data} />
+            <SettingsDeleteAccountForm data={data} />
 
             {/* <Accordion
             expanded={expanded === "panel3"}

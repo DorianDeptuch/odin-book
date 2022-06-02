@@ -36,20 +36,18 @@ function SettingsProfilePicForm({ data }) {
   const [showChooseFile, setShowChooseFile] = useState(false);
   const [profilePicture, setProfilePicture] = useState("");
   const [uploadedImage, setUploadedImage] = useState([]);
+  const [settingsUser, setSettingsUser] = useState({});
 
   useEffect(() => {
-    console.log(data);
     const { user } = data;
     setProfilePicture(user?.profilePicture);
+    setSettingsUser(data);
   }, []);
 
   const onDrop = useCallback(async (acceptedFile) => {
     const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/upload`;
     const { signature, timestamp } = await getSignature();
     const formData = new FormData();
-    console.log(acceptedFile);
-    console.log("signature: ", signature);
-    console.log("timestamp: ", timestamp);
 
     formData.append("file", acceptedFile[0]);
     formData.append("signature", signature);
@@ -61,7 +59,6 @@ function SettingsProfilePicForm({ data }) {
       body: formData,
     });
     const data = await response.json();
-    console.log(data);
     setUploadedImage([data]);
   }, []);
 
@@ -87,8 +84,8 @@ function SettingsProfilePicForm({ data }) {
     e.preventDefault();
 
     const data = {
-      profilePicture: uploadedImage[0].public_id || profilePicture,
-      currentUser: user?.user?._id,
+      profilePicture: uploadedImage[0]?.public_id || profilePicture,
+      currentUser: settingsUser?.user?._id,
     };
 
     fetch(`${server}/settings/settingsProfilePicForm`, {

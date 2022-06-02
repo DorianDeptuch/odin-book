@@ -12,10 +12,16 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { toastOptions } from "../config/config";
 
-function SettingsDeleteAccountForm() {
+function SettingsDeleteAccountForm({ data }) {
   const [deleteAccount, setDeleteAccount] = useState("");
   const [expanded, setExpanded] = useState(false);
   const router = useRouter();
+  const [settingsUser, setSettingsUser] = useState({});
+
+  useEffect(() => {
+    const { user } = data;
+    setSettingsUser(data);
+  }, []);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -26,7 +32,7 @@ function SettingsDeleteAccountForm() {
 
     const data = {
       deleteAccountForm: deleteAccount,
-      currentUser: user?.user?._id,
+      currentUser: settingsUser?.user?._id,
     };
 
     fetch(`${server}/settings/deleteAccountForm`, {

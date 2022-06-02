@@ -11,10 +11,16 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { toast } from "react-toastify";
 import { toastOptions } from "../config/config";
 
-function SettingsChangePasswordForm() {
+function SettingsChangePasswordForm({ data }) {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [expanded, setExpanded] = useState(false);
+  const [settingsUser, setSettingsUser] = useState({});
+
+  useEffect(() => {
+    const { user } = data;
+    setSettingsUser(data);
+  }, []);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -26,7 +32,7 @@ function SettingsChangePasswordForm() {
     const data = {
       changePasswordForm_Old: oldPassword,
       changePasswordForm_New: newPassword,
-      currentUser: user?.user?._id,
+      currentUser: settingsUser?.user?._id,
     };
 
     fetch(`${server}/settings/changePasswordForm`, {

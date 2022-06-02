@@ -266,7 +266,7 @@ exports.friendRequest_post = (req, res, next) => {
 exports.friendRequest_accept_post = (req, res, next) => {
   const { sender, recipient, friendRequestID } = req.body;
 
-  if (app.locals.user.id !== recipient) {
+  if (app.locals.user.id !== recipient._id) {
     return;
   }
 
@@ -299,7 +299,7 @@ exports.friendRequest_accept_post = (req, res, next) => {
 exports.friendRequest_deny_post = (req, res, next) => {
   const { sender, recipient, friendRequestID } = req.body;
 
-  if (app.locals.user.id !== recipient) {
+  if (app.locals.user.id !== recipient._id) {
     return;
   }
 
@@ -360,6 +360,9 @@ exports.settingsProfilePicForm_put = [
     const { profilePicture, currentUser } = req.body;
 
     if (app.locals.user.id !== currentUser) {
+      console.log(app.locals.user.id);
+      console.log(currentUser);
+
       return;
     }
     let errors = [];

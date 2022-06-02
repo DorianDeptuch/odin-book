@@ -8,8 +8,8 @@ import { red } from "@mui/material/colors";
 import { avatar_LG, toastOptions } from "../config/config";
 import { server, client } from "../../config/config";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import { FriendRequestContext } from "../pages/_app";
 
 function Request({
   sender,
@@ -21,9 +21,10 @@ function Request({
   setAnchorElRequest,
   setFriendRequestArray,
 }) {
-  const router = useRouter();
   const [clicked, setClicked] = useState(false);
   const regex = /[a-z0-9]{20}/;
+  const { acceptedRequests, setAcceptedRequests } =
+    useContext(FriendRequestContext);
 
   const handleFriendRequestAccept = (e) => {
     e.preventDefault();
@@ -47,6 +48,7 @@ function Request({
           toastOptions
         );
         setClicked(true);
+        setAcceptedRequests((prev) => [...prev, sender._id]);
       })
       .catch((err) => {
         console.log(err);
@@ -76,6 +78,7 @@ function Request({
           toastOptions
         );
         setClicked(true);
+        setAcceptedRequests((prev) => [...prev, sender._id]);
       })
       .catch((err) => {
         console.log(err);
@@ -93,76 +96,81 @@ function Request({
 
   useEffect(() => {
     handleFriendRequestArray();
+    console.log(friendRequestID);
+    console.log(sender._id);
   }, [friendRequestLength]);
 
   return (
     <>
-      {!clicked ? (
-        <Paper sx={{ m: 2, p: 2 }} elevation={3}>
-          <Stack direction="row">
-            <Link href={`${client}/profile/${sender?._id}`}>
-              <Avatar
-                src={
-                  regex.test(sender?.profilePicture)
-                    ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${sender?.profilePicture}.jpg`
-                    : sender?.profilePicture || ""
-                }
-                sx={{
-                  height: avatar_LG,
-                  width: avatar_LG,
-                  alignSelf: "center",
-                  mr: 1,
-                }}
-              >
-                {`${sender?.firstName.charAt(0)}${sender?.lastName.charAt(0)}`}
-              </Avatar>
-            </Link>
-            <Stack sx={{ ml: 1 }}>
+      {!acceptedRequests.includes(sender._id) &&
+        (!clicked ? (
+          <Paper sx={{ m: 2, p: 2 }} elevation={3}>
+            <Stack direction="row">
               <Link href={`${client}/profile/${sender?._id}`}>
-                <Typography variant="body1" component="p" sx={{ mt: 1 }}>
-                  <strong>
-                    {sender.firstName} {sender.lastName}
-                  </strong>{" "}
-                  wants to be your friend.
-                </Typography>
+                <Avatar
+                  src={
+                    regex.test(sender?.profilePicture)
+                      ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1652941781/${sender?.profilePicture}.jpg`
+                      : sender?.profilePicture || ""
+                  }
+                  sx={{
+                    height: avatar_LG,
+                    width: avatar_LG,
+                    alignSelf: "center",
+                    mr: 1,
+                  }}
+                >
+                  {`${sender?.firstName.charAt(0)}${sender?.lastName.charAt(
+                    0
+                  )}`}
+                </Avatar>
               </Link>
-              <Stack direction="row" sx={{ mt: 1 }}>
-                <form
-                  action="/friendRequestAccept"
-                  method="POST"
-                  style={{ width: "100%", marginRight: "0.5rem" }}
-                  onSubmit={handleFriendRequestAccept}
-                >
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    sx={{ width: "100%" }}
-                    type="submit"
+              <Stack sx={{ ml: 1 }}>
+                <Link href={`${client}/profile/${sender?._id}`}>
+                  <Typography variant="body1" component="p" sx={{ mt: 1 }}>
+                    <strong>
+                      {sender.firstName} {sender.lastName}
+                    </strong>{" "}
+                    wants to be your friend.
+                  </Typography>
+                </Link>
+                <Stack direction="row" sx={{ mt: 1 }}>
+                  <form
+                    action="/friendRequestAccept"
+                    method="POST"
+                    style={{ width: "100%", marginRight: "0.5rem" }}
+                    onSubmit={handleFriendRequestAccept}
                   >
-                    Confirm
-                  </Button>
-                </form>
-                <form
-                  action="/friendRequestDeny"
-                  method="POST"
-                  style={{ width: "100%", marginLeft: "0.5rem" }}
-                  onSubmit={handleFriendRequestDeny}
-                >
-                  <Button
-                    sx={{ bgcolor: red[900], width: "100%" }}
-                    variant="contained"
-                    type="submit"
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      sx={{ width: "100%" }}
+                      type="submit"
+                    >
+                      Confirm
+                    </Button>
+                  </form>
+                  <form
+                    action="/friendRequestDeny"
+                    method="POST"
+                    style={{ width: "100%", marginLeft: "0.5rem" }}
+                    onSubmit={handleFriendRequestDeny}
                   >
-                    Delete
-                  </Button>
-                </form>
+                    <Button
+                      sx={{ bgcolor: red[900], width: "100%" }}
+                      variant="contained"
+                      type="submit"
+                    >
+                      Delete
+                    </Button>
+                  </form>
+                </Stack>
               </Stack>
             </Stack>
-          </Stack>
-        </Paper>
-      ) : (
-        ""
-      )}
+          </Paper>
+        ) : (
+          ""
+        ))}
     </>
   );
 }

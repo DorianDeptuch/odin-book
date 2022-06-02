@@ -9,11 +9,17 @@ export const FriendRequestContext = React.createContext();
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState(null);
   const [friendRequestLength, setFriendRequestLength] = useState(null);
+  const [acceptedRequests, setAcceptedRequests] = useState([]);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <FriendRequestContext.Provider
-        value={{ friendRequestLength, setFriendRequestLength }}
+        value={{
+          friendRequestLength,
+          setFriendRequestLength,
+          acceptedRequests,
+          setAcceptedRequests,
+        }}
       >
         <Layout>
           <Head>
