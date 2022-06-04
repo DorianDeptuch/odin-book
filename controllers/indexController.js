@@ -360,9 +360,6 @@ exports.settingsProfilePicForm_put = [
     const { profilePicture, currentUser } = req.body;
 
     if (app.locals.user.id !== currentUser) {
-      console.log(app.locals.user.id);
-      console.log(currentUser);
-
       return;
     }
     let errors = [];
@@ -736,7 +733,7 @@ exports.uploadImage = (req, res, next) => {
     {
       timestamp: timestamp,
     },
-    process.env.CLOUDINARY_API_SECRET
+    process.env.NODE_CLOUDINARY_API_SECRET
   );
   res.statusCode = 200;
   res.json({ signature, timestamp });
