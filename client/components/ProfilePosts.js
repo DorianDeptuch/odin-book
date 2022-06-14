@@ -44,7 +44,11 @@ function ProfilePosts({ id }) {
         </Stack>
         <Stack sx={{ width: ["100%", "60%", "60%"], ml: 2 }}>
           {ownProfile && (
-            <StatusUpdate parent={parent} setProfilePosts={setProfilePosts} />
+            <StatusUpdate
+              parent={parent}
+              setHasPosts={setHasPosts}
+              setProfilePosts={setProfilePosts}
+            />
           )}
           <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
             <Typography variant="h6" component="h6">

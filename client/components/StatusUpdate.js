@@ -41,7 +41,7 @@ const typographyStyles = {
   margin: "auto",
 };
 
-function StatusUpdate({ parent, setIndexPosts, setProfilePosts }) {
+function StatusUpdate({ parent, setIndexPosts, setHasPosts, setProfilePosts }) {
   const { user } = useContext(UserContext);
   const [showChooseFile, setShowChooseFile] = useState(false);
   const [content, setContent] = useState("");
@@ -53,9 +53,9 @@ function StatusUpdate({ parent, setIndexPosts, setProfilePosts }) {
     const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/upload`;
     const { signature, timestamp } = await getSignature();
     const formData = new FormData();
-    console.log(acceptedFile);
-    console.log("signature: ", signature);
-    console.log("timestamp: ", timestamp);
+    // console.log(acceptedFile);
+    // console.log("signature: ", signature);
+    // console.log("timestamp: ", timestamp);
 
     formData.append("file", acceptedFile[0]);
     formData.append("signature", signature);
@@ -67,7 +67,7 @@ function StatusUpdate({ parent, setIndexPosts, setProfilePosts }) {
       body: formData,
     });
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     setUploadedImage([data]);
   }, []);
 
@@ -138,6 +138,7 @@ function StatusUpdate({ parent, setIndexPosts, setProfilePosts }) {
         setContent("");
         setUploadedImage(null);
         setShowChooseFile(false);
+        setHasPosts(true);
         handleSubmittedPost(submittedPost);
       })
       .catch((err) => {
