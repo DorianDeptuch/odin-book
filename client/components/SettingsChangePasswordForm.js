@@ -29,6 +29,14 @@ function SettingsChangePasswordForm({ data }) {
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
 
+    if (settingsUser.user.email === process.env.NEXT_PUBLIC_TEST_USER_EMAIL) {
+      toast.warn(
+        "Test accounts do not have access to this feature",
+        toastOptions
+      );
+      return;
+    }
+
     const data = {
       changePasswordForm_Old: oldPassword,
       changePasswordForm_New: newPassword,

@@ -37,11 +37,16 @@ function SettingsProfilePicForm({ data }) {
   const [profilePicture, setProfilePicture] = useState("");
   const [uploadedImage, setUploadedImage] = useState([]);
   const [settingsUser, setSettingsUser] = useState({});
+  const [isExampleUser, setIsExampleUser] = useState(false);
 
   useEffect(() => {
     const { user } = data;
     setProfilePicture(user?.profilePicture);
     setSettingsUser(data);
+    setIsExampleUser(
+      data.user.email === process.env.NEXT_PUBLIC_TEST_USER_EMAIL
+    );
+    console.log(data.user);
   }, []);
 
   const onDrop = useCallback(async (acceptedFile) => {
@@ -82,6 +87,19 @@ function SettingsProfilePicForm({ data }) {
 
   const handleProfileSubmit = (e) => {
     e.preventDefault();
+
+    if (settingsUser.user.email === process.env.NEXT_PUBLIC_TEST_USER_EMAIL) {
+      toast.warn(
+        "Test accounts do not have access to this feature",
+        toastOptions
+      );
+      return;
+    }
+
+    if (!uploadedImage[0]?.public_id) {
+      toast.warn("Please choose an image before submitting", toastOptions);
+      return;
+    }
 
     const data = {
       profilePicture: uploadedImage[0]?.public_id || profilePicture,
@@ -125,86 +143,98 @@ function SettingsProfilePicForm({ data }) {
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <form
-          action="/settingsProfilePicForm"
-          method="POST"
-          onSubmit={handleProfileSubmit}
-        >
-          <Stack>
-            <TextField
+        {isExampleUser ? (
+          <Typography color="warning">
+            Test accounts do not have access to this feature
+          </Typography>
+        ) : (
+          <form
+            action="/settingsProfilePicForm"
+            method="POST"
+            onSubmit={handleProfileSubmit}
+          >
+            <Stack>
+              {/* <TextField
               label="Profile Picture"
               variant="outlined"
               value={profilePicture}
               name="profilePicture"
               placeholder="Enter your Profile Picture URL here"
               onChange={(e) => setProfilePicture(e.target.value)}
-            />
-            {showChooseFile && (
-              <>
-                {uploadedImage?.length ? (
-                  <Button
-                    sx={{ ml: "auto", mr: 10 }}
-                    onClick={handleDeleteImage}
-                  >
-                    <CloseIcon sx={{ mr: 0.25 }} color="error" />
-                    <Typography color="error">Delete Image</Typography>
-                  </Button>
-                ) : (
-                  <Button
-                    sx={{ ml: "auto", mr: 10 }}
-                    onClick={handleChooseFile}
-                  >
-                    <CloseIcon sx={{ mr: 0.25 }} color="error" />
-                    <Typography color="error">Close</Typography>
-                  </Button>
-                )}
-              </>
-            )}
-            <Stack direction="row">
-              {uploadedImage?.length ? (
+            /> */}
+              {showChooseFile && (
                 <>
-                  {uploadedImage.map((image) => (
-                    <Image
-                      key={image.asset_id}
-                      cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_NAME}
-                      publicId={image.public_id}
-                      height="150"
-                      crop="scale"
-                      style={{ margin: "0 auto" }}
-                    />
-                  ))}
-                </>
-              ) : (
-                <Stack
-                  direction="row"
-                  sx={showChooseFile ? dropZoneStyles : ""}
-                  className={isDragActive ? styles.dropZone_active : ""}
-                  {...getRootProps()}
-                >
-                  {showChooseFile && <Input type="file" {...getInputProps()} />}
-                  {!showChooseFile ? (
-                    <Button sx={{ mr: 10 }} onClick={handleChooseFile}>
-                      <AddAPhotoIcon sx={{ mr: 1 }} />
-                      Add an Image
+                  {uploadedImage?.length ? (
+                    <Button
+                      sx={{ ml: "auto", mr: 10 }}
+                      onClick={handleDeleteImage}
+                    >
+                      <CloseIcon sx={{ mr: 0.25 }} color="error" />
+                      <Typography color="error">Delete Image</Typography>
                     </Button>
                   ) : (
-                    <Typography
-                      variant="h6"
-                      component="h6"
-                      textAlign="center"
-                      sx={typographyStyles}
+                    <Button
+                      sx={{ ml: "auto", mr: 10 }}
+                      onClick={handleChooseFile}
                     >
-                      Drag or Drop images here
-                    </Typography>
+                      <CloseIcon sx={{ mr: 0.25 }} color="error" />
+                      <Typography color="error">Close</Typography>
+                    </Button>
                   )}
-                </Stack>
+                </>
               )}
+              <Stack direction="row">
+                {uploadedImage?.length ? (
+                  <>
+                    {uploadedImage.map((image) => (
+                      <Image
+                        key={image.asset_id}
+                        cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_NAME}
+                        publicId={image.public_id}
+                        height="150"
+                        crop="scale"
+                        style={{ margin: "0 auto" }}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <Stack
+                    direction="row"
+                    sx={showChooseFile ? dropZoneStyles : ""}
+                    className={isDragActive ? styles.dropZone_active : ""}
+                    {...getRootProps()}
+                  >
+                    {showChooseFile && (
+                      <Input
+                        type="file"
+                        {...getInputProps()}
+                        disabled={isExampleUser}
+                      />
+                    )}
+                    {!showChooseFile ? (
+                      <Button sx={{ mr: 10 }} onClick={handleChooseFile}>
+                        <AddAPhotoIcon sx={{ mr: 1 }} />
+                        Add an Image
+                      </Button>
+                    ) : (
+                      <Typography
+                        variant="h6"
+                        component="h6"
+                        textAlign="center"
+                        sx={typographyStyles}
+                      >
+                        Drag or Drop images here
+                      </Typography>
+                    )}
+                  </Stack>
+                )}
+              </Stack>
+              <Button variant="contained" type="submit" sx={{ mt: 2 }}>
+                Submit
+              </Button>
             </Stack>
-            <Button variant="contained" type="submit" sx={{ mt: 2 }}>
-              Submit
-            </Button>
-          </Stack>
-        </form>
+          </form>
+        )}
       </AccordionDetails>
     </Accordion>
   );

@@ -19,6 +19,8 @@ router.get(
 
 router.post("/loginForm", indexController.login_post);
 
+router.post("/loginExampleUser", indexController.loginExampleUser_post);
+
 router.post("/signupForm", indexController.signup_post);
 
 router.get("/uploadImage", indexController.uploadImage);

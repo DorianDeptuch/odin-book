@@ -572,7 +572,6 @@ exports.login_post = [
     .escape(),
 
   (req, res, next) => {
-    console.log(req.body);
     let { email, password } = req.body;
     let errors = [];
     let validationErrors = validationResult(req);
@@ -606,6 +605,27 @@ exports.login_post = [
     })(req, res, next);
   },
 ];
+
+exports.loginExampleUser_post = (req, res, next) => {
+  let { email, password } = req.body;
+
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+
+    if (!user) {
+      res.status(401).json(info);
+    } else {
+      req.login(user, function () {
+        app.locals.user = user;
+        user.lastOnline = new Date(Date.now());
+        user.save();
+        res.status(200).json({ reqUser: req.user, user: user });
+      });
+    }
+  })(req, res, next);
+};
 
 exports.signup_post = [
   body("newEmail", "Please enter an email")

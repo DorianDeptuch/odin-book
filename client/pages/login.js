@@ -58,6 +58,12 @@ const schema = Yup.object().shape({
 
 function login() {
   const [open, setOpen] = React.useState(false);
+  const [exampleUserEmail, setExampleUserEmail] = useState(
+    process.env.NEXT_PUBLIC_TEST_USER_EMAIL
+  );
+  const [exampleUserPassword, setExampleUserPassword] = useState(
+    process.env.NEXT_PUBLIC_TEST_USER_PASSWORD
+  );
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const router = useRouter();
@@ -86,6 +92,28 @@ function login() {
           router.push("/");
         } else {
           toast.error("Invalid Credentials.", toastOptions);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleExampleUser = (e) => {
+    e.preventDefault();
+
+    const data = {
+      email: exampleUserEmail,
+      password: exampleUserPassword,
+    };
+
+    fetch(`${server}/loginExampleUser`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.ok) {
+          router.push("/");
         }
       })
       .catch((err) => console.log(err));
@@ -148,6 +176,29 @@ function login() {
                   Log In
                 </Button>
               </Stack>
+            </form>
+            <form
+              action="/exampleUser"
+              method="POST"
+              onSubmit={handleExampleUser}
+              style={{ width: "100%" }}
+            >
+              <TextField
+                label="EmailExampleUser"
+                name="emailExampleUser"
+                sx={{ display: "none" }}
+                value={exampleUserEmail}
+              />
+              <TextField
+                label="PasswordExampleUser"
+                name="passwordExampleUser"
+                type="password"
+                value={exampleUserPassword}
+                sx={{ display: "none" }}
+              />
+              <Button type="submit" variant="contained" sx={{ width: "100%" }}>
+                Log In as Example User
+              </Button>
             </form>
             <Button
               type="submit"
