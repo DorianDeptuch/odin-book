@@ -362,6 +362,11 @@ exports.settingsProfilePicForm_put = [
     if (app.locals.user.id !== currentUser) {
       return;
     }
+
+    if (app.locals.user.email === process.env.TEST_USER_EMAIL) {
+      return;
+    }
+
     let errors = [];
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
@@ -399,6 +404,10 @@ exports.changePasswordForm_put = [
     const validationErrors = validationResult(req);
 
     if (app.locals.user.id !== currentUser) {
+      return;
+    }
+
+    if (app.locals.user.email === process.env.TEST_USER_EMAIL) {
       return;
     }
 
@@ -457,6 +466,10 @@ exports.deleteAccountForm_delete = [
     const validationErrors = validationResult(req);
 
     if (app.locals.user.id !== currentUser) {
+      return;
+    }
+
+    if (app.locals.user.email === process.env.TEST_USER_EMAIL) {
       return;
     }
 
