@@ -38,7 +38,7 @@ function FriendsList() {
             ))}
           </>
         )}
-        {!friendsList.length && (
+        {/* {!friendsList.length && (
           <Typography
             variant="h6"
             component="h6"
@@ -47,7 +47,7 @@ function FriendsList() {
           >
             {profile.firstName} doesn't have any friends yet
           </Typography>
-        )}
+        )} */}
       </Stack>
     </Paper>
   );
