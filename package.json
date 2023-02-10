@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "start": "concurrently \"npm run prod\" \"npm run client\"",
-    "prod": "node ./bin/www",
+    "prod": "NODE_ENV=production node ./bin/www",
     "dev": "nodemon ./bin/www",
     "devstart": "DEBUG=odin-book:* npm start",
     "client": "npm start --prefix client",
