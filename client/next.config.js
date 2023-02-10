@@ -2,7 +2,7 @@ module.exports = {
   reactStrictMode: true,
 };
 module.exports = {
-  experimental: {
-    forceSwcTransforms: true,
+  eslint: {
+    dirs: ["."], //or ['pages', 'hooks']
   },
 };
